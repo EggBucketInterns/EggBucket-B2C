@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         // Load HomeScreen fragment
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
-                replace(R.id.fragmentmain, HomeScreen.newInstance("", ""))
+                replace(R.id.homeFragment, HomeScreen.newInstance("", ""))
             }
         }
     }

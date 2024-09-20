@@ -8,7 +8,7 @@
 
     <!-- Container for the fragment -->
     <FrameLayout
-        android:id="@+id/fragmentmain"
+        android:id="@+id/homeFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
