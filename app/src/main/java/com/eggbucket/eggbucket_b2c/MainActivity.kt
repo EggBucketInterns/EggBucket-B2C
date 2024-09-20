@@ -9,7 +9,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Load HomeScreen fragment
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
                 replace(R.id.homeFragment, HomeScreen.newInstance("", ""))

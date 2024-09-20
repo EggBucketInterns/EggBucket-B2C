@@ -15,15 +15,13 @@ class HomeScreen : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         val view = inflater.inflate(R.layout.fragment_home_screen, container, false)
 
-        // Set up ViewPager2 and Adapter
         val viewPager = view.findViewById<ViewPager2>(R.id.carouselViewPager)
         val carouselAdapter = CarouselAdapter(images)
         viewPager.adapter = carouselAdapter
 
-        // Set PageTransformer to add margin between pages
         val pageMarginPx = resources.getDimensionPixelOffset(R.dimen.pageMargin)
         val offsetPx = resources.getDimensionPixelOffset(R.dimen.offset)
         viewPager.setPageTransformer { page, position ->
