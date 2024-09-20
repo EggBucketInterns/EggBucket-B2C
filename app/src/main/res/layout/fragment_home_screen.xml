@@ -79,7 +79,7 @@
 
         </LinearLayout>
 
-        <androidx.viewpager.widget.ViewPager
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/carouselViewPager"
             android:layout_width="match_parent"
             android:layout_height="200dp"
