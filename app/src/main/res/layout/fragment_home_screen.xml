@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomeScreen"
-    android:padding="16dp"
     android:background="#FFFFFF">
 
     <LinearLayout
@@ -80,14 +79,13 @@
 
         </LinearLayout>
 
-        <!-- Carousel Section -->
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/carouselViewPager"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:padding="20dp"/>
 
-        <!-- Carousel indicator -->
         <LinearLayout
             android:id="@+id/indicatorLayout"
             android:layout_width="wrap_content"
@@ -97,7 +95,6 @@
             android:layout_marginTop="8dp"
             android:layout_gravity="center">
 
-            <!-- Example for 3 indicators -->
             <ImageView
                 android:id="@+id/indicator1"
                 android:layout_width="8dp"
@@ -121,7 +118,6 @@
 
         </LinearLayout>
 
-        <!-- Categories Heading -->
         <TextView
             android:id="@+id/categoriesHeading"
             android:layout_width="wrap_content"
@@ -133,12 +129,11 @@
             android:layout_marginTop="16dp"
             android:layout_marginStart="16dp" />
 
-        <!-- Category Item with background -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/search_background"
+            android:background="@drawable/category_background"
             android:padding="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginStart="16dp">
@@ -160,32 +155,28 @@
 
         </LinearLayout>
 
-        <!-- Reusable Item Card -->
         <androidx.cardview.widget.CardView
             android:id="@+id/itemCard"
-            android:layout_width="match_parent"
+            android:layout_width="190dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp">
+            app:cardCornerRadius="24dp"
+            app:cardElevation="8dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <!-- Item Image -->
                 <ImageView
                     android:id="@+id/itemImage"
-                    android:layout_width="match_parent"
+                    android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/egg" />
+                    android:src="@drawable/productimg" />
 
-                <!-- Item Name -->
                 <TextView
                     android:id="@+id/itemName"
                     android:layout_width="wrap_content"
@@ -196,19 +187,26 @@
                     android:textStyle="bold"
                     android:layout_marginTop="8dp" />
 
-                <!-- Price and Add to Cart Section -->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:layout_marginTop="8dp">
 
                     <TextView
+                        android:id="@+id/Price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="₹ "
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
                         android:id="@+id/itemPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="₹ Price"
+                        android:text="8"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -216,13 +214,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:gravity="center">
+                        android:paddingStart="40dp"
+                        android:gravity="center"
+                        android:layout_gravity="end">
 
                         <ImageButton
                             android:id="@+id/subtractButton"
                             android:layout_width="36dp"
                             android:layout_height="36dp"
-                            android:src="@drawable/egg"
+                            android:src="@drawable/negativesymbol"
                             android:background="@null" />
 
                         <TextView
@@ -232,14 +232,14 @@
                             android:text="1"
                             android:textColor="@color/black"
                             android:textSize="16sp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp" />
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="4dp" />
 
                         <ImageButton
                             android:id="@+id/addButton"
                             android:layout_width="36dp"
                             android:layout_height="36dp"
-                            android:src="@drawable/egg"
+                            android:src="@drawable/positiveymbol"
                             android:background="@null" />
 
                     </LinearLayout>
