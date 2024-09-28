@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:background="@color/appThemeColor"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".uiscreens.SignupActivity">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/emailContainer"
+        style="@style/CustomTextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginHorizontal="20dp"
+        app:helperTextTextColor="@android:color/holo_red_dark"
+        app:layout_constraintBottom_toTopOf="@+id/textView15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.925"
+        app:layout_constraintStart_toStartOf="parent"
+        app:startIconDrawable="@drawable/baseline_phone_24">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_email"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Enter Phone Number "
+            android:inputType="phone"
+           android:textColor="@color/white"
+            android:lines="1"
+            android:paddingStart="40dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="380dp"
+        android:layout_height="63dp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/send_otp_background"
+        android:gravity="center"
+        android:text="Send OTP"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textView16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="150dp"
+        android:layout_height="2dp"
+        android:layout_marginStart="30dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/textView16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView16">
+
+    </View>
+
+    <View
+        android:id="@+id/view5"
+        android:layout_width="150dp"
+        android:layout_height="2dp"
+        android:layout_marginEnd="30dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/textView16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView16">
+
+    </View>
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="28dp"
+        android:layout_height="39dp"
+        android:gravity="center"
+        android:layout_marginBottom="30dp"
+        android:text="OR"
+        app:layout_constraintBottom_toTopOf="@+id/cardView2"
+        app:layout_constraintEnd_toStartOf="@+id/view5"
+        app:layout_constraintStart_toEndOf="@+id/view4">
+
+    </TextView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="30dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/cardView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/baseline_email_24" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
+                android:layout_weight=".3"
+                android:gravity="center_vertical"
+                android:text="Continue with Email"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginHorizontal="20dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView17"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="15dp"
+                android:layout_weight="1"
+                android:src="@drawable/google_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight=".5"
+                android:gravity="center_vertical"
+                android:text="Google"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView3"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="20dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="8dp"
+        android:layout_marginTop="30dp"
+        app:cardElevation="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView17"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                android:src="@drawable/facebook_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
+                android:layout_weight=".3"
+                android:gravity="center_vertical"
+                android:text="Facebook"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="305dp"
+        android:layout_height="38dp"
+        android:gravity="center"
+        android:text="By continuing, you agree to our"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="@+id/cardView"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="@+id/cardView3" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Terms of Service"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Privacy Policy"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Content Policy"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <TextView
+        android:background="@drawable/skip_back"
+        android:id="@+id/textView21"
+        android:layout_width="66dp"
+        android:layout_height="34dp"
+        android:textColor="@color/white"
+        android:layout_marginTop="32dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:text="Skip"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.915"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

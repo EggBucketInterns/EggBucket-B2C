@@ -33,6 +33,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -45,7 +48,11 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+<<<<<<< HEAD
+    implementation (libs.pinview)
+=======
 
     implementation ("androidx.fragment:fragment-ktx:1.8.3")
     implementation ("androidx.viewpager2:viewpager2:1.1.0")
+>>>>>>> c5ac5022b02779661b7106a50cbe3885668bdd55
 }
