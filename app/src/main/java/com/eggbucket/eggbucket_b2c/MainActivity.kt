@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
-                replace(R.id.homeFragment, CompanyMenu.newInstance("", ""))
+                replace(R.id.homeFragment, ProductPageFragment.newInstance("", ""))
             }
         }
     }
