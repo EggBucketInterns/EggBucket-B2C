@@ -25,6 +25,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".uiscreens.SignupActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".uiscreens.OtpVerificationActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
+
+        <activity
+            android:name=".uiscreens.LoginWithOtpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".uiscreens.LoginActivity"
+            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".MainActivity"-->
+<!--            android:exported="false" />-->
     </application>
 
 </manifest>
