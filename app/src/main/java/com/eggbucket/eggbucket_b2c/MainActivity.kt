@@ -1,18 +1,24 @@
 package com.eggbucket.eggbucket_b2c
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.commit
+import androidx.fragment.app.Fragment
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (savedInstanceState == null) {
-            supportFragmentManager.commit {
-                replace(R.id.homeFragment, CompanyMenu.newInstance("", ""))
-            }
-        }
+        // Open OrderHistoryFragment when the activity is created
+        openFragment(OrderHistory())
+    }
+
+    private fun openFragment(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.homeFragment, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 }
