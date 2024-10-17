@@ -56,4 +56,6 @@ dependencies {
 
     implementation ("androidx.fragment:fragment-ktx:1.8.3")
     implementation ("androidx.viewpager2:viewpager2:1.1.0")
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
 }

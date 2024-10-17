@@ -93,7 +93,8 @@
                 android:paddingEnd="12dp"
                 android:text="Reorder"
                 android:textColor="@android:color/white"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:backgroundTint="@color/appThemeColor"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
