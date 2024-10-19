@@ -1,12 +1,12 @@
-package com.cartpage.app.modules.cartpage.ui
+package com.eggbucket.eggbucket_b2c
 
 import android.view.View
 import androidx.activity.viewModels
-import com.cartpage.app.R
 import com.cartpage.app.appcomponents.base.BaseActivity
 import com.cartpage.app.databinding.ActivityCartPageBinding
 import com.eggbucket.eggbucket_b2c.cartpage.data.model.OrderlistRowModel
 import com.cartpage.app.modules.cartpage.`data`.viewmodel.CartPageVM
+import com.cartpage.app.modules.cartpage.ui.OrderlistAdapter
 import kotlin.Int
 import kotlin.String
 import kotlin.Unit

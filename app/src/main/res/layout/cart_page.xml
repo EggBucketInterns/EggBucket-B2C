@@ -1,0 +1,126 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#FFF">
+
+    <!-- Header Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingBottom="8dp">
+
+        <!-- Back Button -->
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/baseline_arrow_back_24"
+            android:contentDescription="Back"
+            android:padding="4dp" />
+
+        <!-- Cart Title -->
+        <TextView
+            android:id="@+id/cart_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cart (No)"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+        <!-- Empty Cart Button -->
+        <Button
+            android:id="@+id/empty_cart_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Empty Cart"
+            android:backgroundTint="@color/appThemeColor"
+            android:textColor="#FFF"
+            android:textAllCaps="false"
+            android:padding="8dp" />
+    </LinearLayout>
+
+    <!-- Savings Section -->
+<!--    <TextView-->
+<!--        android:id="@+id/savings_text"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="₹76 saved on this order"-->
+<!--        android:background="#E0F7FA"-->
+<!--        android:textColor="#00796B"-->
+<!--        android:gravity="center"-->
+<!--        android:padding="8dp"-->
+<!--        android:layout_marginBottom="8dp" />-->
+
+    <!-- Scroll View for Items -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Recycler View -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerCartItems"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Footer Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="16dp">
+
+
+        <!-- Delivery Address -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/delivery_address"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="HOME - #490, 3rd cross, 4......."
+                android:textColor="#000"
+                android:paddingEnd="8dp"
+                />
+
+            <TextView
+                android:id="@+id/change_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CHANGE ADDRESS"
+                android:textColor="@color/appThemeColor" />
+        </LinearLayout>
+
+        <!-- Continue to Pay Button -->
+        <Button
+            android:id="@+id/continue_to_pay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CONTINUE TO PAY ₹"
+            android:backgroundTint="@color/appThemeColor"
+            android:textColor="#FFF"
+            android:layout_marginTop="16dp"
+            android:textAllCaps="false" />
+    </LinearLayout>
+
+</LinearLayout>
