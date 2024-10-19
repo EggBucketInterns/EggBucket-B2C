@@ -1,4 +1,4 @@
-package com.cartpage.app.modules.cartpage.`data`.model
+package com.eggbucket.eggbucket_b2c.cartpage.data.model
 
 import com.cartpage.app.R
 import com.cartpage.app.appcomponents.di.MyApp

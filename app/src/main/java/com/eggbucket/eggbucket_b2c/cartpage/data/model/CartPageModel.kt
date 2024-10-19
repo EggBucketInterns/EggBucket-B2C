@@ -1,4 +1,4 @@
-package com.cartpage.app.modules.cartpage.`data`.model
+package com.eggbucket.eggbucket_b2c.cartpage.data.model
 
 import com.cartpage.app.R
 import com.cartpage.app.appcomponents.di.MyApp
@@ -29,7 +29,7 @@ data class CartPageModel(
    * TODO Replace with dynamic value
    */
   var txtFrequently: String? =
-      MyApp.getInstance().resources.getString(R.string.msg_frequently_bought)
+    MyApp.getInstance().resources.getString(R.string.msg_frequently_bought)
   ,
   /**
    * TODO Replace with dynamic value
@@ -55,7 +55,7 @@ data class CartPageModel(
    * TODO Replace with dynamic value
    */
   var txtTheentire: String? =
-      MyApp.getInstance().resources.getString(R.string.msg_the_entire_amount)
+    MyApp.getInstance().resources.getString(R.string.msg_the_entire_amount)
   ,
   /**
    * TODO Replace with dynamic value
@@ -96,7 +96,7 @@ data class CartPageModel(
    * TODO Replace with dynamic value
    */
   var txtDeliveryOne: String? =
-      MyApp.getInstance().resources.getString(R.string.msg_delivery_partner)
+    MyApp.getInstance().resources.getString(R.string.msg_delivery_partner)
   ,
   /**
    * TODO Replace with dynamic value

@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cartpage.app.R
 import com.cartpage.app.databinding.RowOrderlistBinding
-import com.cartpage.app.modules.cartpage.`data`.model.OrderlistRowModel
+import com.eggbucket.eggbucket_b2c.cartpage.data.model.OrderlistRowModel
 import kotlin.Int
 import kotlin.collections.List
 
