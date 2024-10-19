@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 
 class HomeScreen : Fragment() {
@@ -42,12 +43,9 @@ class HomeScreen : Fragment() {
         val ind3 = view.findViewById<ImageView>(R.id.indicator3)
         val itemCard = view.findViewById<CardView>(R.id.itemCard)
 
-//        itemCard.setOnClickListener {
-//                val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
-//                fragmentTransaction.replace(R.id.homeFragment, ProductPageFragment())
-//                fragmentTransaction.addToBackStack(null)
-//                fragmentTransaction.commit()
-//        }
+        itemCard.setOnClickListener {
+                findNavController().navigate(R.id.action_navigation_home_to_productPageFragment)
+        }
 
 
 

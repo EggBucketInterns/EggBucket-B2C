@@ -9,7 +9,11 @@
         android:id="@+id/navigation_home"
         android:name="com.eggbucket.eggbucket_b2c.HomeScreen"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home_screen" />
+        tools:layout="@layout/fragment_home_screen" >
+        <action
+            android:id="@+id/action_navigation_home_to_productPageFragment"
+            app:destination="@id/productPageFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
@@ -22,4 +26,9 @@
         android:name="com.eggbucket.eggbucket_b2c.BottomNavigation.ui.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/productPageFragment"
+        android:name="com.eggbucket.eggbucket_b2c.ProductPageFragment"
+        android:label="fragment_product_page"
+        tools:layout="@layout/fragment_product_page" />
 </navigation>
