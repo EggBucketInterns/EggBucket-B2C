@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -18,11 +19,12 @@ import com.google.firebase.auth.PhoneAuthProvider
 
 class OtpVerificationActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
-    private lateinit var binding: ActivityOtpVerificationBinding
+    private lateinit var binding: ActivityOtpVerificationBinding // Proper initialization of binding
     private var verificationId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
 
         // Inflating the binding and setting the content view
         binding = ActivityOtpVerificationBinding.inflate(layoutInflater)
@@ -37,8 +39,22 @@ class OtpVerificationActivity : AppCompatActivity() {
 
         // Show the keyboard programmatically
         val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.showSoftInput(binding.otpPinView, InputMethodManager.SHOW_IMPLICIT)
+        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
         Log.d("pinview2", "start pinview")
+
+        // Add a text watcher to handle changes in the OTP input
+        binding.otpPinView.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                Log.d("pinview4", "start pinview")
+                if (p0.toString().length == 6) {
+                    Toast.makeText(this@OtpVerificationActivity, "It's Working", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {}
+        })
 
         // Set insets for the view to support edge-to-edge display
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -51,18 +67,24 @@ class OtpVerificationActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         verificationId = intent.getStringExtra("verificationId")
 
-        // Add a text watcher to handle changes in the OTP input
+        // Verify OTP when text changes and contains 6 digits
         binding.otpPinView.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                TODO("Not yet implemented")
+                return
+            }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                Log.d("pinview4", "OTP changed: ${s?.toString()}")
+                TODO("Not yet implemented")
+                return
+            }
+
+            override fun afterTextChanged(s: Editable?) {
                 if (s?.length == 6) {
                     verifyCode(s.toString())
                 }
             }
-
-            override fun afterTextChanged(s: Editable?) {}
+            // Other TextWatcher methods are defined above
         })
     }
 
@@ -81,8 +103,7 @@ class OtpVerificationActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     val user = task.result?.user
-                    Toast.makeText(this, "Authentication successful", Toast.LENGTH_SHORT).show()
-                    // TODO: Navigate to main activity or update UI
+                    // Navigate to main activity or update UI
                 } else {
                     // Sign in failed, display a message and update the UI
                     Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()

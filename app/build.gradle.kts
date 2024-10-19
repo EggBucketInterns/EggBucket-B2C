@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation("androidx.databinding:databinding-common:8.7.1")
     implementation("androidx.databinding:databinding-runtime:8.7.1")
+    implementation("androidx.security:security-crypto-ktx:1.0.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
