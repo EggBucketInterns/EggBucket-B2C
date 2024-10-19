@@ -3,7 +3,6 @@ package com.eggbucket.eggbucket_b2c.uiscreens
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -22,25 +21,13 @@ class LoginWithOtpActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
 
         // Inflate the binding
         binding = ActivityLoginWithOtpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Set up click listeners for phone and email login options
-        binding.txtLoginWithEmail.apply {
-            this.setBackgroundResource(R.drawable.email_back)
-        }
-        binding.txtLoginWithEmail.setOnClickListener {
-            it.setBackgroundResource(R.drawable.email_back)
-            binding.txtLoginWithPhoneNumber.background = null
-        }
-
-        binding.txtLoginWithPhoneNumber.setOnClickListener {
-            it.setBackgroundResource(R.drawable.phone_number_back)
-            binding.txtLoginWithEmail.background = null
-        }
+        // Set initial background for email login
+        binding.txtLoginWithEmail.background = null
 
         // Handle window insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -95,8 +82,8 @@ class LoginWithOtpActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, handle UI update here
-                    val user = task.result?.user
-                    // Navigate to main activity or update UI
+                    // TODO: Navigate to main activity or update UI
+                    Toast.makeText(this, "Authentication successful", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
                 }
