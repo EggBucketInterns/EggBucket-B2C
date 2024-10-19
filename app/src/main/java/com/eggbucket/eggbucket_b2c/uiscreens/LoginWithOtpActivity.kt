@@ -1,7 +1,7 @@
 package com.eggbucket.eggbucket_b2c.uiscreens
-
-import android.content.Intent
+//
 import android.os.Bundle
+import android.content.Intent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat

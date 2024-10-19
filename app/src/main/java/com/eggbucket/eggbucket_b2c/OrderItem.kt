@@ -1,5 +1,7 @@
 package com.eggbucket.eggbucket_b2c
 
+import com.google.gson.annotations.SerializedName
+
 data class OrderResponse(
     val size: Int,
     val orders: List<OrderItem>
@@ -9,7 +11,7 @@ data class OrderItem(
     val id: String,
     val createdAt: Timestamp,
     val amount: Int,
-    val address: Address,
+    @SerializedName("address")val orderAddress: OrderAddress,
     val outletId: String,
     val customerId: String,
     val deliveryPartnerId: String,
@@ -18,12 +20,12 @@ data class OrderItem(
     val status: String?
 )
 
-data class Address(
+data class OrderAddress(
     val fullAddress: String,
-    val coordinates: Coordinates
+    @SerializedName("coordinates") val orderCoordinates: OrderCoordinates
 )
 
-data class Coordinates(
+data class OrderCoordinates(
     val lat: Double,
     val long: Double
 )
