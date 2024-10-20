@@ -1,236 +1,251 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".ProductPageFragment">
+    android:background="@color/white">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/imageCarousel"
-        android:layout_width="0dp"
-        android:layout_height="260dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/backButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="16dp"
-        android:background="@drawable/back_button"
-        android:contentDescription="back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/favoriteButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="16dp"
-        android:background="@drawable/fav_button"
-        android:contentDescription="favorite"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/indicatorLayout"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageCarousel" />
+        tools:context=".ProductPageFragment">
 
-    <TextView
-        android:id="@+id/productTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Eggs"
-        android:textSize="24sp"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/indicatorLayout" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/indicatorLayout">
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/imageCarousel"
+            android:layout_width="0dp"
+            android:layout_height="260dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@drawable/star"
+            android:id="@+id/backButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/back_button"
             android:contentDescription="back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/ratingNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="4.8"
-            android:textColor="@color/black"
-            android:layout_marginStart="8dp"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/reviewCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="(41 Reviews)"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
-    </LinearLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/priceSection"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/productTitle">
-
-        <TextView
-            android:id="@+id/priceText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="₹ 80"
-            android:textSize="26sp"
-            android:textColor="@color/orange"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+        <ImageButton
+            android:id="@+id/favoriteButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/fav_button"
+            android:contentDescription="favorite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
-            android:id="@+id/quantitySelector"
+            android:id="@+id/indicatorLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal"
-            android:gravity="center"
-            android:background="@drawable/quantity_selector_background"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageCarousel" />
+
+        <TextView
+            android:id="@+id/productTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Eggs"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/indicatorLayout" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/indicatorLayout">
 
             <ImageButton
-                android:id="@+id/decreaseButton"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:background="@drawable/nega_button"
-                android:contentDescription="decrease_quantity" />
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/star"
+                android:contentDescription="back"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/quantityText"
+                android:id="@+id/ratingNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4.8"
+                android:textColor="@color/black"
+                android:layout_marginStart="8dp"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/reviewCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="1"
-                android:textSize="24sp" />
-
-            <ImageButton
-                android:id="@+id/increaseButton"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:background="@drawable/ic_plus"
-                android:contentDescription="increase_quantity" />
+                android:text="(41 Reviews)"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
         </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/productVariantsContainer"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/priceSection">
-
-        <include
-            layout="@layout/product_variant_card"
-            android:id="@+id/card1"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/priceSection"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/card2"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            android:layout_margin="8dp" />
-
-        <include
-            layout="@layout/product_variant_card"
-            android:id="@+id/card2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/card1"
-            app:layout_constraintEnd_toStartOf="@id/card3"
-            android:layout_margin="8dp" />
-
-        <include
-            layout="@layout/product_variant_card"
-            android:id="@+id/card3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/card2"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="8dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/productTitle">
+
+            <TextView
+                android:id="@+id/priceText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="₹ 60"
+                android:textSize="26sp"
+                android:textColor="@color/orange"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <LinearLayout
+                android:id="@+id/quantitySelector"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:background="@drawable/quantity_selector_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <ImageButton
+                    android:id="@+id/decreaseButton"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/nega_button"
+                    android:contentDescription="decrease_quantity" />
+
+                <TextView
+                    android:id="@+id/quantityText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="1"
+                    android:textSize="24sp" />
+
+                <ImageButton
+                    android:id="@+id/increaseButton"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/ic_plus"
+                    android:contentDescription="increase_quantity" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/productVariantsContainer"
+            android:layout_width="0dp"
+            android:layout_height="140dp"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/priceSection">
+
+            <include
+                android:id="@+id/card1"
+                layout="@layout/product_variant_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toStartOf="@id/card2"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <include
+                android:id="@+id/card2"
+                layout="@layout/product_variant_card2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:layout_constraintEnd_toStartOf="@id/card3"
+                app:layout_constraintStart_toEndOf="@id/card1" />
+
+            <include
+                android:id="@+id/card3"
+                layout="@layout/product_variant_card3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/card2" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/about"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/black"
+            android:text="About"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/productVariantsContainer" />
+
+        <TextView
+            android:id="@+id/productPageFragment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/black"
+            android:text="One large egg contains 6.3 grams of protein. The protein is almost equally split between the egg white and the egg yolk. The white contains 3.5 grams of protein while the yolk contains 2.8 grams."
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/about" />
+
+        <Button
+            android:id="@+id/addToCartButton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_margin="16dp"
+            android:backgroundTint="@color/orange"
+            android:text="Add to Cart"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/productPageFragment"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:layout_editor_absoluteX="16dp" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <TextView
-        android:id="@+id/about"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:textColor="@color/black"
-        android:text="About"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/productVariantsContainer" />
-
-    <TextView
-        android:id="@+id/productDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:textColor="@color/black"
-        android:text="One large egg contains 6.3 grams of protein. The protein is almost equally split between the egg white and the egg yolk. The white contains 3.5 grams of protein while the yolk contains 2.8 grams."
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/about" />
-
-    <Button
-        android:id="@+id/addToCartButton"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_margin="16dp"
-        android:backgroundTint="@color/orange"
-        android:text="Add to Cart"
-        android:textSize="18sp"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

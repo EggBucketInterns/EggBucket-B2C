@@ -34,10 +34,29 @@
         android:id="@+id/productPageFragment"
         android:name="com.eggbucket.eggbucket_b2c.ProductPageFragment"
         android:label="fragment_product_page"
-        tools:layout="@layout/fragment_product_page" />
+        tools:layout="@layout/fragment_product_page" >
+        <action
+            android:id="@+id/action_productPageFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_productPageFragment_to_cartActivity"
+            app:destination="@id/cartActivity" />
+    </fragment>
+
+
     <fragment
         android:id="@+id/privacyPolicy"
         android:name="com.eggbucket.eggbucket_b2c.PrivacyPolicy"
         android:label="fragment_privacy_policy"
         tools:layout="@layout/fragment_privacy_policy" />
+
+    <activity
+        android:id="@+id/cartActivity"
+        android:name="com.eggbucket.eggbucket_b2c.CartActivity"
+        android:label="cart_page"
+        tools:layout="@layout/cart_page"
+        />
+
+
+
 </navigation>
