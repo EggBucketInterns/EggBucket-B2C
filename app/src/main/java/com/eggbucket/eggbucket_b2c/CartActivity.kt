@@ -2,6 +2,7 @@ package com.eggbucket.eggbucket_b2c
 
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
@@ -14,15 +15,19 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 class CartActivity : AppCompatActivity() {
+    private lateinit var sharedPreferences: SharedPreferences
     private lateinit var cartItemsRecyclerView: RecyclerView
     private lateinit var cartAdapter: CartAdapter
     private lateinit var emptyCartButton: Button
+    private var count1 =  sharedPreferences.getInt("count1", 0)
+    private var count2 = sharedPreferences.getInt("count2", 0)
+    private var count3 = sharedPreferences.getInt("count3", 0)
 
     private lateinit var continueToPayButton: Button
     private val cartItems = mutableListOf<CartItem>(
-        CartItem("Eggs x 6", 1, 50.0 ),
-        CartItem("Eggs x 2", 2, 40.0 ),
-        CartItem("Eggs x 1", 1, 30.0)
+        CartItem("Eggs x 6", count1, 50.0 ),
+        CartItem("Eggs x 2", count2, 40.0 ),
+        CartItem("Eggs x 1", count3, 30.0)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
