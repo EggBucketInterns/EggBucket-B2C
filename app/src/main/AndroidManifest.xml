@@ -20,12 +20,12 @@
         <activity
             android:name=".addressListActivity"
             android:exported="false" />
-        <activity
-            android:name=".AddressActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SchedulingMonthActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".AddressActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".SchedulingMonthActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".MainActivity"
             android:exported="true"
