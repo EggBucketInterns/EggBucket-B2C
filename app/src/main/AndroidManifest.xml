@@ -31,6 +31,10 @@
             android:exported="true"
             android:label="@string/title_activity_bottom_navigation_screen" />
         <activity
+            android:name=".CartActivity"
+            android:exported="true"
+            android:label="@string/title_activity_bottom_navigation_screen" />
+        <activity
             android:name=".BottomNavigation.ui.BottomNavigationScreen"
             android:exported="true" >
             <intent-filter>

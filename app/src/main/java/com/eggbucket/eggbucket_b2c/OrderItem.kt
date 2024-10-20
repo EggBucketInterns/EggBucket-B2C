@@ -1,6 +1,12 @@
 package com.eggbucket.eggbucket_b2c
 
 import com.google.gson.annotations.SerializedName
+data class CartItem(
+    val name: String,
+    var quantity: Int,
+    val price: Double
+
+)
 
 data class OrderResponse(
     val size: Int,

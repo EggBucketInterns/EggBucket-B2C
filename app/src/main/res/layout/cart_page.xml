@@ -1,10 +1,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:id="@+id/cartMain"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="#FFF">
+    android:background="#FFF"
+    tools:context=".CartActivity">
 
     <!-- Header Section -->
     <LinearLayout
@@ -47,16 +49,16 @@
     </LinearLayout>
 
     <!-- Savings Section -->
-<!--    <TextView-->
-<!--        android:id="@+id/savings_text"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="₹76 saved on this order"-->
-<!--        android:background="#E0F7FA"-->
-<!--        android:textColor="#00796B"-->
-<!--        android:gravity="center"-->
-<!--        android:padding="8dp"-->
-<!--        android:layout_marginBottom="8dp" />-->
+    <TextView
+        android:id="@+id/savings_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="₹76 saved on this order"
+        android:background="#E0F7FA"
+        android:textColor="#00796B"
+        android:gravity="center"
+        android:padding="8dp"
+        android:layout_marginBottom="8dp" />
 
     <!-- Scroll View for Items -->
     <ScrollView
@@ -69,7 +71,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Recycler View -->
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerCartItems"
                 android:layout_width="match_parent"

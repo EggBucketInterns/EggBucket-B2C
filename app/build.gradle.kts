@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
 }
 
+
 android {
     namespace = "com.eggbucket.eggbucket_b2c"
     compileSdk = 34
@@ -52,6 +53,7 @@ dependencies {
     implementation("androidx.databinding:databinding-common:8.7.1")
     implementation("androidx.databinding:databinding-runtime:8.7.1")
     implementation("androidx.security:security-crypto-ktx:1.0.0")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -65,4 +67,5 @@ dependencies {
     implementation ("com.google.firebase:firebase-bom:32.0.0")
     implementation("io.insert-koin:koin-android:4.0.0")
     implementation ("com.github.bumptech.glide:glide:4.16.0")
+
 }
