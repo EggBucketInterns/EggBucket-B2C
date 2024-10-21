@@ -3,8 +3,8 @@ package com.cartpage.app.appcomponents.utility
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
-import com.cartpage.app.R
 import com.cartpage.app.appcomponents.di.MyApp
+import com.eggbucket.eggbucket_b2c.R
 
 /**
  * class which used to manage application shared preference
