@@ -86,7 +86,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/itemPrice"
                     app:layout_constraintEnd_toStartOf="@id/quantityText"
-                    android:paddingLeft=""/>
+                    android:paddingLeft="14dp"/>
 
                 <TextView
                     android:id="@+id/quantityText"

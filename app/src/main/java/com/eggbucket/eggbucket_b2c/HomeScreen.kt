@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -47,6 +48,12 @@ class HomeScreen : Fragment() {
         eggRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         eggRecyclerView.addItemDecoration(GridSpacingItemDecoration(8))
         eggRecyclerView.adapter = eggItemAdapter
+
+        val menuIcon = view.findViewById<ImageView>(R.id.menuIcon)
+        menuIcon.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_to_companyMenu)
+        }
+
 
         // Initialize indicators
         val ind1 = view.findViewById<ImageView>(R.id.indicator1)

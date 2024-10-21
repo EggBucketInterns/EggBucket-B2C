@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_home_to_productPageFragment"
             app:destination="@id/productPageFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_companyMenu"
+            app:destination="@id/companyMenu" />
     </fragment>
 
     <fragment
@@ -56,7 +59,11 @@
         android:label="cart_page"
         tools:layout="@layout/cart_page"
         />
-
+    <fragment
+        android:id="@+id/companyMenu"
+        android:name="com.eggbucket.eggbucket_b2c.CompanyMenu"
+        android:label="fragment_company_menu"
+        tools:layout="@layout/fragment_company_menu" />
 
 
 </navigation>
