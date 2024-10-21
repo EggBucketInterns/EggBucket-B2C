@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.eggbucket.eggbucket_b2c.HomeScreen"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home_screen" >
+        <action
+            android:id="@+id/action_navigation_home_to_productPageFragment"
+            app:destination="@id/productPageFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_companyMenu"
+            app:destination="@id/companyMenu" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="com.eggbucket.eggbucket_b2c.BottomNavigation.ui.basket.DashboardFragment"
+        android:label="Basket"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="com.eggbucket.eggbucket_b2c.BottomNavigation.ui.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_navigation_notifications_to_privacyPolicy"
+            app:destination="@id/privacyPolicy" />
+    </fragment>
+    <fragment
+        android:id="@+id/productPageFragment"
+        android:name="com.eggbucket.eggbucket_b2c.ProductPageFragment"
+        android:label="fragment_product_page"
+        tools:layout="@layout/fragment_product_page" >
+        <action
+            android:id="@+id/action_productPageFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_productPageFragment_to_cartActivity"
+            app:destination="@id/cartActivity" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/privacyPolicy"
+        android:name="com.eggbucket.eggbucket_b2c.PrivacyPolicy"
+        android:label="fragment_privacy_policy"
+        tools:layout="@layout/fragment_privacy_policy" />
+
+    <activity
+        android:id="@+id/cartActivity"
+        android:name="com.eggbucket.eggbucket_b2c.CartActivity"
+        android:label="cart_page"
+        tools:layout="@layout/cart_page"
+        />
+    <fragment
+        android:id="@+id/companyMenu"
+        android:name="com.eggbucket.eggbucket_b2c.CompanyMenu"
+        android:label="fragment_company_menu"
+        tools:layout="@layout/fragment_company_menu" >
+        <action
+            android:id="@+id/action_companyMenu_to_aboutUs"
+            app:destination="@id/aboutUs" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutUs"
+        android:name="com.eggbucket.eggbucket_b2c.AboutUs"
+        android:label="fragment_about_us"
+        tools:layout="@layout/fragment_about_us" />
+
+
+</navigation>
