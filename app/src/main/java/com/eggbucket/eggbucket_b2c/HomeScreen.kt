@@ -6,13 +6,14 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
-import com.eggbucket.eggbucket_b2c.homepage.EggItemAdapter
-import com.eggbucket.eggbucket_b2c.homepage.ProductItem
 
 class HomeScreen : Fragment() {
 
@@ -21,16 +22,6 @@ class HomeScreen : Fragment() {
     private val handler = Handler(Looper.getMainLooper())
     private var currentPage = 0
 
-    private lateinit var eggRecyclerView: RecyclerView
-    private lateinit var eggItemAdapter: EggItemAdapter
-
-    private val productList: MutableList<ProductItem> = mutableListOf(
-        ProductItem("Eggs", 8, R.drawable.productimg, 0),
-        ProductItem("Milk", 10, R.drawable.productimg, 0),
-        ProductItem("Bread", 20, R.drawable.productimg, 0),
-        ProductItem("Cheese", 30, R.drawable.productimg, 0)
-    )
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,21 +29,26 @@ class HomeScreen : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home_screen, container, false)
 
         viewPager = view.findViewById(R.id.carouselViewPager)
-        viewPager.adapter = CarouselAdapter(images)
-
-        eggRecyclerView = view.findViewById(R.id.EggRecyclerView)
-        eggItemAdapter = EggItemAdapter(productList)
-
-        // Use GridLayoutManager for 2 columns
-        eggRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
-        eggRecyclerView.addItemDecoration(GridSpacingItemDecoration(8))
-        eggRecyclerView.adapter = eggItemAdapter
-
-        // Initialize indicators
+        val carouselAdapter = CarouselAdapter(images)
+        viewPager.adapter = carouselAdapter
+        val itemPrice = view.findViewById<TextView>(R.id.itemPrice)
+        val addButton = view.findViewById<Button>(R.id.addButton)
         val ind1 = view.findViewById<ImageView>(R.id.indicator1)
         val ind2 = view.findViewById<ImageView>(R.id.indicator2)
         val ind3 = view.findViewById<ImageView>(R.id.indicator3)
+        val itemCard = view.findViewById<CardView>(R.id.itemCard)
 
+        itemCard.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_to_productPageFragment)
+        }
+
+
+        var totalPrice = 8
+        itemPrice.text = totalPrice.toString()
+
+        addButton.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_to_productPageFragment)
+        }
         startAutoScroll(ind1, ind2, ind3)
 
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -64,16 +60,6 @@ class HomeScreen : Fragment() {
         })
 
         return view
-    }
-    class GridSpacingItemDecoration(private val spacing: Int) : RecyclerView.ItemDecoration() {
-        override fun getItemOffsets(
-            outRect: android.graphics.Rect,
-            view: View,
-            parent: RecyclerView,
-            state: RecyclerView.State
-        ) {
-            outRect.set(spacing, spacing, spacing, spacing)
-        }
     }
 
     private fun startAutoScroll(ind1: ImageView, ind2: ImageView, ind3: ImageView) {
