@@ -18,11 +18,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="About Us"
-                android:textStyle="bold"
-                android:textSize="24sp"
                 android:layout_gravity="center_horizontal"
-                android:paddingBottom="16dp"/>
+                android:paddingBottom="16dp"
+                android:text="About Us"
+                android:textColor="@color/appThemeColor"
+                android:textSize="40sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -41,9 +42,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
                 android:text="Egg bucket started with the objective to provide the best kind of eggs at your doorstep. With years of experience in egg farming and breeding birds for eggs, we intend to make the accessibility of a common man to the freshest eggs in town easier and fuss-free. For all we know, nothing beats “coop to the kitchen”. We promise to provide you with the most perfect eggs on your plates at a reasonable price. We started with the aim to cut off middlemen who hike the price and alter the quality of the eggs delivered to you, with us Egg-ceptional quality is guaranteed!"
-                android:textSize="16sp"
-                android:paddingBottom="16dp"/>
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"

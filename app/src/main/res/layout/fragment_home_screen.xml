@@ -56,6 +56,14 @@
                 android:contentDescription="Dropdown icon"
                 android:layout_marginStart="4dp" />
 
+            <!-- New Menu Icon ImageView -->
+            <ImageView
+                android:id="@+id/menuIcon"
+                android:layout_width="313dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="2dp"
+                android:src="@drawable/menuicon" />
         </LinearLayout>
 
         <!-- Search Bar -->
