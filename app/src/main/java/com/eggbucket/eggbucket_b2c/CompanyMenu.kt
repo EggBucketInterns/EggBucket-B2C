@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
+import androidx.navigation.fragment.findNavController
 
 class CompanyMenu : Fragment() {
     // Parameters (if needed)
@@ -33,6 +35,10 @@ class CompanyMenu : Fragment() {
         // Set up the back navigation to go to the previous fragment or activity
         backArrow.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+        val aboutUsButton = view.findViewById<Button>(R.id.aboutUsButton)
+        aboutUsButton.setOnClickListener {
+            findNavController().navigate(R.id.action_companyMenu_to_aboutUs)
         }
 
         return view

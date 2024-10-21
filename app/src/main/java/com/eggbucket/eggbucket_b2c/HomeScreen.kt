@@ -41,7 +41,10 @@ class HomeScreen : Fragment() {
         itemCard.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_home_to_productPageFragment)
         }
-
+        val menuIcon = view.findViewById<ImageView>(R.id.menuIcon)
+        menuIcon.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_to_companyMenu)
+        }
 
         var totalPrice = 8
         itemPrice.text = totalPrice.toString()

@@ -63,7 +63,16 @@
         android:id="@+id/companyMenu"
         android:name="com.eggbucket.eggbucket_b2c.CompanyMenu"
         android:label="fragment_company_menu"
-        tools:layout="@layout/fragment_company_menu" />
+        tools:layout="@layout/fragment_company_menu" >
+        <action
+            android:id="@+id/action_companyMenu_to_aboutUs"
+            app:destination="@id/aboutUs" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutUs"
+        android:name="com.eggbucket.eggbucket_b2c.AboutUs"
+        android:label="fragment_about_us"
+        tools:layout="@layout/fragment_about_us" />
 
 
 </navigation>
