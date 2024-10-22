@@ -21,7 +21,7 @@ class CartActivity : AppCompatActivity() {
     private lateinit var cartAdapter: CartAdapter
     private lateinit var emptyCartButton: Button
     private lateinit var addressText: TextView
-    private lateinit var changeAddresButton: Button
+    private lateinit var changeAddresButton: TextView
 
 
 

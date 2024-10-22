@@ -41,14 +41,14 @@ class AddressListFragment : Fragment() {
 
         val backIcon: ImageView = view.findViewById(R.id.imageView4)
         backIcon.setOnClickListener {
-            requireActivity().onBackPressed()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
         return view
     }
     private fun addAddres(addr:String){
         (activity as? CartActivity)?.updateAddress(addr)
-        requireActivity().onBackPressed()
+        requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 
     private fun fetchUserData(phone: String) {
