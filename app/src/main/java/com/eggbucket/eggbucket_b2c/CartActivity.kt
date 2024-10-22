@@ -1,79 +1,85 @@
 package com.eggbucket.eggbucket_b2c
 
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
+import android.widget.TextView
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class CartFragment : Fragment() {
+class CartActivity : AppCompatActivity() {
 
     private lateinit var cartItemsRecyclerView: RecyclerView
     private lateinit var cartAdapter: CartAdapter
     private lateinit var emptyCartButton: Button
+    private lateinit var addressText: TextView
+    private lateinit var changeAddressButton: TextView
+    private lateinit var sharedPreferences: SharedPreferences
     private lateinit var continueToPayButton: Button
 
-    private val cartItems = mutableListOf(
-        CartItem("Eggs x 6", 1, 50.0),
-        CartItem("Eggs x 2", 2, 40.0),
-        CartItem("Eggs x 1", 1, 30.0)
-    )
+    private val cartItems = mutableListOf<CartItem>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.cart_page, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContentView(R.layout.cart_page)
 
-        // Initialize UI elements
-        cartItemsRecyclerView = view.findViewById(R.id.recyclerCartItems)
-        emptyCartButton = view.findViewById(R.id.empty_cart_button)
-        continueToPayButton = view.findViewById(R.id.continue_to_pay)
-
-        setupRecyclerView()
-        setupButtons()
-
-        // Apply insets for edge-to-edge display
-        ViewCompat.setOnApplyWindowInsetsListener(view.findViewById(R.id.cartMain)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.cartMain)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        updateTotalPrice()
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE)
 
-        return view
-    }
+        // Retrieve counts after initializing SharedPreferences
+        val count1 = sharedPreferences.getInt("count1", 0)
+        val count2 = sharedPreferences.getInt("count2", 0)
+        val count3 = sharedPreferences.getInt("count3", 0)
 
-    fun updateAddress(newAddress: String) {
-        // Handle the new address (e.g., update UI or internal data)
-        Toast.makeText(requireContext(), "Address updated: $newAddress", Toast.LENGTH_SHORT).show()
-    }
+        // Initialize cart items with retrieved counts
+        cartItems.add(CartItem("Eggs x 6", count1, 50.0))
+        cartItems.add(CartItem("Eggs x 2", count2, 40.0))
+        cartItems.add(CartItem("Eggs x 1", count3, 30.0))
 
-    private fun setupRecyclerView() {
-        cartAdapter = CartAdapter(cartItems, ::onQuantityChanged, ::onRemoveItem)
-        cartItemsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        cartItemsRecyclerView = findViewById(R.id.recyclerCartItems)
+        emptyCartButton = findViewById(R.id.empty_cart_button)
+        continueToPayButton = findViewById(R.id.continue_to_pay)
+        addressText = findViewById(R.id.delivery_address)
+        changeAddressButton = findViewById(R.id.change_address)
+
+        // Create the CartAdapter with an additional parameter for updating quantity
+        cartAdapter = CartAdapter(cartItems, ::onQuantityChanged, ::onRemoveItem, ::updateQuantityInSharedPreferences)
+        cartItemsRecyclerView.layoutManager = LinearLayoutManager(this)
         cartItemsRecyclerView.adapter = cartAdapter
-    }
 
-    private fun setupButtons() {
         emptyCartButton.setOnClickListener {
             cartItems.clear()
             cartAdapter.notifyDataSetChanged()
+            updateQuantitiesInSharedPreferences(0, 0, 0)
             updateTotalPrice()
         }
 
+        changeAddressButton.setOnClickListener {
+            val fragmentTransaction = supportFragmentManager.beginTransaction()
+            fragmentTransaction.replace(android.R.id.content, AddressListFragment())
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
+        }
+
+        // Continue to pay button listener
         continueToPayButton.setOnClickListener {
-            // Handle order placement logic
+            // TODO: Implement place order functionality
             cartItems.clear()
         }
+
+        updateTotalPrice()
     }
 
     private fun onQuantityChanged() {
@@ -86,8 +92,32 @@ class CartFragment : Fragment() {
         updateTotalPrice()
     }
 
+    fun updateAddress(addr: String) {
+        addressText.text = "Address: $addr"
+    }
+
     private fun updateTotalPrice() {
         val total = cartItems.sumOf { it.quantity * it.price }
         continueToPayButton.text = "CONTINUE TO PAY ₹$total"
     }
+
+    // Function to update quantity in SharedPreferences
+    private fun updateQuantityInSharedPreferences(itemName: String, quantity: Int) {
+        val editor = sharedPreferences.edit()
+        when (itemName) {
+            "Eggs x 6" -> editor.putInt("count1", quantity)
+            "Eggs x 2" -> editor.putInt("count2", quantity)
+            "Eggs x 1" -> editor.putInt("count3", quantity)
+        }
+        editor.apply()
+    }
+
+    private fun updateQuantitiesInSharedPreferences(count1: Int, count2: Int, count3: Int) {
+        val editor = sharedPreferences.edit()
+        editor.putInt("count1", count1)
+        editor.putInt("count2", count2)
+        editor.putInt("count3", count3)
+        editor.apply()
+    }
 }
+
