@@ -148,7 +148,7 @@ class ProductPageFragment : Fragment() {
                 }, 2000)
             } else {
                 // Navigate to the CartActivity
-                findNavController().navigate(R.id.action_productPageFragment_to_cartActivity)
+                findNavController().navigate(R.id.action_productPageFragment_to_cartFragment)
             }
         }
 
