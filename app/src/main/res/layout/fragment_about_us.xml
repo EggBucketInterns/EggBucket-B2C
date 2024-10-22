@@ -1,72 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/eggbgfaded"
     tools:context=".AboutUs">
 
-    <ScrollView
+<ScrollView
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:padding="16dp">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!-- About Us Title Card -->
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="8dp"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:padding="16dp"
+            android:text="About Us"
+            android:textColor="@color/appThemeColor"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+    </androidx.cardview.widget.CardView>
+
+    <!-- Description Section without CardView -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:padding="16dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:text="Welcome to Egg Bucket, your number one source for all things Eggs. We're dedicated to providing you the very best of Eggs, with an emphasis on Quality and Trust."
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingBottom="16dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="About Us"
-                android:textStyle="bold"
-                android:textSize="24sp"
-                android:layout_gravity="center_horizontal"
-                android:paddingBottom="16dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Founded in 2021, Egg Bucket has come a long way from its beginnings in Vani Farms founded in 1980's in Bangalore."
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingBottom="16dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Welcome to Egg Bucket, your number one source for all things Eggs. We're dedicated to providing you the very best of Eggs, with an emphasis on Quality and Trust."
-                android:textSize="16sp"
-                android:paddingBottom="16dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:textStyle="bold"
+            android:text="Egg bucket started with the objective to provide the best kind of eggs at your doorstep. With years of experience in egg farming and breeding birds for eggs, we intend to make the accessibility of a common man to the freshest eggs in town easier and fuss-free. For all we know, nothing beats “coop to the kitchen”. We promise to provide you with the most perfect eggs on your plates at a reasonable price. We started with the aim to cut off middlemen who hike the price and alter the quality of the eggs delivered to you, with us Egg-ceptional quality is guaranteed!"
+            android:textSize="16sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Founded in 2021, Egg Bucket has come a long way from its beginnings in Vani Farms founded in 1980's in Bangalore."
-                android:textSize="16sp"
-                android:paddingBottom="16dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:text="We hope you enjoy our products as much as we enjoy offering them to you. If you have any questions or comments, please don't hesitate to contact us"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Egg bucket started with the objective to provide the best kind of eggs at your doorstep. With years of experience in egg farming and breeding birds for eggs, we intend to make the accessibility of a common man to the freshest eggs in town easier and fuss-free. For all we know, nothing beats “coop to the kitchen”. We promise to provide you with the most perfect eggs on your plates at a reasonable price. We started with the aim to cut off middlemen who hike the price and alter the quality of the eggs delivered to you, with us Egg-ceptional quality is guaranteed!"
-                android:textSize="16sp"
-                android:paddingBottom="16dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sincerely,"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingBottom="16dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="We hope you enjoy our products as much as we enjoy offering them to you. If you have any questions or comments, please don't hesitate to contact us"
-                android:textSize="16sp"
-                android:paddingBottom="16dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sincerely,"
-                android:textSize="16sp"
-                android:paddingBottom="16dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Egg Bucket"
-                android:textSize="16sp"
-                android:paddingBottom="16dp"/>
-
-        </LinearLayout>
-    </ScrollView>
-
-</FrameLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Egg Bucket"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingBottom="16dp"/>
+    </LinearLayout>
+</LinearLayout>
+</ScrollView>
+    </FrameLayout>
