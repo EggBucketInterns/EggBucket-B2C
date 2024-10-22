@@ -18,6 +18,7 @@ data class User(
 
 // Nested Address Class
 data class UserAddress(
+    val id:String?=null,
     val fullAddress: FullAddress,
     @SerializedName("coordinates") val customerCoordinates: CustomerCoordinates
 )

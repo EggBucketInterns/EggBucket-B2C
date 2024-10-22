@@ -1,6 +1,7 @@
 package com.eggbucket.eggbucket_b2c
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
+data class UpdateUserRequest(
+    val removeAddr: Int
+)
 
 class AddressListFragment : Fragment() {
 
@@ -28,10 +33,11 @@ class AddressListFragment : Fragment() {
         recyclerViewAddresses = view.findViewById(R.id.BuyAgainRecyclerView)
         recyclerViewAddresses.layoutManager = LinearLayoutManager(requireContext())
 
-
-        fetchUserData("1111111111")
-        addressListAdapter = AddressAdapter(addressList)
+        addressListAdapter = AddressAdapter(addressList, ::deleteAddressAt,::addAddres)
         recyclerViewAddresses.adapter = addressListAdapter
+
+        fetchUserData("916363894956")
+
 
         val backIcon: ImageView = view.findViewById(R.id.imageView4)
         backIcon.setOnClickListener {
@@ -40,25 +46,21 @@ class AddressListFragment : Fragment() {
 
         return view
     }
-
-
+    private fun addAddres(addr:String){
+        (activity as? CartActivity)?.updateAddress(addr)
+        requireActivity().onBackPressed()
+    }
 
     private fun fetchUserData(phone: String) {
         RetrofitClient.apiService.getUserByPhone(phone).enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 if (response.isSuccessful) {
-                    val user = response.body()
-                    addressList.addAll(user!!.userAddresses)
-                    println("Addresses: $addressList")
-//                    user?.let {
-//                        // Update UI with user info
-//                        binding.tvUserName.text = it.name
-//                        binding.tvUserEmail.text = it.email
-//
-//                        // Pass the address list to the adapter
-//                        addressAdapter.updateAddresses(it.addresses)
-//                    }
-                    addressListAdapter.notifyDataSetChanged()
+                    response.body()?.let { user ->
+                        addressList.addAll(user.userAddresses)
+                        addressListAdapter.notifyDataSetChanged()
+                    } ?: run {
+                        Toast.makeText(requireContext(), "User not found", Toast.LENGTH_LONG).show()
+                    }
                 } else {
                     Toast.makeText(requireContext(), "Error: ${response.code()}", Toast.LENGTH_LONG).show()
                 }
@@ -69,8 +71,28 @@ class AddressListFragment : Fragment() {
             }
         })
     }
+    private fun deleteAddressAt(position: Int) {
+        val removeAddressRequest = UpdateUserRequest(removeAddr = position)
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+        RetrofitClient1.apiService1.updateUser("916363894956", removeAddressRequest)
+            .enqueue(object : Callback<User> {
+                override fun onResponse(call: Call<User>, response: Response<User>) {
+                    if (response.isSuccessful) {
+                        addressList.removeAt(position)
+                        addressListAdapter.notifyItemRemoved(position)
+                        Toast.makeText(requireContext(), "Address removed", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(requireContext(), "Error: ${response.code()}", Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<User>, t: Throwable) {
+                    Log.e("AddressListFragment", "Delete failed: ${t.message}")
+                    Toast.makeText(requireContext(), "Failed: ${t.message}", Toast.LENGTH_LONG).show()
+                }
+            })
     }
+
+
+
 }

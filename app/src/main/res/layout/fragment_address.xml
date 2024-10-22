@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/historyFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/histryFragmentCN"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <TextView
             android:id="@+id/textView12"
-            android:layout_width="417dp"
-            android:layout_height="66dp"
+            android:layout_width="match_parent"
+            android:layout_height="113dp"
+            android:layout_marginStart="0dp"
+            android:height="40dp"
             android:background="#FF8C22"
             android:fontFamily="sans-serif"
             android:gravity="center"
@@ -24,37 +30,37 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/BuyAgainRecyclerView"
-            android:layout_width="409dp"
-            android:layout_height="513dp"
-            android:layout_marginBottom="152dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:listitem="@layout/activity_address_list" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="248dp"
-            android:layout_height="44dp"
-            android:layout_marginStart="89dp"
-            android:layout_marginEnd="74dp"
-            android:layout_marginBottom="40dp"
-            android:background="#FF8C22"
-            android:gravity="center"
-            android:text="Add New Address"
+            android:layout_width="417dp"
+            android:layout_height="541dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.538"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView12"
+            app:layout_constraintVertical_bias="0.0"
+            tools:listitem="@layout/activity_address_list" />
 
         <ImageView
             android:id="@+id/imageView4"
             android:layout_width="0dp"
             android:layout_height="36dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
             android:src="@drawable/arrow_left"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <Button
+            android:id="@+id/add_button"
+            android:layout_width="175dp"
+            android:layout_height="56dp"
+            android:layout_marginBottom="32dp"
+            android:text="Add New Address"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

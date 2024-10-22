@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -19,6 +20,9 @@ class CartActivity : AppCompatActivity() {
     private lateinit var cartItemsRecyclerView: RecyclerView
     private lateinit var cartAdapter: CartAdapter
     private lateinit var emptyCartButton: Button
+    private lateinit var addressText: TextView
+    private lateinit var changeAddresButton: Button
+
 
 
     private lateinit var continueToPayButton: Button
@@ -40,6 +44,8 @@ class CartActivity : AppCompatActivity() {
         cartItemsRecyclerView = findViewById(R.id.recyclerCartItems)
         emptyCartButton = findViewById(R.id.empty_cart_button)
         continueToPayButton = findViewById(R.id.continue_to_pay)
+        addressText = findViewById(R.id.delivery_address)
+        changeAddresButton = findViewById(R.id.change_address)
 
 
         cartAdapter = CartAdapter(cartItems, ::onQuantityChanged, ::onRemoveItem)
@@ -50,6 +56,12 @@ class CartActivity : AppCompatActivity() {
             cartItems.clear()
             cartAdapter.notifyDataSetChanged()
             updateTotalPrice()
+        }
+        changeAddresButton.setOnClickListener {
+            val fragmentTransaction = supportFragmentManager.beginTransaction()
+            fragmentTransaction.replace(android.R.id.content, AddressListFragment())
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
         }
 
         // Continue to pay button listener
@@ -64,10 +76,15 @@ class CartActivity : AppCompatActivity() {
         updateTotalPrice()
     }
 
+
     private fun onRemoveItem(item: CartItem) {
         cartItems.remove(item)
         cartAdapter.notifyDataSetChanged()
         updateTotalPrice()
+    }
+    fun updateAddress(addr:String) {
+        addressText.text="Address:$addr"
+
     }
 
     private fun updateTotalPrice() {
