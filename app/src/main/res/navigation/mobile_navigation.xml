@@ -32,6 +32,13 @@
         <action
             android:id="@+id/action_navigation_notifications_to_privacyPolicy"
             app:destination="@id/privacyPolicy" />
+        <action
+            android:id="@+id/action_navigation_notifications_to_orderHistory"
+            app:destination="@id/orderHistory" />
+        <action
+            android:id="@+id/action_navigation_notifications_to_addressFragment"
+            app:destination="@id/addressFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/productPageFragment"
@@ -74,6 +81,14 @@
         android:name="com.eggbucket.eggbucket_b2c.AboutUs"
         android:label="fragment_about_us"
         tools:layout="@layout/fragment_about_us" />
+    <fragment
+        android:id="@+id/orderHistory"
+        android:name="com.eggbucket.eggbucket_b2c.OrderHistory"
+        android:label="OrderHistory" />
+    <fragment
+        android:id="@+id/addressFragment"
+        android:name="com.eggbucket.eggbucket_b2c.AddressFragment"
+        android:label="AddressFragment" />
 
 
 </navigation>

@@ -21,7 +21,6 @@ class NotificationsFragment : Fragment() {
     ): View {
         _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
         notificationsViewModel = ViewModelProvider(this)[NotificationsViewModel::class.java]
-
         observeViewModel()
         return binding.root
     }
