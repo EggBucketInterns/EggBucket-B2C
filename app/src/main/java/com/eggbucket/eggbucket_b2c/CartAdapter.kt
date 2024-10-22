@@ -12,7 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 class CartAdapter(
     private val cartItems: List<CartItem>,
     private val onQuantityChanged: () -> Unit,
-    private val onRemoveItem: (CartItem) -> Unit
+    private val onRemoveItem: (CartItem) -> Unit,
+    private val onUpdateQuantity: (String, Int) -> Unit // Lambda to update quantity in SharedPreferences
 ) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
 
     inner class CartViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -32,9 +33,7 @@ class CartAdapter(
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
         val item = cartItems[position]
         holder.productName.text = item.name
-
         holder.productPrice.text = "₹${item.price}"
-
         holder.quantity.text = item.quantity.toString()
 
         // Increase button listener
@@ -42,6 +41,7 @@ class CartAdapter(
             item.quantity++
             holder.quantity.text = item.quantity.toString()
             onQuantityChanged()
+            onUpdateQuantity(item.name, item.quantity) // Save the updated quantity
         }
 
         // Decrease button listener
@@ -50,8 +50,8 @@ class CartAdapter(
                 item.quantity--
                 holder.quantity.text = item.quantity.toString()
                 onQuantityChanged()
-            }
-            if(item.quantity==1){
+                onUpdateQuantity(item.name, item.quantity) // Save the updated quantity
+            } else if (item.quantity == 1) {
                 onRemoveItem(item)
             }
         }
@@ -64,3 +64,4 @@ class CartAdapter(
 
     override fun getItemCount() = cartItems.size
 }
+
