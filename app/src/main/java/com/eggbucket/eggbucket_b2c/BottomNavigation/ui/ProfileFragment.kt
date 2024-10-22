@@ -29,20 +29,9 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_profileFragment_to_addressFragment)
         }
 
-        // Navigate to Notifications Fragment
-        binding.notificationsLayout.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_notificationsFragment)
-        }
-
         // Navigate to Order History
         binding.yourOrdersLayout.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_orderHistory)
-        }
-
-        // Schedule Deliveries
-        binding.scheduleDeliveriesLayout.setOnClickListener {
-            // Add navigation when implemented
-            // findNavController().navigate(R.id.action_profileFragment_to_scheduleDeliveriesFragment)
         }
     }
 

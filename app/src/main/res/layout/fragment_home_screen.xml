@@ -16,89 +16,106 @@
         android:background="@color/white">
 
         <!-- Top Image -->
-        <ImageView
-            android:id="@+id/topImage"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/egg"
-            android:contentDescription="Top image" />
-
-        <!-- Location Bar -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="16dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/locationIcon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/location"
-                android:contentDescription="Location icon" />
+                android:id="@+id/topImage"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:contentDescription="Top image"
+                android:src="@drawable/egg"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/locationText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bengaluru, India"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginStart="8dp" />
-
-            <ImageView
-                android:id="@+id/dropDownIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/arrow_dowm"
-                android:contentDescription="Dropdown icon"
-                android:layout_marginStart="4dp" />
-
-            <!-- New Menu Icon ImageView -->
             <ImageView
                 android:id="@+id/menuIcon"
-                android:layout_width="313dp"
+                android:layout_width="50dp"
                 android:layout_height="30dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="2dp"
-                android:src="@drawable/menuicon" />
-        </LinearLayout>
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/menuicon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <!-- Location Bar -->
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:gravity="center_vertical"-->
+<!--            android:layout_marginTop="16dp">-->
+
+<!--            <ImageView-->
+<!--                android:id="@+id/locationIcon"-->
+<!--                android:layout_width="30dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:src="@drawable/location"-->
+<!--                android:contentDescription="Location icon" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/locationText"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Bengaluru, India"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:layout_marginStart="8dp" />-->
+
+<!--            <ImageView-->
+<!--                android:id="@+id/dropDownIcon"-->
+<!--                android:layout_width="24dp"-->
+<!--                android:layout_height="24dp"-->
+<!--                android:src="@drawable/arrow_dowm"-->
+<!--                android:contentDescription="Dropdown icon"-->
+<!--                android:layout_marginStart="4dp" />-->
+
+<!--            &lt;!&ndash; New Menu Icon ImageView &ndash;&gt;-->
+<!--            -->
+<!--        </LinearLayout>-->
+
 
         <!-- Search Bar -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="16dp">
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:gravity="center_vertical"-->
+<!--            android:layout_marginTop="16dp">-->
 
-            <EditText
-                android:id="@+id/searchEditText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Search"
-                android:background="@drawable/search_background"
-                android:textColor="@color/black"
-                android:padding="12dp"
-                android:drawableStart="@drawable/search"
-                android:drawablePadding="8dp"
-                android:imeOptions="actionSearch"
-                android:inputType="text" />
+<!--            <EditText-->
+<!--                android:id="@+id/searchEditText"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:hint="Search"-->
+<!--                android:background="@drawable/search_background"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:padding="12dp"-->
+<!--                android:drawableStart="@drawable/search"-->
+<!--                android:drawablePadding="8dp"-->
+<!--                android:imeOptions="actionSearch"-->
+<!--                android:inputType="text" />-->
 
-            <ImageView
-                android:id="@+id/filterButton"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/filter"
-                android:contentDescription="Filter button"
-                android:layout_marginStart="8dp" />
+<!--            <ImageView-->
+<!--                android:id="@+id/filterButton"-->
+<!--                android:layout_width="50dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:src="@drawable/filter"-->
+<!--                android:contentDescription="Filter button"-->
+<!--                android:layout_marginStart="8dp" />-->
 
-        </LinearLayout>
+<!--        </LinearLayout>-->
 
         <!-- ViewPager Carousel -->
+
+
+
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/carouselViewPager"
             android:layout_width="match_parent"
@@ -142,16 +159,16 @@
 
         </LinearLayout>
 
-        <!-- Categories Heading -->
-        <TextView
-            android:id="@+id/categoriesHeading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Categories"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp" />
+<!--        &lt;!&ndash; Categories Heading &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:id="@+id/categoriesHeading"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Categories"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:layout_marginTop="16dp" />-->
 
         <!-- Category Item -->
         <LinearLayout
