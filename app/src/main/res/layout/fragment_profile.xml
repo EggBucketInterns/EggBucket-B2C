@@ -114,6 +114,7 @@
                    android:background="@color/white"
                    android:clickable="true"
                    android:focusable="true"
+                   android:id="@+id/yourOrdersLayout"
                    >
                    <androidx.cardview.widget.CardView
                    android:layout_width="40dp"
@@ -148,6 +149,7 @@
                    </RelativeLayout>
                </LinearLayout>
                <LinearLayout
+                   android:id="@+id/scheduleDeliveriesLayout"
                    android:layout_width="match_parent"
                    android:layout_height="65dp"
                    android:orientation="horizontal"
@@ -187,6 +189,7 @@
                    </RelativeLayout>
                </LinearLayout>
                <LinearLayout
+                   android:id="@+id/addressesLayout"
                    android:layout_width="match_parent"
                    android:layout_height="65dp"
                    android:orientation="horizontal"
@@ -226,6 +229,7 @@
                    </RelativeLayout>
                </LinearLayout>
                <LinearLayout
+                   android:id="@+id/notificationsLayout"
                    android:layout_width="match_parent"
                    android:layout_height="65dp"
                    android:orientation="horizontal"

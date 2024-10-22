@@ -5,25 +5,49 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.eggbucket.eggbucket_b2c.R
+import com.eggbucket.eggbucket_b2c.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+    private var _binding: FragmentProfileBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+    ): View {
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
+
+        setupClickListeners()
+        return binding.root
     }
 
+    private fun setupClickListeners() {
+        // Navigate to Address Fragment
+        binding.addressesLayout.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_addressFragment)
+        }
 
+        // Navigate to Notifications Fragment
+        binding.notificationsLayout.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_notificationsFragment)
+        }
+
+        // Navigate to Order History
+        binding.yourOrdersLayout.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_orderHistory)
+        }
+
+        // Schedule Deliveries
+        binding.scheduleDeliveriesLayout.setOnClickListener {
+            // Add navigation when implemented
+            // findNavController().navigate(R.id.action_profileFragment_to_scheduleDeliveriesFragment)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

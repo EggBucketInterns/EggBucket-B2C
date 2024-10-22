@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph">
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.eggbucket.eggbucket_b2c.BottomNavigation.ui.ProfileFragment"
+        android:label="Profile">
+
+        <action
+            android:id="@+id/action_profileFragment_to_addressFragment"
+            app:destination="@id/addressFragment" />
+
+        <action
+            android:id="@+id/action_profileFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
+
+        <action
+            android:id="@+id/action_profileFragment_to_orderHistory"
+            app:destination="@id/orderHistory" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addressFragment"
+        android:name="com.eggbucket.eggbucket_b2c.AddressFragment"
+        android:label="fragment_address"
+        tools:layout="@layout/fragment_address" />
+
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.eggbucket.eggbucket_b2c.BottomNavigation.ui.profile.NotificationsFragment"
+        android:label="fragment_notifications"
+        tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/orderHistory"
+        android:name="com.eggbucket.eggbucket_b2c.OrderHistory"
+        android:label="fragment_order_history"
+        tools:layout="@layout/fragment_order_history" />
+</navigation>
