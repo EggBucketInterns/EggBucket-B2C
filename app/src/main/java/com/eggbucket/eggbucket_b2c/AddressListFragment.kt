@@ -46,10 +46,14 @@ class AddressListFragment : Fragment() {
 
         return view
     }
-    private fun addAddres(addr:String){
-        (activity as? CartActivity)?.updateAddress(addr)
-        requireActivity().onBackPressedDispatcher.onBackPressed()
+    private fun addAddres(addr: String) {
+        val cartFragment = requireActivity().supportFragmentManager
+            .findFragmentByTag("CartFragment") as? CartFragment
+
+        cartFragment?.updateAddress(addr)
+        requireActivity().onBackPressed()
     }
+
 
     private fun fetchUserData(phone: String) {
         RetrofitClient.apiService.getUserByPhone(phone).enqueue(object : Callback<User> {

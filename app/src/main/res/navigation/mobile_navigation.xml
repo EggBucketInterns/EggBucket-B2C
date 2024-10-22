@@ -19,19 +19,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.eggbucket.eggbucket_b2c.BottomNavigation.ui.basket.DashboardFragment"
-        android:label="Basket"
-        tools:layout="@layout/fragment_dashboard" />
-
-    <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.eggbucket.eggbucket_b2c.BottomNavigation.ui.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" >
-        <action
-            android:id="@+id/action_navigation_notifications_to_privacyPolicy"
-            app:destination="@id/privacyPolicy" />
         <action
             android:id="@+id/action_navigation_notifications_to_orderHistory"
             app:destination="@id/orderHistory" />
@@ -49,8 +40,8 @@
             android:id="@+id/action_productPageFragment_to_navigation_home"
             app:destination="@id/navigation_home" />
         <action
-            android:id="@+id/action_productPageFragment_to_cartActivity"
-            app:destination="@id/cartActivity" />
+            android:id="@+id/action_productPageFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
     </fragment>
 
 
@@ -60,12 +51,6 @@
         android:label="fragment_privacy_policy"
         tools:layout="@layout/fragment_privacy_policy" />
 
-    <activity
-        android:id="@+id/cartActivity"
-        android:name="com.eggbucket.eggbucket_b2c.CartActivity"
-        android:label="cart_page"
-        tools:layout="@layout/cart_page"
-        />
     <fragment
         android:id="@+id/companyMenu"
         android:name="com.eggbucket.eggbucket_b2c.CompanyMenu"
@@ -74,6 +59,9 @@
         <action
             android:id="@+id/action_companyMenu_to_aboutUs"
             app:destination="@id/aboutUs" />
+        <action
+            android:id="@+id/action_companyMenu_to_privacyPolicy"
+            app:destination="@id/privacyPolicy" />
 
     </fragment>
     <fragment
@@ -89,6 +77,10 @@
         android:id="@+id/addressFragment"
         android:name="com.eggbucket.eggbucket_b2c.AddressFragment"
         android:label="AddressFragment" />
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.eggbucket.eggbucket_b2c.CartFragment"
+        android:label="CartFragment" />
 
 
 </navigation>

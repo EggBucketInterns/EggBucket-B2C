@@ -22,7 +22,7 @@ class BottomNavigationScreen : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host)
 
         val appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+            setOf(R.id.navigation_home, R.id.cartFragment, R.id.navigation_notifications)
         )
 
         // Attach a custom listener to handle the Home button press
@@ -35,7 +35,7 @@ class BottomNavigationScreen : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_dashboard -> {
-                    navController.navigate(R.id.navigation_dashboard)
+                    navController.navigate(R.id.cartFragment)
                     true
                 }
                 R.id.navigation_notifications -> {

@@ -128,7 +128,7 @@ class ProductPageFragment : Fragment() {
         val addToCart = view.findViewById<Button>(R.id.addToCartButton)
         //Navigating to Cart Page on Add to Cart Click
         addToCart.setOnClickListener{
-            findNavController().navigate(R.id.action_productPageFragment_to_cartActivity)
+            findNavController().navigate(R.id.action_productPageFragment_to_cartFragment)
         }
 
         return view
