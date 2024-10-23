@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import com.google.firebase.Timestamp
 
 class OrderHistory : Fragment() {
     private var _binding: FragmentOrderHistoryBinding? = null
@@ -26,7 +27,7 @@ class OrderHistory : Fragment() {
         _binding = FragmentOrderHistoryBinding.inflate(inflater, container, false)
 
         setupViews()
-        fetchOrdersFromApi()
+        fetchOrdersFromApi("916363894956")
         return binding.root
     }
 
@@ -49,11 +50,12 @@ class OrderHistory : Fragment() {
         }
     }
 
-    private fun fetchOrdersFromApi() {
-        RetrofitClient.apiService.getPreviousOrders(customerId = "1111111112")
+    private fun fetchOrdersFromApi(phone: String) {
+        RetrofitClient.apiService.getPreviousOrders(customerId = phone)
             .enqueue(object : Callback<OrderResponse> {
                 override fun onResponse(call: Call<OrderResponse>, response: Response<OrderResponse>) {
                     if (response.isSuccessful) {
+                        // println("Response: ${response.body()}")
                         response.body()?.let { orderResponse ->
                             processOrders(orderResponse)
                         }
@@ -71,6 +73,7 @@ class OrderHistory : Fragment() {
     private fun processOrders(orderResponse: OrderResponse) {
         orderList.clear()
         orderResponse.orders.forEach { order ->
+            // println("Order Date: ${order.createdAt}")
             order.products.forEach { (productCategory, value) ->
                 orderList.add(order.copy(products = mapOf(productCategory to value)))
             }

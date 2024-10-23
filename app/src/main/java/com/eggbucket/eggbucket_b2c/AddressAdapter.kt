@@ -13,15 +13,14 @@ import androidx.recyclerview.widget.RecyclerView
 class AddressAdapter(
     private var addresses: List<UserAddress>,
     private val onDeleteClick: (Int) -> Unit,
-    private val onaddAddress: (String)->Unit
-
+    private val onAddAddress: (String) -> Unit
 ) : RecyclerView.Adapter<AddressAdapter.AddressViewHolder>() {
 
     class AddressViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val buildingAddress: TextView = itemView.findViewById(R.id.buyAgainBookName)
         val fullAddress: TextView = itemView.findViewById(R.id.buyAgainBookPrice)
         val deleteButton: ImageView = itemView.findViewById(R.id.delete_button)
-        val addAddressbutton: LinearLayout =itemView.findViewById(R.id.add_Address)
+        val addAddressButton: LinearLayout = itemView.findViewById(R.id.add_Address)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddressViewHolder {
@@ -32,20 +31,27 @@ class AddressAdapter(
 
     override fun onBindViewHolder(holder: AddressViewHolder, position: Int) {
         val address = addresses[position]
-        holder.buildingAddress.text = address.fullAddress.flatNo
-        holder.fullAddress.text = "${address.fullAddress.area}, ${address.fullAddress.city} - ${address.fullAddress.zipCode}"
+
+        // Ensure all fields are valid before setting the text to avoid NumberFormatException
+        val flatNo = address.fullAddress.flatNo ?: "N/A"   // Handle null flatNo
+        val area = address.fullAddress.area ?: "N/A"       // Handle null area
+        val city = address.fullAddress.city ?: "N/A"       // Handle null city
+        val zipCode = address.fullAddress.zipCode ?: "00000"  // Handle null or invalid zipCode
+
+        holder.buildingAddress.text = flatNo
+        holder.fullAddress.text = "$area, $city - $zipCode"
 
         // Set the delete button click listener
         holder.deleteButton.setOnClickListener {
             Log.d("AddressAdapter", "Delete clicked for position: $position")
-            onDeleteClick(position)  // Ensure this is uncommented
+            onDeleteClick(position)
         }
 
-        holder.addAddressbutton.setOnClickListener {
-            onaddAddress("${address.fullAddress.flatNo}, ${address.fullAddress.area}, ${address.fullAddress.city} - ${address.fullAddress.zipCode}")
+        // Set the add address button click listener
+        holder.addAddressButton.setOnClickListener {
+            onAddAddress("$flatNo, $area, $city - $zipCode")
         }
     }
-
 
     override fun getItemCount(): Int = addresses.size
 }

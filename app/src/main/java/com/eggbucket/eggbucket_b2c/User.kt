@@ -4,16 +4,11 @@ import com.google.gson.annotations.SerializedName
 
 // Main User Data Class
 data class User(
-    val id: String,
-    val phone: String,
-    val timeOfCreation: Long,
-    val gender: String,
-    val age: String,
-    val email: String,
-    val totalExpenditure: Int,
-    val totalOrders: Int,
-    val name: String,
-    @SerializedName("addresses") val userAddresses: List<UserAddress>
+    val userId: String,        // Unique user ID
+    val name: String,          // User's full name
+    val email: String,         // User's email address
+    val phone: String,         // User's phone number
+    val addresses: List<UserAddress> // List of user addresses
 )
 
 // Nested Address Class

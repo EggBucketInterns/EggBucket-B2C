@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Open OrderHistoryFragment when the activity is created
-        openFragment(AddressListFragment())
+        openFragment(OrderHistory())
     }
 
     private fun openFragment(fragment: Fragment) {
