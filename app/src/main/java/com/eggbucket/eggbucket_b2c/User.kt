@@ -10,7 +10,7 @@ data class User(
     val gender: String,
     val age: String,
     val email: String,
-    val totalExpenditure: Int,
+    val totalExpenditure: Double,
     val totalOrders: Int,
     val name: String,
     @SerializedName("addresses") val userAddresses: List<UserAddress>

@@ -77,20 +77,12 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/product_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ordered on Date"
-                android:textSize="14sp"
-                android:textColor="#757575" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:orientation="horizontal"
-                android:paddingTop="20dp"
+                android:paddingTop="10dp"
                 android:paddingLeft="150dp">
 
 

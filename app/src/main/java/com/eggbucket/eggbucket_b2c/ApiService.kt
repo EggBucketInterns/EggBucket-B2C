@@ -16,8 +16,6 @@ interface ApiService {
 
     @GET("api/v1/customer/user/{phone}")
     fun getUserByPhone(@Path("phone") phone: String): Call<User>
-}
-interface ApiService1 {
 
     @PATCH("api/v1/customer/user/{phone}")
     fun updateUser(
@@ -25,4 +23,12 @@ interface ApiService1 {
         @Body body: UpdateUserRequest
     ): Call<User>
 }
+//interface ApiService1 {
+//
+//    @PATCH("api/v1/customer/user/{phone}")
+//    fun updateUser(
+//        @Path("phone") phone: String,
+//        @Body body: UpdateUserRequest
+//    ): Call<User>
+//}
 

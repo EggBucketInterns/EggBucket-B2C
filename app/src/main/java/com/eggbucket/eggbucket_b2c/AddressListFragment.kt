@@ -61,6 +61,7 @@ class AddressListFragment : Fragment() {
                 if (response.isSuccessful) {
                     response.body()?.let { user ->
                         addressList.addAll(user.userAddresses)
+                        println("Current Addresses for user: $addressList")
                         addressListAdapter.notifyDataSetChanged()
                     } ?: run {
                         Toast.makeText(requireContext(), "User not found", Toast.LENGTH_LONG).show()
@@ -78,7 +79,7 @@ class AddressListFragment : Fragment() {
     private fun deleteAddressAt(position: Int) {
         val removeAddressRequest = UpdateUserRequest(removeAddr = position)
 
-        RetrofitClient1.apiService1.updateUser("916363894956", removeAddressRequest)
+        RetrofitClient.apiService.updateUser("916363894956", removeAddressRequest)
             .enqueue(object : Callback<User> {
                 override fun onResponse(call: Call<User>, response: Response<User>) {
                     if (response.isSuccessful) {

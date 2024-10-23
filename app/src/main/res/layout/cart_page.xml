@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:background="#FFF"
-    tools:context=".CartActivity">
+    tools:context=".CartFragment">
 
     <!-- Header Section -->
     <LinearLayout

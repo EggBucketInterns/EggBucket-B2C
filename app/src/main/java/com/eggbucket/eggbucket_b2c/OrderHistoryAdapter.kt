@@ -7,6 +7,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.Date
+
 
 class OrderHistoryAdapter(private val orderList: List<OrderItem>) :
     RecyclerView.Adapter<OrderHistoryAdapter.OrderViewHolder>() {
@@ -17,7 +20,7 @@ class OrderHistoryAdapter(private val orderList: List<OrderItem>) :
         val orderDate: TextView = itemView.findViewById(R.id.orderDate)
         val deliveryStatus: TextView? = itemView.findViewById(R.id.deliveryStatus)
         val productPrice: TextView = itemView.findViewById(R.id.productPrice)
-        val reorderButton: TextView = itemView.findViewById(R.id.reorderButton) // Assuming reorder is a button
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
@@ -29,30 +32,26 @@ class OrderHistoryAdapter(private val orderList: List<OrderItem>) :
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         val order = orderList[position]
         val products = order.products
-        val sdf = SimpleDateFormat("dd/MM/yy")
+        val sdf = SimpleDateFormat("dd-MM-yy HH:mm:ss", Locale.getDefault())
         for (key in products.keys){
             val noOfEggs = key.substring(1)
             print("Current key: $key, noOfEggs: $noOfEggs")
             if (noOfEggs == "6") {
-                holder.productImage.setImageResource(R.drawable.eggimage)
+                holder.productImage.setImageResource(R.drawable.eggs_image_6)
                 holder.productPrice.text = "Rs. 20"
             } else if (noOfEggs == "12") {
-                holder.productImage.setImageResource(R.drawable.eggimage1)
-                holder.productPrice.text = "Rs. 20"
+                holder.productImage.setImageResource(R.drawable.eggs_image_12)
+                holder.productPrice.text = "Rs. 40"
             } else {
-
-                holder.productImage.setImageResource(R.drawable.eggimage2)
-                holder.productPrice.text = "Rs. 20"
+                holder.productImage.setImageResource(R.drawable.eggs_image_30)
+                holder.productPrice.text = "Rs. 60"
             }
             holder.productName.text = "Eggs x $noOfEggs x ${products[key]}"
-            holder.orderDate.text = sdf.format(order.createdAt._seconds)
-            holder.deliveryStatus?.text = order.status
+            // println("Date of object: ${order.createdAt}")
+            holder.orderDate.text = sdf.format(Date((order.createdAt._seconds * 1000) + (order.createdAt._nanoseconds / 1000000)))
+            // holder.deliveryStatus?.text = "Status: " + order.status
         }
 
-
-
-        holder.reorderButton.setOnClickListener {
-        }
     }
 
     override fun getItemCount(): Int = orderList.size
