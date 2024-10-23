@@ -11,9 +11,6 @@
         android:layout_height="wrap_content"
         tools:context=".ProductPageFragment">
 
-
-
-
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/imageCarousel"
             android:layout_width="0dp"

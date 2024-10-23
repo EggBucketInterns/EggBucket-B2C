@@ -47,3 +47,4 @@ class BottomNavigationScreen : AppCompatActivity() {
         }
     }
 }
+
