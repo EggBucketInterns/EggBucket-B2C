@@ -13,7 +13,7 @@
     <string name="send_otp">Send OTP</string>
     <string name="not_registered_yet">Not registered yet?</string>
     <string name="create_account">Create Account</string>
-
+    <string name="egg_bucket">Egg Bucket</string>
 
 
 </resources>

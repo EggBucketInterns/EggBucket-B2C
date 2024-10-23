@@ -80,7 +80,15 @@
     <fragment
         android:id="@+id/cartFragment"
         android:name="com.eggbucket.eggbucket_b2c.CartFragment"
-        android:label="CartFragment" />
+        android:label="CartFragment" >
+        <action
+            android:id="@+id/action_cartFragment_to_addressListFragment"
+            app:destination="@id/addressListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addressListFragment"
+        android:name="com.eggbucket.eggbucket_b2c.AddressListFragment"
+        android:label="AddressListFragment" />
 
 
 </navigation>

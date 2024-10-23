@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.play.core.integrity.i
@@ -78,14 +79,10 @@ class CartFragment : Fragment() {
         }
 
         changeAddressButton.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(android.R.id.content, AddressListFragment())
-                .addToBackStack(null)
-                .commit()
+            findNavController().navigate(R.id.action_cartFragment_to_addressListFragment)
         }
 
         continueToPayButton.setOnClickListener {
-            // TODO: Implement place order functionality
             cartItems.clear()
         }
 
