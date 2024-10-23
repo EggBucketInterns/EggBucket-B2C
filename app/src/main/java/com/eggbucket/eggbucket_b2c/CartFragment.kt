@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.play.core.integrity.i
 
 class CartFragment : Fragment() {
 
@@ -45,11 +46,17 @@ class CartFragment : Fragment() {
         val count1 = sharedPreferences.getInt("count1", 0)
         val count2 = sharedPreferences.getInt("count2", 0)
         val count3 = sharedPreferences.getInt("count3", 0)
+        //do not add if count is zero
+        if(count1>0){
+            cartItems.add(CartItem("Eggs x 6", count1, 50.0))
+        }
+        if(count2>0){
+            cartItems.add(CartItem("Eggs x 2", count2, 40.0))
+        }
+        if(count3>0){
+            cartItems.add(CartItem("Eggs x 1", count3, 30.0))
+        }
 
-        // Initialize cart items
-        cartItems.add(CartItem("Eggs x 6", count1, 50.0))
-        cartItems.add(CartItem("Eggs x 2", count2, 40.0))
-        cartItems.add(CartItem("Eggs x 1", count3, 30.0))
 
         cartItemsRecyclerView = view.findViewById(R.id.recyclerCartItems)
         emptyCartButton = view.findViewById(R.id.empty_cart_button)
