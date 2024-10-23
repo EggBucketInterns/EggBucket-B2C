@@ -47,12 +47,16 @@ class AddressListFragment : Fragment() {
         return view
     }
     private fun addAddres(addr: String) {
-        val cartFragment = requireActivity().supportFragmentManager
-            .findFragmentByTag("CartFragment") as? CartFragment
+        // Send the address back using FragmentResult
+        val result = Bundle().apply {
+            putString("selected_address", addr)
+        }
+        parentFragmentManager.setFragmentResult("address_request_key", result)
 
-        cartFragment?.updateAddress(addr)
+        // Navigate back to the previous fragment (CartFragment)
         requireActivity().onBackPressed()
     }
+
 
 
     private fun fetchUserData(phone: String) {
@@ -60,7 +64,7 @@ class AddressListFragment : Fragment() {
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 if (response.isSuccessful) {
                     response.body()?.let { user ->
-                        addressList.addAll(user.userAddresses)
+                        addressList.addAll(user.addresses)
                         println("Current Addresses for user: $addressList")
                         addressListAdapter.notifyDataSetChanged()
                     } ?: run {

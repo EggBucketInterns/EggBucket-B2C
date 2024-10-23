@@ -27,6 +27,35 @@ class CartFragment : Fragment() {
 
     private val cartItems = mutableListOf<CartItem>()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Retain this fragment across configuration changes and navigation
+        retainInstance = true
+
+        // Initialize SharedPreferences
+        sharedPreferences = requireContext().getSharedPreferences("MyPreferences", 0)
+
+        // Populate the cartItems only if the list is empty (to avoid duplication)
+        if (cartItems.isEmpty()) {
+            // Retrieve counts from SharedPreferences
+            val count1 = sharedPreferences.getInt("count1", 0)
+            val count2 = sharedPreferences.getInt("count2", 0)
+            val count3 = sharedPreferences.getInt("count3", 0)
+
+            // Do not add items if the count is zero
+            if (count1 > 0) {
+                cartItems.add(CartItem("Eggs x 6", count1, 60.0))
+            }
+            if (count2 > 0) {
+                cartItems.add(CartItem("Eggs x 2", count2, 120.0))
+            }
+            if (count3 > 0) {
+                cartItems.add(CartItem("Eggs x 1", count3, 300.0))
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,25 +69,7 @@ class CartFragment : Fragment() {
             insets
         }
 
-        // Initialize SharedPreferences
-        sharedPreferences = requireContext().getSharedPreferences("MyPreferences", 0)
-
-        // Retrieve counts from SharedPreferences
-        val count1 = sharedPreferences.getInt("count1", 0)
-        val count2 = sharedPreferences.getInt("count2", 0)
-        val count3 = sharedPreferences.getInt("count3", 0)
-        //do not add if count is zero
-        if(count1>0){
-            cartItems.add(CartItem("Eggs x 6", count1, 50.0))
-        }
-        if(count2>0){
-            cartItems.add(CartItem("Eggs x 2", count2, 40.0))
-        }
-        if(count3>0){
-            cartItems.add(CartItem("Eggs x 1", count3, 30.0))
-        }
-
-
+        // Initialize views
         cartItemsRecyclerView = view.findViewById(R.id.recyclerCartItems)
         emptyCartButton = view.findViewById(R.id.empty_cart_button)
         continueToPayButton = view.findViewById(R.id.continue_to_pay)
@@ -77,6 +88,12 @@ class CartFragment : Fragment() {
             updateQuantitiesInSharedPreferences(0, 0, 0)
             updateTotalPrice()
         }
+        parentFragmentManager.setFragmentResultListener("address_request_key", viewLifecycleOwner) { _, bundle ->
+            val selectedAddress = bundle.getString("selected_address")
+            selectedAddress?.let {
+                updateAddress(it)
+            }
+        }
 
         changeAddressButton.setOnClickListener {
             findNavController().navigate(R.id.action_cartFragment_to_addressListFragment)
@@ -86,6 +103,7 @@ class CartFragment : Fragment() {
             cartItems.clear()
         }
 
+        // Update the total price
         updateTotalPrice()
 
         return view
@@ -127,6 +145,19 @@ class CartFragment : Fragment() {
         editor.putInt("count3", count3)
         editor.apply()
     }
+    private fun updateItemInSharedPreferences(itemName: String, newQuantity: Int) {
+        val editor = sharedPreferences.edit()
+        when (itemName) {
+            "Eggs x 6" -> editor.putInt("count1", newQuantity)
+            "Eggs x 2" -> editor.putInt("count2", newQuantity)
+            "Eggs x 1" -> editor.putInt("count3", newQuantity)
+        }
+        editor.apply()
+    }
+
+    // Update quantity changed logic to use this function
+
 }
+
 
 
