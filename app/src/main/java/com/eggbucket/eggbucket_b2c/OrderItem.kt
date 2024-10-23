@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName
 
 
 data class CartItem(
+    val image:String,
     val name: String,
     var quantity: Int,
     val price: Double

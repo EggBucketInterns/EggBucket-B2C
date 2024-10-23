@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -24,6 +26,9 @@ class CartFragment : Fragment() {
     private lateinit var changeAddressButton: TextView
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var continueToPayButton: Button
+    private lateinit var footer:LinearLayout
+    private lateinit var cartscroll: ScrollView
+    private lateinit var cartempty: TextView
 
     private val cartItems = mutableListOf<CartItem>()
 
@@ -31,6 +36,7 @@ class CartFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         // Retain this fragment across configuration changes and navigation
+
         retainInstance = true
 
         // Initialize SharedPreferences
@@ -43,15 +49,16 @@ class CartFragment : Fragment() {
             val count2 = sharedPreferences.getInt("count2", 0)
             val count3 = sharedPreferences.getInt("count3", 0)
 
+
             // Do not add items if the count is zero
             if (count1 > 0) {
-                cartItems.add(CartItem("Eggs x 6", count1, 60.0))
+                cartItems.add(CartItem("image6","Eggs x 6" ,count1, 60.0))
             }
             if (count2 > 0) {
-                cartItems.add(CartItem("Eggs x 2", count2, 120.0))
+                cartItems.add(CartItem("image12","Eggs x 12", count2, 120.0))
             }
             if (count3 > 0) {
-                cartItems.add(CartItem("Eggs x 1", count3, 300.0))
+                cartItems.add(CartItem("image30","Eggs x 30", count3, 300.0))
             }
         }
     }
@@ -75,7 +82,15 @@ class CartFragment : Fragment() {
         continueToPayButton = view.findViewById(R.id.continue_to_pay)
         addressText = view.findViewById(R.id.delivery_address)
         changeAddressButton = view.findViewById(R.id.change_address)
+        footer=view.findViewById(R.id.liniar_layout_cart_foouter)
+        cartscroll=view.findViewById(R.id.scroll_view_cart)
+        cartempty=view.findViewById(R.id.cart_empty)
 
+        if(cartItems.isNotEmpty()){
+            cartempty.visibility=View.GONE
+            cartscroll.visibility=View.VISIBLE
+            footer.visibility=View.VISIBLE
+        }
         // Set up the CartAdapter
         cartAdapter = CartAdapter(cartItems, ::onQuantityChanged, ::onRemoveItem, ::updateQuantityInSharedPreferences)
         cartItemsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -85,8 +100,11 @@ class CartFragment : Fragment() {
         emptyCartButton.setOnClickListener {
             cartItems.clear()
             cartAdapter.notifyDataSetChanged()
-            updateQuantitiesInSharedPreferences(0, 0, 0)
+            ClearSharedPreferences()
             updateTotalPrice()
+            footer.visibility=View.GONE
+            cartscroll.visibility=View.GONE
+            cartempty.visibility=View.VISIBLE
         }
         parentFragmentManager.setFragmentResultListener("address_request_key", viewLifecycleOwner) { _, bundle ->
             val selectedAddress = bundle.getString("selected_address")
@@ -109,8 +127,10 @@ class CartFragment : Fragment() {
         return view
     }
 
-    private fun onQuantityChanged() {
+    private fun onQuantityChanged(item:String,newQuantity:Int){
+        updateQuantityInSharedPreferences(item,newQuantity)
         updateTotalPrice()
+
     }
 
     private fun onRemoveItem(item: CartItem) {
@@ -132,30 +152,25 @@ class CartFragment : Fragment() {
         val editor = sharedPreferences.edit()
         when (itemName) {
             "Eggs x 6" -> editor.putInt("count1", quantity)
-            "Eggs x 2" -> editor.putInt("count2", quantity)
-            "Eggs x 1" -> editor.putInt("count3", quantity)
+            "Eggs x 12" -> editor.putInt("count2", quantity)
+            "Eggs x 30" -> editor.putInt("count3", quantity)
         }
         editor.apply()
     }
 
-    private fun updateQuantitiesInSharedPreferences(count1: Int, count2: Int, count3: Int) {
+    private fun ClearSharedPreferences() {
         val editor = sharedPreferences.edit()
-        editor.putInt("count1", count1)
-        editor.putInt("count2", count2)
-        editor.putInt("count3", count3)
+        editor.putInt("count1", 0)
+        editor.putInt("count2", 0)
+        editor.putInt("count3", 0)
         editor.apply()
-    }
-    private fun updateItemInSharedPreferences(itemName: String, newQuantity: Int) {
-        val editor = sharedPreferences.edit()
-        when (itemName) {
-            "Eggs x 6" -> editor.putInt("count1", newQuantity)
-            "Eggs x 2" -> editor.putInt("count2", newQuantity)
-            "Eggs x 1" -> editor.putInt("count3", newQuantity)
-        }
-        editor.apply()
+
+
+
     }
 
-    // Update quantity changed logic to use this function
+
+
 
 }
 

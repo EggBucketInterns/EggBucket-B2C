@@ -21,6 +21,7 @@
                 android:id="@+id/productImage"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                android:background="@drawable/shape_rounded_cart_image"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/eggimage" />
 
@@ -70,6 +71,9 @@
                     android:id="@+id/cancel_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="remove item"
+                    android:minHeight="48dp"
+                    android:minWidth="48dp"
                     android:layout_gravity="end|center|fill_horizontal"
                     android:backgroundTint="@color/grey"
                     app:srcCompat="@drawable/img_vector_blue_gray_400" />
@@ -95,6 +99,7 @@
                     android:textColor="#FFF"
                     android:textSize="20sp"
                     android:textStyle="bold"
+                    android:contentDescription="removeItemFromCart"
                     android:textAlignment="center"
                     android:background="@drawable/text_background"
                     android:backgroundTint="@color/appThemeColor"/>
