@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -24,6 +25,7 @@ class ProductPageFragment : Fragment() {
 
     private val images = listOf(R.drawable.egg_basket3, R.drawable.egg_basket5, R.drawable.egg_basket)
     private lateinit var sharedPreferences: SharedPreferences
+
     private var quantity = 0
     private var currentPack = 0 // 0 for pack of 6, 1 for pack of 12, 2 for pack of 30
     private var count1 = 0
@@ -32,6 +34,11 @@ class ProductPageFragment : Fragment() {
     private var price1 = 60
     private var price2 = 120
     private var price3 = 300
+    private lateinit var viewPager: ViewPager2
+    private val handler = Handler(Looper.getMainLooper())
+    private var currentPage = 0
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,14 +48,20 @@ class ProductPageFragment : Fragment() {
         loadQuantitiesFromSharedPreferences()
 
         val view = inflater.inflate(R.layout.fragment_product_page, container, false)
-        val viewPager = view.findViewById<ViewPager2>(R.id.imageCarousel)
+        viewPager = view.findViewById<ViewPager2>(R.id.imageCarousel)
         val carouselAdapter = CarouselAdapterProduct(images)
         viewPager.adapter = carouselAdapter
+
+
 
         val packOf6 = view.findViewById<View>(R.id.card1)
         val packOf12 = view.findViewById<View>(R.id.card2)
         val packOf30 = view.findViewById<View>(R.id.card3)
         val priceText = view.findViewById<TextView>(R.id.priceText)
+
+        val indi1 = view.findViewById<ImageView>(R.id.indi1)
+        val indi2 = view.findViewById<ImageView>(R.id.indi2)
+        val indi3 = view.findViewById<ImageView>(R.id.indi3)
 
 
         //fetching inc, dec and number text button and views
@@ -136,7 +149,7 @@ class ProductPageFragment : Fragment() {
             // Check if all quantities are 0
             if (count1 == 0 && count2 == 0 && count3 == 0) {
                 // Set the message in the TextView and make it visible
-                messageTextView.text = "Cart is Empty!"
+                messageTextView.text = "Add Items to Cart!"
                 messageTextView.visibility = View.VISIBLE
 
                 // Change the background color of the message to make it more visible
@@ -153,9 +166,59 @@ class ProductPageFragment : Fragment() {
         }
 
 
+        //start automatic scrolls
+        startAutoScroll(indi1, indi2, indi3)
+
+
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                currentPage = position
+                updateIndicatorBackgrounds(indi1, indi2, indi3, currentPage)
+            }
+        })
 
         return view
     }
+
+
+    //autoscroll fn to scroll the carousel compo
+    private fun startAutoScroll(ind1: ImageView, ind2: ImageView, ind3: ImageView) {
+        val runnable = object : Runnable {
+            override fun run() {
+                if (currentPage == images.size) {
+                    currentPage = 0
+                }
+                viewPager.setCurrentItem(currentPage, true)
+                updateIndicatorBackgrounds(ind1, ind2, ind3, currentPage)
+                currentPage++
+                handler.postDelayed(this, 5000)
+            }
+        }
+        handler.postDelayed(runnable, 5000)
+    }
+
+
+    //fn to update the active indicators off and on depending on Image
+    private fun updateIndicatorBackgrounds(ind1: ImageView, ind2: ImageView, ind3: ImageView, currentPage: Int) {
+        ind1.setBackgroundResource(R.drawable.indicator_inactive)
+        ind2.setBackgroundResource(R.drawable.indicator_inactive)
+        ind3.setBackgroundResource(R.drawable.indicator_inactive)
+
+        when (currentPage) {
+            0 -> ind1.setBackgroundResource(R.drawable.indicator_active)
+            1 -> ind2.setBackgroundResource(R.drawable.indicator_active)
+            2 -> ind3.setBackgroundResource(R.drawable.indicator_active)
+        }
+    }
+
+
+    //peending task on view to be destroyed will be cancelled
+    override fun onDestroyView() {
+        super.onDestroyView()
+        handler.removeCallbacksAndMessages(null)
+    }
+
 
 
     //this function maintains the count1,2,3 consistent across product page and cart page
@@ -181,6 +244,8 @@ class ProductPageFragment : Fragment() {
     }
 
 
+
+
     //loading quantity to shared Preferences
     private fun loadQuantitiesFromSharedPreferences() {
         count1 = sharedPreferences.getInt("count1", 0)
@@ -193,6 +258,8 @@ class ProductPageFragment : Fragment() {
             else -> 0
         }
     }
+
+
 
 
     //printing quantities to console
