@@ -2,6 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="0dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -11,10 +12,13 @@
         android:layout_height="wrap_content"
         tools:context=".ProductPageFragment">
 
+
+
+
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/imageCarousel"
             android:layout_width="0dp"
-            android:layout_height="260dp"
+            android:layout_height="340dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -25,20 +29,50 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="16dp"
-            android:background="@drawable/back_button"
+            android:background="@drawable/baseline_arrow_back_black"
             android:contentDescription="back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/favoriteButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="16dp"
-            android:background="@drawable/fav_button"
-            android:contentDescription="favorite"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:id="@+id/indicatorLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="130dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/productPageFragment"
+            app:layout_constraintEnd_toEndOf="@+id/priceSection"
+            app:layout_constraintStart_toStartOf="@+id/priceSection"
+            app:layout_constraintTop_toTopOf="@+id/imageCarousel">
+
+            <ImageView
+                android:id="@+id/indi1"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_margin="4dp"
+                android:background="@drawable/indicator_active"
+                android:contentDescription="Active indicator" />
+
+            <ImageView
+                android:id="@+id/indi2"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_margin="4dp"
+                android:background="@drawable/indicator_inactive"
+                android:contentDescription="Inactive indicator" />
+
+            <ImageView
+                android:id="@+id/indi3"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_margin="4dp"
+                android:background="@drawable/indicator_inactive"
+                android:contentDescription="Inactive indicator" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/indicatorLayout"
@@ -55,7 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="30dp"
             android:text="Eggs"
             android:textSize="24sp"
             android:textColor="@color/black"
@@ -70,35 +104,7 @@
             android:layout_marginEnd="16dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/indicatorLayout">
-
-            <ImageButton
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@drawable/star"
-                android:contentDescription="back"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/ratingNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="4.8"
-                android:textColor="@color/black"
-                android:layout_marginStart="8dp"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/reviewCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="(41 Reviews)"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-        </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@id/indicatorLayout"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/priceSection"
@@ -160,12 +166,32 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <TextView
+            android:id="@+id/messageTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/appThemeColor"
+            android:textColor="@android:color/white"
+            android:visibility="gone"
+            android:padding="16dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="100dp"
+            android:elevation="10dp"/>
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/productVariantsContainer"
             android:layout_width="0dp"
-            android:layout_height="140dp"
-            android:layout_marginHorizontal="5dp"
+            android:layout_height="150dp"
+            android:layout_marginHorizontal="0dp"
             android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -175,9 +201,9 @@
             <include
                 android:id="@+id/card1"
                 layout="@layout/product_variant_card"
-                android:layout_width="0dp"
+                android:layout_width="105dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_margin="4dp"
                 android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toStartOf="@id/card2"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -185,18 +211,18 @@
             <include
                 android:id="@+id/card2"
                 layout="@layout/product_variant_card2"
-                android:layout_width="0dp"
+                android:layout_width="105dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_margin="4dp"
                 app:layout_constraintEnd_toStartOf="@id/card3"
                 app:layout_constraintStart_toEndOf="@id/card1" />
 
             <include
                 android:id="@+id/card3"
                 layout="@layout/product_variant_card3"
-                android:layout_width="0dp"
+                android:layout_width="105dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_margin="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/card2" />
 
@@ -207,11 +233,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"
             android:textColor="@color/black"
             android:text="About"
-            android:textSize="18sp"
+            android:textSize="22sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -225,8 +251,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:textColor="@color/black"
-            android:text="One large egg contains 6.3 grams of protein. The protein is almost equally split between the egg white and the egg yolk. The white contains 3.5 grams of protein while the yolk contains 2.8 grams."
-            android:textSize="13sp"
+            android:text="Our eggs are sourced from local farms, ensuring they’re always fresh and packed with nutrition. Rich in essential vitamins, minerals, and protein, they make a wholesome addition to any meal. Whether you're enjoying them scrambled, poached, or boiled, our eggs provide a delicious and healthy option for the whole family."
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/about" />

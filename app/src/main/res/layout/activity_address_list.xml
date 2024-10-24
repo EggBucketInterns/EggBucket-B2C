@@ -21,55 +21,93 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/buyAgainBookName"
-                android:layout_width="135dp"
-                android:layout_height="22dp"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="16dp"
-                android:fontFamily="sans-serif"
-                android:text="Building Name"
-                android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/buyAgainBookPrice"
-                android:layout_width="269dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="48dp"
-                android:fontFamily="sans-serif-black"
-                android:text="location"
-                android:textSize="14sp"
+            <LinearLayout
+                android:id="@+id/add_Address"
+                android:layout_width="356dp"
+                android:layout_height="109dp"
+                android:layout_margin="0dp"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/buyAgainBookName" />
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/group_75902"
-                tools:layout_editor_absoluteX="16dp"
-                tools:layout_editor_absoluteY="16dp" />
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="28dp"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/group_75902" />
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/group_75903"
-                tools:layout_editor_absoluteX="359dp"
-                tools:layout_editor_absoluteY="16dp" />
+                <LinearLayout
+                    android:layout_width="312dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/imageView3"
+
+                    <TextView
+                        android:id="@+id/buyAgainBookName"
+                        android:layout_width="135dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="sans-serif"
+                        android:text="Building Name"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/buyAgainBookPrice"
+                        android:layout_width="238dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="15dp"
+
+                        android:fontFamily="sans-serif-black"
+                        android:text="location"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/union_1"
-                tools:layout_editor_absoluteX="328dp"
-                tools:layout_editor_absoluteY="16dp" />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+
+                app:layout_constraintStart_toEndOf="@+id/add_Address"
+                tools:layout_editor_absoluteY="0dp">
+
+
+                <ImageView
+                    android:id="@+id/delete_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="27dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/group_75903" />
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/union_1" />
+            </LinearLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

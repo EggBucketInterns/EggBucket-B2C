@@ -1,7 +1,13 @@
 package com.eggbucket.eggbucket_b2c
 
+//import com.google.firebase.timestamp
+
 import com.google.gson.annotations.SerializedName
+//import com.google.firebase.Timestamp
+
+
 data class CartItem(
+    val image:String,
     val name: String,
     var quantity: Int,
     val price: Double
@@ -15,29 +21,31 @@ data class OrderResponse(
 
 data class OrderItem(
     val id: String,
+    @SerializedName("address") val orderAddress: OrderAddress,
+    val amount: Double,
+    val products: Map<String, Int>,
     val createdAt: Timestamp,
-    val amount: Int,
-    @SerializedName("address")val orderAddress: OrderAddress,
+    val updatedAt: Timestamp,
     val outletId: String,
     val customerId: String,
     val deliveryPartnerId: String,
-    val products: Map<String, Int>,
-    val updatedAt: Timestamp,
     val status: String?
 )
 
 data class OrderAddress(
-    val fullAddress: String,
-    @SerializedName("coordinates") val orderCoordinates: OrderCoordinates
+    val addressLine1: String,
+    val addressLine2: String,
+    val city: String,
+    val flatNo: String,
+    val area: String,
+    val zipCode: String,
+    val country: String,
+    val state: String,
 )
 
-data class OrderCoordinates(
-    val lat: Double,
-    val long: Double
-)
 
 data class Timestamp(
     val _seconds: Long,
-    val _nanoseconds: Int
+    val _nanoseconds: Long
 )
 

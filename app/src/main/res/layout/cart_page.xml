@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:background="#FFF"
-    tools:context=".CartActivity">
+    tools:context=".CartFragment">
 
     <!-- Header Section -->
     <LinearLayout
@@ -31,7 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Cart (No)"
+            android:text="My Cart"
             android:textSize="20sp"
             android:textStyle="bold"
             android:gravity="center" />
@@ -49,22 +49,34 @@
     </LinearLayout>
 
     <!-- Savings Section -->
-    <TextView
-        android:id="@+id/savings_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="₹76 saved on this order"
-        android:background="#E0F7FA"
-        android:textColor="#00796B"
-        android:gravity="center"
-        android:padding="8dp"
-        android:layout_marginBottom="8dp" />
+<!--    <TextView-->
+<!--        android:id="@+id/savings_text"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="₹76 saved on this order"-->
+<!--        android:background="#E0F7FA"-->
+<!--        android:textColor="#00796B"-->
+<!--        android:gravity="center"-->
+<!--        android:padding="8dp"-->
+<!--        android:layout_marginBottom="8dp" />-->
 
     <!-- Scroll View for Items -->
+    <TextView
+        android:layout_width="match_parent"
+        android:id="@+id/cart_empty"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="Cart is Emptyy!!"
+        android:textAlignment="center"
+        android:textSize="26dp" />
+
     <ScrollView
         android:layout_width="match_parent"
+        android:id="@+id/scroll_view_cart"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:visibility="gone">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -85,9 +97,11 @@
     <!-- Footer Section -->
     <LinearLayout
         android:layout_width="match_parent"
+        android:id="@+id/liniar_layout_cart_foouter"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="16dp">
+        android:paddingTop="16dp"
+        android:visibility="gone">
 
 
         <!-- Delivery Address -->

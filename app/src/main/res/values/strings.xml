@@ -13,7 +13,9 @@
     <string name="send_otp">Send OTP</string>
     <string name="not_registered_yet">Not registered yet?</string>
     <string name="create_account">Create Account</string>
-
-
+    <string name="egg_bucket">EggBucket</string>
+    <string name="footerText1"><b>Free delivery</b>\nDelivery happens within: 1-4 hours</string>
+    <string name="footerText2"><b>Payment options</b>\nCash on delivery</string>
+    <string name="footerText3"><b>Customer support</b>\nsupport@eggbucket.in</string>
 
 </resources>

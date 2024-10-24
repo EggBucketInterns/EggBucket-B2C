@@ -31,7 +31,6 @@ class HomeScreen : Fragment() {
         viewPager = view.findViewById(R.id.carouselViewPager)
         val carouselAdapter = CarouselAdapter(images)
         viewPager.adapter = carouselAdapter
-        val itemPrice = view.findViewById<TextView>(R.id.itemPrice)
         val addButton = view.findViewById<Button>(R.id.addButton)
         val ind1 = view.findViewById<ImageView>(R.id.indicator1)
         val ind2 = view.findViewById<ImageView>(R.id.indicator2)
@@ -45,9 +44,6 @@ class HomeScreen : Fragment() {
         menuIcon.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_home_to_companyMenu)
         }
-
-        var totalPrice = 8
-        itemPrice.text = totalPrice.toString()
 
         addButton.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_home_to_productPageFragment)
