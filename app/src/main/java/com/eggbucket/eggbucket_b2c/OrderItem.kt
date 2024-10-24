@@ -22,7 +22,7 @@ data class OrderResponse(
 data class OrderItem(
     val id: String,
     @SerializedName("address") val orderAddress: OrderAddress,
-    val amount: Int,
+    val amount: Double,
     val products: Map<String, Int>,
     val createdAt: Timestamp,
     val updatedAt: Timestamp,
