@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
@@ -69,6 +70,7 @@ class CartFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.cart_page, container, false)
+        val back_Btn=view.findViewById<ImageView>(R.id.back_button)
 
         ViewCompat.setOnApplyWindowInsetsListener(view.findViewById(R.id.cartMain)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -119,6 +121,9 @@ class CartFragment : Fragment() {
 
         continueToPayButton.setOnClickListener {
             cartItems.clear()
+        }
+        back_Btn.setOnClickListener{
+            findNavController().popBackStack()
         }
 
         // Update the total price

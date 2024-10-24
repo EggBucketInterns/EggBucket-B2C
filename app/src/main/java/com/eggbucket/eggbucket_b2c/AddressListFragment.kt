@@ -5,10 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
@@ -30,6 +32,8 @@ class AddressListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_address, container, false)
+        val addaddressBtn=view.findViewById<Button>(R.id.add_button)
+        val backBtn=view.findViewById<ImageView>(R.id.backBtn)
 
         recyclerViewAddresses = view.findViewById(R.id.BuyAgainRecyclerView)
         recyclerViewAddresses.layoutManager = LinearLayoutManager(requireContext())
@@ -39,10 +43,11 @@ class AddressListFragment : Fragment() {
 
         fetchUserData("916363894956")
 
-
-        val backIcon: ImageView = view.findViewById(R.id.imageView4)
-        backIcon.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
+        addaddressBtn.setOnClickListener{
+            findNavController().navigate(R.id.action_addressListFragment_to_addAddressActivity)
+        }
+        backBtn.setOnClickListener{
+            findNavController().popBackStack()
         }
 
         return view

@@ -27,8 +27,11 @@
             android:id="@+id/action_navigation_notifications_to_orderHistory"
             app:destination="@id/orderHistory" />
         <action
-            android:id="@+id/action_navigation_notifications_to_addressFragment"
-            app:destination="@id/addressFragment" />
+            android:id="@+id/action_navigation_notifications_to_addressListFragment"
+            app:destination="@id/addressListFragment" />
+        <action
+            android:id="@+id/action_navigation_notifications_to_editProfile"
+            app:destination="@id/editProfile" />
 
     </fragment>
     <fragment
@@ -74,10 +77,6 @@
         android:name="com.eggbucket.eggbucket_b2c.OrderHistory"
         android:label="OrderHistory" />
     <fragment
-        android:id="@+id/addressFragment"
-        android:name="com.eggbucket.eggbucket_b2c.AddressFragment"
-        android:label="AddressFragment" />
-    <fragment
         android:id="@+id/cartFragment"
         android:name="com.eggbucket.eggbucket_b2c.CartFragment"
         android:label="CartFragment" >
@@ -88,7 +87,21 @@
     <fragment
         android:id="@+id/addressListFragment"
         android:name="com.eggbucket.eggbucket_b2c.AddressListFragment"
-        android:label="AddressListFragment" />
+        android:label="fragment_address"
+        tools:layout="@layout/fragment_address" >
+        <action
+            android:id="@+id/action_addressListFragment_to_addAddressActivity"
+            app:destination="@id/addAddressActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/addAddressActivity"
+        android:name="com.eggbucket.eggbucket_b2c.AddAddressActivity"
+        android:label="AddAddressActivity" />
+    <activity
+        android:id="@+id/editProfile"
+        android:name="com.eggbucket.eggbucket_b2c.EditProfile"
+        android:label="activity_edit_profile"
+        tools:layout="@layout/activity_edit_profile" />
 
 
 </navigation>

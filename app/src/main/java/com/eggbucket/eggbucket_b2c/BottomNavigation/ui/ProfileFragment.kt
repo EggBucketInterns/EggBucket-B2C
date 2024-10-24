@@ -26,12 +26,15 @@ class ProfileFragment : Fragment() {
     private fun setupClickListeners() {
         // Navigate to Address Fragment
         binding.addressesLayout.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_notifications_to_addressFragment)
+            findNavController().navigate(R.id.action_navigation_notifications_to_addressListFragment)
         }
 
         // Navigate to Order History
         binding.yourOrdersLayout.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_notifications_to_orderHistory)
+        }
+        binding.editProfileBtn.setOnClickListener{
+            findNavController().navigate(R.id.action_navigation_notifications_to_editProfile)
         }
     }
 
