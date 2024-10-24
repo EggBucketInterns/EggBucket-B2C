@@ -90,18 +90,32 @@
         android:label="fragment_address"
         tools:layout="@layout/fragment_address" >
         <action
-            android:id="@+id/action_addressListFragment_to_addAddressActivity"
-            app:destination="@id/addAddressActivity" />
+            android:id="@+id/action_addressListFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
     </fragment>
-    <activity
-        android:id="@+id/addAddressActivity"
-        android:name="com.eggbucket.eggbucket_b2c.AddAddressActivity"
-        android:label="AddAddressActivity" />
+
     <activity
         android:id="@+id/editProfile"
         android:name="com.eggbucket.eggbucket_b2c.EditProfile"
         android:label="activity_edit_profile"
         tools:layout="@layout/activity_edit_profile" />
+    <fragment
+        android:id="@+id/addAddressFragment"
+        android:name="com.eggbucket.eggbucket_b2c.AddAddressFragment"
+        android:label="AddAddressFragment" >
+        <action
+            android:id="@+id/action_addAddressFragment_to_addressListFragment"
+            app:destination="@id/addressListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.eggbucket.eggbucket_b2c.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" >
+        <action
+            android:id="@+id/action_mapFragment_to_addAddressFragment"
+            app:destination="@id/addAddressFragment" />
+    </fragment>
 
 
 </navigation>

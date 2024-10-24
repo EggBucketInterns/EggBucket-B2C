@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.CoroutineScope
@@ -43,12 +44,15 @@ class MapFragment : Fragment() {
     private var finalCoordinates: GeoPoint? = null
     var fullFinalAddress: FinalAddress? = null
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val view=inflater.inflate(R.layout.fragment_map, container, false)
+        val saveAddressBtn=view.findViewById<Button>(R.id.save_address)
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_map, container, false)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -73,6 +77,7 @@ class MapFragment : Fragment() {
             println("Final co-ordinates: $finalCoordinates")
             fullFinalAddress = FinalAddress(fullAddress = finalAddress!!, coordinates = finalCoordinates!!)
             println("Final fullFinalAddress: $fullFinalAddress")
+            findNavController().navigate(R.id.action_mapFragment_to_addAddressFragment)
         }
         checkLocationPermission()
     }
