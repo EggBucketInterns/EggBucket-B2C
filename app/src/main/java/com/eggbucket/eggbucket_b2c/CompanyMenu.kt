@@ -40,6 +40,15 @@ class CompanyMenu : Fragment() {
         aboutUsButton.setOnClickListener {
             findNavController().navigate(R.id.action_companyMenu_to_aboutUs)
         }
+        val privacyPolicyButton = view.findViewById<Button>(R.id.privacyPolicyButton)
+        privacyPolicyButton.setOnClickListener {
+            findNavController().navigate(R.id.action_companyMenu_to_privacyPolicy)
+        }
+
+//        val profileButton = view.findViewById<Button>(R.id.subscriptionServicesButton)
+//        profileButton.setOnClickListener {
+//            findNavController().navigate(R.id.action_companyMenu_to_profile)
+//        }
 
         return view
     }
