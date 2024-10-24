@@ -41,7 +41,7 @@ class MapFragment : Fragment() {
     private val LOCATION_PERMISSION_REQUEST_CODE = 1
     private var finalAddress: String? = null
     private var finalCoordinates: GeoPoint? = null
-    private var fullFinalAddress: FinalAddress? = null
+    var fullFinalAddress: FinalAddress? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
