@@ -71,4 +71,7 @@ dependencies {
     implementation ("androidx.security:security-crypto-ktx:1.1.0-alpha06")
     implementation ("androidx.navigation:navigation-ui-ktx:2.5.3")
     implementation ("androidx.navigation:navigation-fragment-ktx:2.5.3")
+    implementation ("org.osmdroid:osmdroid-android:6.1.10")
+    implementation ("com.google.android.gms:play-services-location:21.0.1")
+
 }

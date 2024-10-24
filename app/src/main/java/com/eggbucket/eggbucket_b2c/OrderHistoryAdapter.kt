@@ -38,16 +38,14 @@ class OrderHistoryAdapter(private val orderList: List<OrderItem>) :
             print("Current key: $key, noOfEggs: $noOfEggs")
             if (noOfEggs == "6") {
                 holder.productImage.setImageResource(R.drawable.eggs_image_6)
-                holder.productPrice.text = "Rs. 20"
             } else if (noOfEggs == "12") {
                 holder.productImage.setImageResource(R.drawable.eggs_image_12)
-                holder.productPrice.text = "Rs. 40"
             } else {
                 holder.productImage.setImageResource(R.drawable.eggs_image_30)
-                holder.productPrice.text = "Rs. 60"
             }
             holder.productName.text = "Eggs x $noOfEggs x ${products[key]}"
             // println("Date of object: ${order.createdAt}")
+            holder.productPrice.text = "Rs. ${order.amount}"
             holder.orderDate.text = sdf.format(Date((order.createdAt._seconds * 1000) + (order.createdAt._nanoseconds / 1000000)))
             // holder.deliveryStatus?.text = "Status: " + order.status
         }
