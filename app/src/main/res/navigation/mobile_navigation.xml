@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.eggbucket.eggbucket_b2c.HomeScreen"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home_screen" >
+        <action
+            android:id="@+id/action_navigation_home_to_productPageFragment"
+            app:destination="@id/productPageFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_companyMenu"
+            app:destination="@id/companyMenu" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="com.eggbucket.eggbucket_b2c.BottomNavigation.ui.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_navigation_notifications_to_orderHistory"
+            app:destination="@id/orderHistory" />
+        <action
+            android:id="@+id/action_navigation_notifications_to_addressListFragment"
+            app:destination="@id/addressListFragment" />
+        <action
+            android:id="@+id/action_navigation_notifications_to_editProfile"
+            app:destination="@id/editProfile" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/productPageFragment"
+        android:name="com.eggbucket.eggbucket_b2c.ProductPageFragment"
+        android:label="fragment_product_page"
+        tools:layout="@layout/fragment_product_page" >
+        <action
+            android:id="@+id/action_productPageFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_productPageFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/privacyPolicy"
+        android:name="com.eggbucket.eggbucket_b2c.PrivacyPolicy"
+        android:label="fragment_privacy_policy"
+        tools:layout="@layout/fragment_privacy_policy" />
+
+    <fragment
+        android:id="@+id/companyMenu"
+        android:name="com.eggbucket.eggbucket_b2c.CompanyMenu"
+        android:label="fragment_company_menu"
+        tools:layout="@layout/fragment_company_menu" >
+        <action
+            android:id="@+id/action_companyMenu_to_aboutUs"
+            app:destination="@id/aboutUs" />
+        <action
+            android:id="@+id/action_companyMenu_to_privacyPolicy"
+            app:destination="@id/privacyPolicy" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/aboutUs"
+        android:name="com.eggbucket.eggbucket_b2c.AboutUs"
+        android:label="fragment_about_us"
+        tools:layout="@layout/fragment_about_us" />
+    <fragment
+        android:id="@+id/orderHistory"
+        android:name="com.eggbucket.eggbucket_b2c.OrderHistory"
+        android:label="OrderHistory" />
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.eggbucket.eggbucket_b2c.CartFragment"
+        android:label="CartFragment" >
+        <action
+            android:id="@+id/action_cartFragment_to_addressListFragment"
+            app:destination="@id/addressListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addressListFragment"
+        android:name="com.eggbucket.eggbucket_b2c.AddressListFragment"
+        android:label="fragment_address"
+        tools:layout="@layout/fragment_address" >
+        <action
+            android:id="@+id/action_addressListFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+    </fragment>
+
+    <activity
+        android:id="@+id/editProfile"
+        android:name="com.eggbucket.eggbucket_b2c.EditProfile"
+        android:label="activity_edit_profile"
+        tools:layout="@layout/activity_edit_profile" />
+    <fragment
+        android:id="@+id/addAddressFragment"
+        android:name="com.eggbucket.eggbucket_b2c.AddAddressFragment"
+        android:label="AddAddressFragment" >
+        <action
+            android:id="@+id/action_addAddressFragment_to_addressListFragment"
+            app:destination="@id/addressListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.eggbucket.eggbucket_b2c.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" >
+        <action
+            android:id="@+id/action_mapFragment_to_addAddressFragment"
+            app:destination="@id/addAddressFragment" />
+    </fragment>
+
+
+</navigation>
