@@ -27,20 +27,20 @@ object RetrofitClient {
         retrofit.create(ApiService::class.java)
     }
 }
-//object RetrofitClient1 {
-//
-//    private const val BASE_URL = "https://b2c-49u4.onrender.com/"
-//
-//    val retrofit: Retrofit by lazy {
-//        Retrofit.Builder()
-//            .baseUrl(BASE_URL)
-//            .client(okHttpClient)
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-//
-//    }
-//
-//    val apiService1: ApiService1 by lazy {
-//        retrofit.create(ApiService1::class.java)
-//    }
-//}
+object RetrofitClient1 {
+
+    private const val BASE_URL = "https://b2c-49u4.onrender.com/"
+
+    val retrofit: Retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+    }
+
+    val apiService1: ApiService1 by lazy {
+        retrofit.create(ApiService1::class.java)
+    }
+}

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -60,15 +61,35 @@ class AddressListFragment : Fragment() {
 
 
     private fun fetchUserData(phone: String) {
+        val progressBar = view?.findViewById<ProgressBar>(R.id.progressBar)
+        val recyclerview = view?.findViewById<RecyclerView>(R.id.BuyAgainRecyclerView)
+
+        // Show progress bar before starting the call
+        recyclerview?.visibility = View.GONE
+        progressBar?.visibility = View.VISIBLE
+
         RetrofitClient.apiService.getUserByPhone(phone).enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
+                // Hide progress bar when response is received
+                progressBar?.visibility = View.GONE
+                recyclerview?.visibility = View.VISIBLE
+
                 if (response.isSuccessful) {
                     response.body()?.let { user ->
-                        addressList.addAll(user.addresses)
-                        println("Current Addresses for user: $addressList")
-                        addressListAdapter.notifyDataSetChanged()
-                    } ?: run {
-                        Toast.makeText(requireContext(), "User not found", Toast.LENGTH_LONG).show()
+                        user.addresses?.let { addresses ->
+                            if (addresses.isNotEmpty()) {
+                                addressList.clear()
+                                addressList.addAll(addresses)
+                                println("Current Addresses for user: $addressList")
+                                if (isAdded && !isDetached) {
+                                    addressListAdapter.notifyDataSetChanged()
+                                }
+                            } else {
+                                Toast.makeText(requireContext(), "No addresses found", Toast.LENGTH_LONG).show()
+                            }
+                        } ?: run {
+                            Toast.makeText(requireContext(), "User not found", Toast.LENGTH_LONG).show()
+                        }
                     }
                 } else {
                     Toast.makeText(requireContext(), "Error: ${response.code()}", Toast.LENGTH_LONG).show()
@@ -76,14 +97,21 @@ class AddressListFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<User>, t: Throwable) {
-                Toast.makeText(requireContext(), "Failed: ${t.message}", Toast.LENGTH_LONG).show()
+                // Hide progress bar on failure as well
+                progressBar?.visibility = View.GONE
+
+                Log.e("fetchUserData", "Failed: ${t.message}", t)
+                if (isAdded && !isDetached) {
+                    Toast.makeText(requireContext(), "Failed: ${t.message}", Toast.LENGTH_LONG).show()
+                }
             }
         })
     }
+
     private fun deleteAddressAt(position: Int) {
         val removeAddressRequest = UpdateUserRequest(removeAddr = position)
 
-        RetrofitClient.apiService.updateUser("916363894956", removeAddressRequest)
+        RetrofitClient1.apiService1.updateUser("916363894956", removeAddressRequest)
             .enqueue(object : Callback<User> {
                 override fun onResponse(call: Call<User>, response: Response<User>) {
                     if (response.isSuccessful) {

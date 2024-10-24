@@ -21,7 +21,6 @@
                 android:id="@+id/productImage"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:background="@drawable/shape_rounded_cart_image"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/eggimage" />
 
