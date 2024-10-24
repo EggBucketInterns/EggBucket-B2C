@@ -24,9 +24,7 @@
         <activity
             android:name=".AddAddressActivity"
             android:exported="false" />
-        <activity
-            android:name=".addressListActivity"
-            android:exported="false" /> <!-- <activity -->
+         <!-- <activity -->
         <!-- android:name=".AddressActivity" -->
         <!-- android:exported="false" /> -->
         <!-- <activity -->
@@ -34,10 +32,6 @@
         <!-- android:exported="false" /> -->
         <activity
             android:name=".MainActivity"
-            android:exported="true"
-            android:label="@string/title_activity_bottom_navigation_screen" />
-        <activity
-            android:name=".CartActivity"
             android:exported="true"
             android:label="@string/title_activity_bottom_navigation_screen" />
         <activity
