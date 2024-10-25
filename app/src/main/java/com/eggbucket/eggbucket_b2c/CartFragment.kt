@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
@@ -128,6 +129,11 @@ class CartFragment : Fragment() {
         //continue to pay listener
         continueToPayButton.setOnClickListener {
             val addressJson = sharedPreferences.getString("selected_address", null)
+            if (addressJson == null){
+                findNavController().navigate(R.id.action_cartFragment_to_mapFragment)
+                Toast.makeText(requireContext(), "Choose an Address", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
             val address = Gson().fromJson(addressJson, UserAddress::class.java)
             //create json format address and coordinates
             val fullAddress = JSONObject().apply {
