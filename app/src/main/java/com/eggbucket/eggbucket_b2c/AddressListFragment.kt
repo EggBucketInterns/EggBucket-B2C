@@ -44,7 +44,7 @@ class AddressListFragment : Fragment() {
         fetchUserData("916363894956")
 
         addaddressBtn.setOnClickListener{
-            findNavController().navigate(R.id.action_addressListFragment_to_addAddressActivity)
+            findNavController().navigate(R.id.action_addressListFragment_to_mapFragment)
         }
         backBtn.setOnClickListener{
             findNavController().popBackStack()

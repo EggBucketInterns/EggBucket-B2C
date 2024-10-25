@@ -22,7 +22,7 @@
             android:name=".EditProfile"
             android:exported="false" />
         <activity
-            android:name=".AddAddressActivity"
+            android:name=".AddAddressFragment"
             android:exported="false" />
          <!-- <activity -->
         <!-- android:name=".AddressActivity" -->
