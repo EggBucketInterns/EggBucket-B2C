@@ -29,10 +29,10 @@ class ProfileFragment : Fragment() {
         val userPhone = sharedPref.getString("user_phone", null)
 
 
-        val firstName = arguments?.getString("firstName")
-        val lastName = arguments?.getString("lastName")
-        val phoneNumber = arguments?.getString("phoneNumber")
-        val email = arguments?.getString("email")
+        val firstName=sharedPref.getString("firstName",null)
+        val lastName=sharedPref.getString("lastName",null)
+        val phoneNumber=sharedPref.getString("phoneNumber",null)
+        val email=sharedPref.getString("email",null)
         println("$firstName, $lastName, $phoneNumber, $email")
 
 
