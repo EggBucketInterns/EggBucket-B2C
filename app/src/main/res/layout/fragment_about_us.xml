@@ -12,10 +12,12 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:padding="16dp">
 
+
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
 
     <!-- About Us Title Card -->
     <androidx.cardview.widget.CardView
@@ -24,6 +26,16 @@ android:padding="16dp">
         app:cardCornerRadius="15dp"
         app:cardElevation="8dp"
         android:layout_marginBottom="16dp">
+        <ImageView
+            android:id="@+id/backArrow"
+            android:layout_width="41dp"
+            android:layout_height="41dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:contentDescription="Back Arrow"
+            android:src="@drawable/back_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:layout_width="wrap_content"

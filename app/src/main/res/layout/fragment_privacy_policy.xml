@@ -32,8 +32,18 @@
                     android:padding="16dp"
                     android:text="Privacy and Policy"
                     android:textColor="@color/appThemeColor"
-                    android:textSize="40sp"
+                    android:textSize="30sp"
                     android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/backArrow"
+                    android:layout_width="41dp"
+                    android:layout_height="41dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:contentDescription="Back Arrow"
+                    android:src="@drawable/back_button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.cardview.widget.CardView>
 
             <!-- Privacy Policy Content Section -->

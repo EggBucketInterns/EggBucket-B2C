@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,7 +35,15 @@ class PrivacyPolicy : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_privacy_policy, container, false)
+        val view = inflater.inflate(R.layout.fragment_about_us, container, false)
+
+        // Locate the backArrow ImageView and set up the back navigation
+        val backArrow: ImageView = view.findViewById(R.id.backArrow)
+        backArrow.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
+        return view
     }
 
     companion object {
