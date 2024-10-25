@@ -26,7 +26,7 @@ class AddressListFragment : Fragment() {
     private lateinit var addressListAdapter: AddressAdapter
     private val addressList = ArrayList<UserAddress>()
     private lateinit var sharedPreferences: SharedPreferences
-
+    private lateinit var phoneNumber: String
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,14 +36,14 @@ class AddressListFragment : Fragment() {
         val backBtn = view.findViewById<ImageView>(R.id.backBtn)
 
         sharedPreferences = requireContext().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
-
+        phoneNumber= sharedPreferences.getString("user_phone","916363894956").toString()
         recyclerViewAddresses = view.findViewById(R.id.BuyAgainRecyclerView)
         recyclerViewAddresses.layoutManager = LinearLayoutManager(requireContext())
 
         addressListAdapter = AddressAdapter(addressList, ::deleteAddressAt, ::saveAddress)
         recyclerViewAddresses.adapter = addressListAdapter
 
-        fetchUserData("916363894956")
+        fetchUserData(phoneNumber)
 
         addaddressBtn.setOnClickListener {
             findNavController().navigate(R.id.action_addressListFragment_to_mapFragment)
@@ -96,7 +96,7 @@ class AddressListFragment : Fragment() {
     private fun deleteAddressAt(position: Int) {
         val removeAddressRequest = UpdateUserRequest(index = position)
 
-        RetrofitClient1.apiService1.updateUser("916363894956", removeAddressRequest)
+        RetrofitClient1.apiService1.updateUser(phoneNumber, removeAddressRequest)
             .enqueue(object : Callback<User> {
                 override fun onResponse(call: Call<User>, response: Response<User>) {
                     if (response.isSuccessful) {

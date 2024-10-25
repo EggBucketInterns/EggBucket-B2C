@@ -38,6 +38,7 @@ class AddAddressFragment : Fragment() {
     private var zipCode: String? = null
     private var country: String? = null
     private var coordinates:GeoPoint? = null
+    private lateinit var phoneNumber: String
 
 
 
@@ -54,6 +55,7 @@ class AddAddressFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val sharedPreferences = requireContext().getSharedPreferences("my_preference", Context.MODE_PRIVATE)
+        phoneNumber = sharedPreferences.getString("phone_number", "916363894956").toString()
         val savedAddressJson = sharedPreferences.getString("address", null)
         if (savedAddressJson != null) {
             // Deserialize the JSON
@@ -112,7 +114,7 @@ class AddAddressFragment : Fragment() {
                 final_country.getText().toString(),
                 coordinates!!
             )
-            patchUserAddress("916363894956", jsonAddress) { isSuccess ->
+            patchUserAddress(phoneNumber, jsonAddress) { isSuccess ->
                 if (isSuccess) {
                     // Navigate to the address list fragment only if the patch is successful
                     findNavController().navigate(R.id.action_addAddressFragment_to_addressListFragment)
@@ -178,7 +180,7 @@ class AddAddressFragment : Fragment() {
             .build()
 
         val request = Request.Builder()
-            .url("https://b2c-49u4.onrender.com/api/v1/customer/user/916363894956")
+            .url("https://b2c-49u4.onrender.com/api/v1/customer/user/$phoneNumber")
             .patch(requestBody)
             .build()
 
