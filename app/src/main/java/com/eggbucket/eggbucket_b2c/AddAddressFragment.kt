@@ -151,8 +151,8 @@ class AddAddressFragment : Fragment() {
         }
 
         val coordinatesObject = JSONObject().apply {
-            put("latitude", coordinates.latitude)
-            put("longitude", coordinates.longitude)
+            put("lat", coordinates.latitude)
+            put("long", coordinates.longitude)
         }
 
         val addressObject = JSONObject().apply {
