@@ -1,5 +1,7 @@
 package com.eggbucket.eggbucket_b2c
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +21,7 @@ class EditProfileFragment : Fragment() {
     private lateinit var firstNameEditText: EditText
     private lateinit var lastNameEditText: EditText
     private lateinit var phoneNumberEditText: EditText
+    private lateinit var sharedPreferences: SharedPreferences
     private lateinit var emailEditText: EditText
     private lateinit var updateProfileButton: Button
     private lateinit var goBackImageView: ImageView
@@ -37,6 +40,7 @@ class EditProfileFragment : Fragment() {
         emailEditText = view.findViewById(R.id.edt_email)
         updateProfileButton = view.findViewById(R.id.update_profile_btn)
         goBackImageView = view.findViewById(R.id.goBack)
+        sharedPreferences = requireContext().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
 
         // Set up click listener for "Go Back" button
         goBackImageView.setOnClickListener {
@@ -63,7 +67,14 @@ class EditProfileFragment : Fragment() {
             if (firstName.isBlank() || lastName.isBlank() || phoneNumber.isBlank() || email.isBlank()) {
                 Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show()
             } else {
-                // Pass data to ProfileFragment
+                val editor = sharedPreferences.edit()
+                editor.putString("firstName", firstName)
+                editor.putString("lastName", lastName)
+                editor.putString("phoneNumber", phoneNumber)
+                editor.putString("email", email)
+                editor.apply()
+
+
                 val bundle = Bundle().apply {
                     putString("firstName", firstName)
                     putString("lastName", lastName)
