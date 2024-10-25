@@ -103,7 +103,8 @@
         tools:layout="@layout/fragment_address" >
         <action
             android:id="@+id/action_addressListFragment_to_mapFragment"
-            app:destination="@id/mapFragment" />
+            app:destination="@id/mapFragment"
+            app:popUpTo="@id/addressListFragment" />
     </fragment>
 
     <fragment
@@ -120,9 +121,11 @@
         android:id="@+id/addAddressFragment"
         android:name="com.eggbucket.eggbucket_b2c.AddAddressFragment"
         android:label="AddAddressFragment" >
+
         <action
             android:id="@+id/action_addAddressFragment_to_addressListFragment"
-            app:destination="@id/addressListFragment" />
+            app:destination="@id/addressListFragment"
+            app:popUpTo="@id/cartFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapFragment"

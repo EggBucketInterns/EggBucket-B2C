@@ -2,6 +2,7 @@ package com.eggbucket.eggbucket_b2c
 
 import android.location.Geocoder
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Location
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,7 +32,7 @@ import java.util.*
 
 
 data class FinalAddress(
-    val fullAddress: String,
+    val fullAddress: FullAddress,
     val coordinates: GeoPoint
 )
 
@@ -40,7 +42,7 @@ class MapFragment : Fragment() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var marker: Marker
     private val LOCATION_PERMISSION_REQUEST_CODE = 1
-    private var finalAddress: String? = null
+    private var finalAddress: FullAddress? = null
     private var finalCoordinates: GeoPoint? = null
     var fullFinalAddress: FinalAddress? = null
 
@@ -50,7 +52,7 @@ class MapFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view=inflater.inflate(R.layout.fragment_map, container, false)
-        val saveAddressBtn=view.findViewById<Button>(R.id.save_address)
+
         // Inflate the layout for this fragment
         return view
     }
@@ -73,10 +75,14 @@ class MapFragment : Fragment() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         val saveButton = view.findViewById<Button>(R.id.save_address)
         saveButton.setOnClickListener{
-            println("Final address: $finalAddress")
-            println("Final co-ordinates: $finalCoordinates")
+
             fullFinalAddress = FinalAddress(fullAddress = finalAddress!!, coordinates = finalCoordinates!!)
             println("Final fullFinalAddress: $fullFinalAddress")
+            val sharedPreferences=requireContext().getSharedPreferences("my_preference", Context.MODE_PRIVATE)
+            val editor=sharedPreferences.edit()
+            val addressJson= Gson().toJson(fullFinalAddress)
+            editor.putString("address",addressJson)
+            editor.apply()
             findNavController().navigate(R.id.action_mapFragment_to_addAddressFragment)
         }
         checkLocationPermission()
@@ -158,11 +164,26 @@ class MapFragment : Fragment() {
             try {
                 val addresses: List<Address>? = geocoder.getFromLocation(latitude, longitude, 1)
                 if (addresses != null && addresses.isNotEmpty()) {
+
                     val address = addresses[0].getAddressLine(0)
+                    val addressLine2 = addresses[0].thoroughfare ?: ""
+                    val area = addresses[0].subLocality ?: ""
+                    val city = addresses[0].locality ?: ""
+                    val state = addresses[0].adminArea ?: ""
+                    val postalCode = addresses[0].postalCode ?: ""
+                    val country = addresses[0].countryName ?: ""
+                    val fullAddress = FullAddress(
+                        addressLine2 = addressLine2,
+                        area = area,
+                        city = city,
+                        state = state,
+                        zipCode = postalCode,
+                        country = country
+                    )
                     // Update UI on the main thread
                     CoroutineScope(Dispatchers.Main).launch {
                         marker.snippet = address
-                        finalAddress = address
+                        finalAddress = fullAddress
                         marker.showInfoWindow()
                         // Toast.makeText(requireContext(), "Address: $address", Toast.LENGTH_LONG).show()
                     }
