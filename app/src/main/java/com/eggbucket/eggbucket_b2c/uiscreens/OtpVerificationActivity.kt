@@ -90,8 +90,9 @@ class OtpVerificationActivity : AppCompatActivity() {
 
                     val sharedPref = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
                     val editor = sharedPref.edit()
+                    val sanitizedPhoneNumber = user?.phoneNumber?.replace("+", "")
                     editor.putString("user_id", user?.uid)
-                    editor.putString("user_phone", user?.phoneNumber)
+                    editor.putString("user_phone", sanitizedPhoneNumber)
                     editor.apply()
 
                     Toast.makeText(this, "Authentication successful", Toast.LENGTH_SHORT).show()

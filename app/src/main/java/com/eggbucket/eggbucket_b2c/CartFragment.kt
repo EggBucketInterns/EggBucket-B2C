@@ -54,6 +54,8 @@ class CartFragment : Fragment() {
         // Initialize SharedPreferences and phone number
         sharedPreferences = requireContext().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
         phoneNumber= sharedPreferences.getString("user_phone","916363894956").toString()
+        Log.d("phonenumber", phoneNumber)
+
         // Populate cartItems if empty to avoid duplication
         if (cartItems.isEmpty()) {
             val count1 = sharedPreferences.getInt("count1", 0)
