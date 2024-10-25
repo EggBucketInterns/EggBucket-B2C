@@ -19,6 +19,16 @@ class ProfileFragment : Fragment() {
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
 
+        val firstName = arguments?.getString("firstName")
+        val lastName = arguments?.getString("lastName")
+        val phoneNumber = arguments?.getString("phoneNumber")
+        val email = arguments?.getString("email")
+        println("$firstName, $lastName, $phoneNumber, $email")
+
+
+        binding.personName.text = "$firstName $lastName"
+        binding.phoneNo.text = phoneNumber
+
         setupClickListeners()
         return binding.root
     }

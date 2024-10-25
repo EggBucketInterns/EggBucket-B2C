@@ -32,6 +32,18 @@
         <action
             android:id="@+id/action_navigation_notifications_to_editProfile"
             app:destination="@id/editProfile" />
+        <argument
+            android:name="firstName"
+            app:argType="string" />
+        <argument
+            android:name="lastName"
+            app:argType="string" />
+        <argument
+            android:name="phoneNumber"
+            app:argType="string" />
+        <argument
+            android:name="email"
+            app:argType="string" />
 
     </fragment>
     <fragment
@@ -94,11 +106,16 @@
             app:destination="@id/mapFragment" />
     </fragment>
 
-    <activity
+    <fragment
         android:id="@+id/editProfile"
-        android:name="com.eggbucket.eggbucket_b2c.EditProfile"
+        android:name="com.eggbucket.eggbucket_b2c.EditProfileFragment"
         android:label="activity_edit_profile"
-        tools:layout="@layout/activity_edit_profile" />
+        tools:layout="@layout/activity_edit_profile" >
+        <action
+            android:id="@+id/action_editProfile_to_navigation_notifications"
+            app:destination="@id/navigation_notifications"
+            />
+    </fragment>
     <fragment
         android:id="@+id/addAddressFragment"
         android:name="com.eggbucket.eggbucket_b2c.AddAddressFragment"

@@ -53,6 +53,7 @@
                        android:textSize="16dp"
                        android:textColor="@color/black"
                        android:layout_marginBottom="10dp"
+                       android:id="@+id/personName"
                        />
                    <TextView
                        android:layout_width="wrap_content"
@@ -60,6 +61,7 @@
                        android:text="+91 8102651970"
                        android:textStyle="bold"
                        android:textSize="16dp"
+                       android:id="@+id/phoneNo"
                        android:textColor="@color/black"/>
                </LinearLayout>
            </LinearLayout>
