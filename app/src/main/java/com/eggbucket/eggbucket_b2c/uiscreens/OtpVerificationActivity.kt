@@ -1,6 +1,7 @@
 package com.eggbucket.eggbucket_b2c.uiscreens
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,6 +12,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.eggbucket.eggbucket_b2c.BottomNavigation.ui.BottomNavigationScreen
 import com.eggbucket.eggbucket_b2c.R
 import com.eggbucket.eggbucket_b2c.databinding.ActivityOtpVerificationBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -19,18 +21,16 @@ import com.google.firebase.auth.PhoneAuthProvider
 
 class OtpVerificationActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
-    private lateinit var binding: ActivityOtpVerificationBinding // Proper initialization of binding
+    private lateinit var binding: ActivityOtpVerificationBinding
     private var verificationId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // Inflating the binding and setting the content view
         binding = ActivityOtpVerificationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Request focus and start OTP view animations
         binding.otpPinView.requestFocus()
         binding.otpPinView.setAnimationEnable(true)
         binding.otpPinView.animate()
@@ -42,18 +42,26 @@ class OtpVerificationActivity : AppCompatActivity() {
         inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
         Log.d("pinview2", "start pinview")
 
-        // Add a text watcher to handle changes in the OTP input
+        // Set up text watcher for OTP input
         binding.otpPinView.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // You can log the previous input or do any necessary checks here
+                Log.d("pinview", "Before text changed: $s")
+            }
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                Log.d("pinview4", "start pinview")
-                if (p0.toString().length == 6) {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                Log.d("pinview4", "On text changed: $s")
+                binding.verifyButton.isEnabled = s?.length == 6
+                if (s.toString().length == 6) {
                     Toast.makeText(this@OtpVerificationActivity, "It's Working", Toast.LENGTH_SHORT).show()
                 }
             }
 
-            override fun afterTextChanged(p0: Editable?) {}
+            override fun afterTextChanged(s: Editable?) {
+                if (s?.length == 6) {
+                    verifyCode(s.toString())
+                }
+            }
         })
 
         // Set insets for the view to support edge-to-edge display
@@ -63,32 +71,10 @@ class OtpVerificationActivity : AppCompatActivity() {
             insets
         }
 
-        // Initialize FirebaseAuth instance
         auth = FirebaseAuth.getInstance()
         verificationId = intent.getStringExtra("verificationId")
-
-        // Verify OTP when text changes and contains 6 digits
-        binding.otpPinView.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                TODO("Not yet implemented")
-                return
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                TODO("Not yet implemented")
-                return
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                if (s?.length == 6) {
-                    verifyCode(s.toString())
-                }
-            }
-            // Other TextWatcher methods are defined above
-        })
     }
 
-    // Method to verify the OTP code
     private fun verifyCode(code: String) {
         verificationId?.let {
             val credential = PhoneAuthProvider.getCredential(it, code)
@@ -96,18 +82,30 @@ class OtpVerificationActivity : AppCompatActivity() {
         }
     }
 
-    // Method to handle sign-in with OTP
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
                     val user = task.result?.user
-                    // Navigate to main activity or update UI
+
+                    val sharedPref = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
+                    val editor = sharedPref.edit()
+                    editor.putString("user_id", user?.uid)
+                    editor.putString("user_phone", user?.phoneNumber)
+                    editor.apply()
+
+                    Toast.makeText(this, "Authentication successful", Toast.LENGTH_SHORT).show()
+
+                    // Hide OTP verification UI if applicable
+
+                    // Start BottomNavigationActivity
+                    val intent = Intent(this, BottomNavigationScreen::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK) // Clear the stack
+                    startActivity(intent)
                 } else {
-                    // Sign in failed, display a message and update the UI
                     Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
                 }
             }
     }
+
 }

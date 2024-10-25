@@ -18,24 +18,19 @@
         android:theme="@style/Theme.EggBucketB2C"
         tools:targetApi="31"
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".EditProfile"
-            android:exported="false" />
-        <activity
-            android:name=".AddAddressFragment"
-            android:exported="false" />
+
          <!-- <activity -->
         <!-- android:name=".AddressActivity" -->
         <!-- android:exported="false" /> -->
         <!-- <activity -->
         <!-- android:name=".SchedulingMonthActivity" -->
         <!-- android:exported="false" /> -->
+<!--        <activity-->
+<!--            android:name=".MainActivity"-->
+<!--            android:exported="true"-->
+<!--            android:label="@string/title_activity_bottom_navigation_screen" />-->
         <activity
             android:name=".MainActivity"
-            android:exported="true"
-            android:label="@string/title_activity_bottom_navigation_screen" />
-        <activity
-            android:name=".BottomNavigation.ui.BottomNavigationScreen"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,16 +42,15 @@
             android:name=".uiscreens.SignupActivity"
             android:exported="false" />
 
+        <activity android:name=".uiscreens.LoginWithOtpActivity"
+            android:exported="false"/>
         <activity
             android:name=".uiscreens.OtpVerificationActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize"/>
 
         <activity
-            android:name=".uiscreens.LoginWithOtpActivity"
-            android:exported="false" />
-        <activity
-            android:name=".uiscreens.LoginActivity"
+            android:name=".BottomNavigation.ui.BottomNavigationScreen"
             android:exported="false" />
 <!--        <activity-->
 <!--            android:name=".MainActivity"-->

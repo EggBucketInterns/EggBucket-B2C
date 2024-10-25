@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.eggbucket.eggbucket_b2c.HomeScreen
 import com.eggbucket.eggbucket_b2c.R
 import com.eggbucket.eggbucket_b2c.databinding.ActivityLoginWithOtpBinding
 import com.google.firebase.FirebaseException
@@ -26,11 +27,9 @@ class LoginWithOtpActivity : AppCompatActivity() {
         binding = ActivityLoginWithOtpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Set initial background for email login
-        binding.txtLoginWithEmail.background = null
 
         // Handle window insets
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.loginWithOtp)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets

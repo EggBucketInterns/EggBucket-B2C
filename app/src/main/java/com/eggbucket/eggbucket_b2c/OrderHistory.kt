@@ -1,10 +1,12 @@
 package com.eggbucket.eggbucket_b2c
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eggbucket.eggbucket_b2c.databinding.FragmentOrderHistoryBinding
@@ -19,6 +21,8 @@ class OrderHistory : Fragment() {
     private val binding get() = _binding!!
     private lateinit var orderHistoryAdapter: OrderHistoryAdapter
     private val orderList = ArrayList<OrderItem>()
+    private lateinit var sharedPref: SharedPreferences
+    private var userPhone: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,8 +30,11 @@ class OrderHistory : Fragment() {
     ): View {
         _binding = FragmentOrderHistoryBinding.inflate(inflater, container, false)
 
+        sharedPref = requireActivity().getSharedPreferences("MyPreferences", MODE_PRIVATE)
+        userPhone = sharedPref.getString("user_phone", null)
+
         setupViews()
-        fetchOrdersFromApi("916363894956")
+        userPhone?.let { fetchOrdersFromApi(it.replace("+", "")) }
         return binding.root
     }
 
