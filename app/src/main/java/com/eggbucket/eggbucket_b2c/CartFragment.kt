@@ -42,6 +42,7 @@ class CartFragment : Fragment() {
     private lateinit var footer: LinearLayout
     private lateinit var cartscroll: ScrollView
     private lateinit var cartempty: TextView
+    private lateinit var phoneNumber: String
 
     private val cartItems = mutableListOf<CartItem>()
 
@@ -49,15 +50,15 @@ class CartFragment : Fragment() {
         super.onCreate(savedInstanceState)
         retainInstance = true
 
-        // Initialize SharedPreferences
+        // Initialize SharedPreferences and phone number
         sharedPreferences = requireContext().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
-
+        phoneNumber= sharedPreferences.getString("user_phone","916363894956").toString()
         // Populate cartItems if empty to avoid duplication
         if (cartItems.isEmpty()) {
             val count1 = sharedPreferences.getInt("count1", 0)
             val count2 = sharedPreferences.getInt("count2", 0)
             val count3 = sharedPreferences.getInt("count3", 0)
-
+            //only add if item exist
             if (count1 > 0) cartItems.add(CartItem("image6", "Eggs x 6", count1, 60.0))
             if (count2 > 0) cartItems.add(CartItem("image12", "Eggs x 12", count2, 120.0))
             if (count3 > 0) cartItems.add(CartItem("image30", "Eggs x 30", count3, 300.0))
@@ -88,14 +89,14 @@ class CartFragment : Fragment() {
 
         // Check for saved address in SharedPreferences
         val addressJson = sharedPreferences.getString("selected_address", null)
-        Log.d("order", addressJson.toString())
+        //updating address
         if (addressJson != null) {
             val address = Gson().fromJson(addressJson, UserAddress::class.java)
             updateAddress(address) // Updated method call with UserAddress type
         } else {
             Log.d("Saved Address", "No address found")
         }
-
+        //display cart item empty
         if (cartItems.isNotEmpty()) {
             cartempty.visibility = View.GONE
             cartscroll.visibility = View.VISIBLE
@@ -108,27 +109,27 @@ class CartFragment : Fragment() {
         cartItemsRecyclerView.adapter = cartAdapter
 
 
-        // Set up listeners
+        // empty cart function listner
         emptyCartButton.setOnClickListener {
             clearcart()
         }
-
-        parentFragmentManager.setFragmentResultListener("address_request_key", viewLifecycleOwner) { _, bundle ->
-            val selectedAddress = bundle.getString("selected_address")
-            selectedAddress?.let {
-                val address = Gson().fromJson(it, UserAddress::class.java)
-                updateAddress(address)
-            }
-        }
-
+        //update address on click  if only string
+//        parentFragmentManager.setFragmentResultListener("address_request_key", viewLifecycleOwner) { _, bundle ->
+//            val selectedAddress = bundle.getString("selected_address")
+//            selectedAddress?.let {
+//                val address = Gson().fromJson(it, UserAddress::class.java)
+//                updateAddress(address)
+//            }
+//        }
+        //listener for change address button
         changeAddressButton.setOnClickListener {
             findNavController().navigate(R.id.action_cartFragment_to_addressListFragment)
         }
-
+        //continue to pay listener
         continueToPayButton.setOnClickListener {
             val addressJson = sharedPreferences.getString("selected_address", null)
             val address = Gson().fromJson(addressJson, UserAddress::class.java)
-
+            //create json format address and coordinates
             val fullAddress = JSONObject().apply {
                 put("flatNo", address.fullAddress.flatNo)
                 put("area", address.fullAddress.area)
@@ -154,14 +155,14 @@ class CartFragment : Fragment() {
             }
 
             val totalAmount = cartItems.sumOf { it.quantity * it.price }.toInt()
-
+            //Function call for place order
             createOrder(
                 apiUrl = "https://b2c-49u4.onrender.com",
                 fullAddress = fullAddress,
                 coordinates = coordinates,
                 amount = totalAmount,
                 products = products,
-                customerId = "1111111113"
+                customerId = phoneNumber
             )
 
         }
@@ -176,17 +177,18 @@ class CartFragment : Fragment() {
 
         return view
     }
-
+    //update price on quantity change to call from adapter
     private fun onQuantityChanged(item: String, newQuantity: Int) {
         updateQuantityInSharedPreferences(item, newQuantity)
         updateTotalPrice()
     }
-
+    //remove item from cart
     private fun onRemoveItem(item: CartItem) {
         cartItems.remove(item)
         cartAdapter.notifyDataSetChanged()
         updateTotalPrice()
     }
+    //delete all item from cart
     private fun clearcart() {
         activity?.runOnUiThread {
             cartItems.clear()
@@ -198,17 +200,17 @@ class CartFragment : Fragment() {
             cartempty.visibility = View.VISIBLE
         }
     }
-
+    //display address of shared preference in required format
     private fun updateAddress(address: UserAddress) {
         val displayAddress = "${address.fullAddress.flatNo}, ${address.fullAddress.area}, ${address.fullAddress.city}"
         addressText.text = "Address: $displayAddress"
     }
-
+    //calculate total prise
     private fun updateTotalPrice() {
         val total = cartItems.sumOf { it.quantity * it.price }
         continueToPayButton.text = "CONTINUE TO PAY ₹$total"
     }
-
+    // update quantity of specific item
     private fun updateQuantityInSharedPreferences(itemName: String, quantity: Int) {
         val editor = sharedPreferences.edit()
         when (itemName) {
@@ -219,7 +221,7 @@ class CartFragment : Fragment() {
         editor.apply()
     }
 
-
+    //clear all data of item from shared preferences
     private fun clearSharedPreferences() {
         sharedPreferences.edit().apply {
             putInt("count1", 0)
@@ -228,6 +230,7 @@ class CartFragment : Fragment() {
             apply()
         }
     }
+    //function to create order and store it in database
     private fun createOrder(
         apiUrl: String,
         fullAddress: JSONObject,
@@ -237,7 +240,7 @@ class CartFragment : Fragment() {
         customerId: String
     ) {
         val client = OkHttpClient()
-        Log.d("SharedPreferences",coordinates.toString())
+
 
         // Create the JSON body
         val bodyJson = JSONObject().apply {
@@ -299,6 +302,7 @@ class CartFragment : Fragment() {
 
         })
     }
+    //dialog to show result
     private fun showAlertDialog(title: String, message: String) {
         activity?.runOnUiThread {
             val builder = AlertDialog.Builder(requireContext())

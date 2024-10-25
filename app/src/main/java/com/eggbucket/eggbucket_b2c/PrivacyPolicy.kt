@@ -35,7 +35,7 @@ class PrivacyPolicy : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_about_us, container, false)
+        val view = inflater.inflate(R.layout.fragment_privacy_policy, container, false)
 
         // Locate the backArrow ImageView and set up the back navigation
         val backArrow: ImageView = view.findViewById(R.id.backArrow)
