@@ -3,9 +3,12 @@ package com.eggbucket.eggbucket_b2c
 import android.location.Geocoder
 import android.Manifest
 import android.content.Context
+import android.content.Context.LOCATION_SERVICE
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Location
+import android.location.LocationManager
+import android.location.LocationListener
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +18,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -40,8 +44,9 @@ class MapFragment : Fragment() {
 
     private lateinit var mapView: MapView
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    // private lateinit var locationManager: LocationManager
     private lateinit var marker: Marker
-    private val LOCATION_PERMISSION_REQUEST_CODE = 1
+    private val LOCATION_PERMISSION_REQUEST_CODE = 2
     private var finalAddress: FullAddress? = null
     private var finalCoordinates: GeoPoint? = null
     var fullFinalAddress: FinalAddress? = null
@@ -71,7 +76,8 @@ class MapFragment : Fragment() {
         mapView.setBuiltInZoomControls(true)
         mapView.setMultiTouchControls(true)
 
-        // Request user's location
+        // Using the correct Context for the service
+        // locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         val saveButton = view.findViewById<Button>(R.id.save_address)
         saveButton.setOnClickListener{
@@ -99,7 +105,7 @@ class MapFragment : Fragment() {
     }
 
     private fun getCurrentLocation()  {
-        var currentLocation = GeoPoint(0.0, 0.0)
+        // var currentLocation = GeoPoint(0.0, 0.0)
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -111,7 +117,7 @@ class MapFragment : Fragment() {
             location?.let {
                 val currentLat = it.latitude
                 val currentLon = it.longitude
-                currentLocation = GeoPoint(currentLat, currentLon)
+                val currentLocation = GeoPoint(currentLat, currentLon)
                 finalCoordinates = currentLocation
                 // Move the map to the user's current location
                 mapView.controller.setZoom(15.0)
