@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.eggbucket.eggbucket_b2c.HomeScreen
+
 import com.eggbucket.eggbucket_b2c.R
 import com.eggbucket.eggbucket_b2c.databinding.ActivityLoginWithOtpBinding
 import com.google.firebase.FirebaseException
@@ -70,11 +70,15 @@ class LoginWithOtpActivity : AppCompatActivity() {
         }
 
         override fun onCodeSent(verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
+            val phoneNumber = binding.etPhoneNumber.text.toString()
             val intent = Intent(this@LoginWithOtpActivity, OtpVerificationActivity::class.java)
             intent.putExtra("verificationId", verificationId)
+            intent.putExtra("phoneNumber", phoneNumber)
             startActivity(intent)
         }
     }
+
+
 
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
         auth.signInWithCredential(credential)

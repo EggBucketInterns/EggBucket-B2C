@@ -53,7 +53,7 @@ class ProfileFragment : Fragment() {
         binding.yourOrdersLayout.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_notifications_to_orderHistory)
         }
-        binding.editProfileBtn.setOnClickListener{
+        binding.editProfileLayout.setOnClickListener{
             findNavController().navigate(R.id.action_navigation_notifications_to_editProfile)
         }
 

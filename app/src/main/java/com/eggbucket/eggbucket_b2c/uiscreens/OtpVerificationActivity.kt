@@ -3,10 +3,12 @@ package com.eggbucket.eggbucket_b2c.uiscreens
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -23,10 +25,13 @@ class OtpVerificationActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: ActivityOtpVerificationBinding
     private var verificationId: String? = null
+    private var phoneNumber: String? = null
+    private lateinit var timer: CountDownTimer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        startCountdownTimer()
 
         binding = ActivityOtpVerificationBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -34,6 +39,14 @@ class OtpVerificationActivity : AppCompatActivity() {
         binding.otpPinView.requestFocus()
         binding.otpPinView.setAnimationEnable(true)
         binding.otpPinView.animate()
+
+        val backArrow = findViewById<ImageView>(R.id.imageView4)
+        backArrow.setOnClickListener {
+            val intent = Intent(this, LoginWithOtpActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            startActivity(intent)
+            finish() // Optional: Closes the current activity so it's removed from the back stack
+        }
 
         Log.d("pinview", "start pinview")
 
@@ -73,6 +86,8 @@ class OtpVerificationActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         verificationId = intent.getStringExtra("verificationId")
+        phoneNumber = intent.getStringExtra("phoneNumber")
+        binding.textView4.text = "Enter the code from the SMS we sent to " + phoneNumber
     }
 
     private fun verifyCode(code: String) {
@@ -81,6 +96,24 @@ class OtpVerificationActivity : AppCompatActivity() {
             signInWithPhoneAuthCredential(credential)
         }
     }
+
+    private fun startCountdownTimer() {
+        timer = object : CountDownTimer(150000, 1000) { // 2 min 30 sec in milliseconds
+            override fun onTick(millisUntilFinished: Long) {
+                val minutes = millisUntilFinished / 60000
+                val seconds = (millisUntilFinished % 60000) / 1000
+                val time = String.format("%02d:%02d", minutes, seconds)
+                binding.textView5.text = time
+            }
+
+            override fun onFinish() {
+                binding.textView5.text = "00:00"
+                // Handle any actions after the timer finishes here, such as disabling input or resending OTP
+            }
+        }
+        timer.start()
+    }
+
 
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
         auth.signInWithCredential(credential)
