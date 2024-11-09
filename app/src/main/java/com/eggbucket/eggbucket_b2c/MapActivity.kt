@@ -100,7 +100,7 @@ class MapFragment : Fragment() {
             requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
         } else {
             val current = getCurrentLocation()
-            println("Current Co-ordinates: $current")
+            // println("Current Co-ordinates: $current")
         }
     }
 
@@ -110,15 +110,18 @@ class MapFragment : Fragment() {
                 requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED) {
+            println("Couldn't get permissions")
             return
         }
-
+        println("Got Permissions")
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
             location?.let {
                 val currentLat = it.latitude
                 val currentLon = it.longitude
                 val currentLocation = GeoPoint(currentLat, currentLon)
+
                 finalCoordinates = currentLocation
+
                 // Move the map to the user's current location
                 mapView.controller.setZoom(15.0)
                 mapView.controller.setCenter(currentLocation)

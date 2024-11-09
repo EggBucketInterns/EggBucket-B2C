@@ -1,8 +1,11 @@
 package com.eggbucket.eggbucket_b2c
 
+import NotificationHelper
 import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,6 +17,8 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
@@ -30,6 +35,8 @@ import okhttp3.RequestBody
 import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
+import android.Manifest
+
 
 class CartFragment : Fragment() {
 
@@ -66,6 +73,29 @@ class CartFragment : Fragment() {
             if (count2 > 0) cartItems.add(CartItem("image12", "Eggs x 12", count2, 120.0))
             if (count3 > 0) cartItems.add(CartItem("image30", "Eggs x 30", count3, 300.0))
         }
+    }
+    private val REQUEST_CODE = 100
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, send notification
+                val notificationHelper = NotificationHelper(requireContext())
+                notificationHelper.createNotificationChannel()
+                notificationHelper.sendNotification("12345")
+            } else {
+                // Permission denied, handle accordingly (e.g., inform user)
+                Toast.makeText(requireContext(), "Notification permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    fun triggerNotification(orderId: String) {
+        println("THIS IS CALLED")
+        val notificationHelper = NotificationHelper(requireContext())
+        notificationHelper.createNotificationChannel()
+        notificationHelper.sendNotification(orderId)
     }
 
     override fun onCreateView(
@@ -129,7 +159,9 @@ class CartFragment : Fragment() {
             findNavController().navigate(R.id.action_cartFragment_to_addressListFragment)
         }
         //continue to pay listener
+
         continueToPayButton.setOnClickListener {
+            triggerNotification("12345")
             val addressJson = sharedPreferences.getString("selected_address", null)
             if (addressJson == null){
                 findNavController().navigate(R.id.action_cartFragment_to_mapFragment)
@@ -238,6 +270,8 @@ class CartFragment : Fragment() {
             apply()
         }
     }
+
+
     //function to create order and store it in database
     private fun createOrder(
         apiUrl: String,
@@ -301,8 +335,11 @@ class CartFragment : Fragment() {
                         // Show success message on the main thread
                         activity?.runOnUiThread {
                             showAlertDialog("Order Success", "Order created successfully!")
+
                             Log.d("CreateOrder", "Order created successfully: $responseBody")
+
                             clearcart() // Make sure this method also handles UI updates correctly
+
                         }
                     }
                 }
@@ -320,5 +357,8 @@ class CartFragment : Fragment() {
                 .create()
                 .show()
         }
+    }
+    companion object {
+        private const val NOTIFICATION_PERMISSION_CODE = 1001
     }
 }
