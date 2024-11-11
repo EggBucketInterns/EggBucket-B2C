@@ -2,8 +2,10 @@ package com.eggbucket.eggbucket_b2c
 
 import android.location.Geocoder
 import android.Manifest
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Context.LOCATION_SERVICE
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Location
@@ -33,6 +35,8 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
 import java.util.*
+import android.provider.Settings
+
 
 
 data class FinalAddress(
@@ -62,8 +66,29 @@ class MapFragment : Fragment() {
         return view
     }
 
+
+
+    fun isLocationEnabled(context: Context): Boolean {
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (!isLocationEnabled(requireContext())){
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Enable Location Services")
+            builder.setMessage("This app requires location services to be turned on for the best experience.")
+            builder.setPositiveButton("Go to Settings") { _, _ ->
+                // Open the location settings screen
+                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                requireActivity().startActivity(intent)
+            }
+            builder.setNegativeButton("Cancel", null)
+            builder.show()
+        }
 
         // Initialize the map
         mapView = view.findViewById(R.id.osm_map)
