@@ -138,6 +138,9 @@
         <action
             android:id="@+id/action_mapFragment_to_addAddressFragment"
             app:destination="@id/addAddressFragment" />
+        <action
+            android:id="@+id/action_mapFragment_to_addressListFragment"
+            app:destination="@id/addressListFragment" />
     </fragment>
 
 

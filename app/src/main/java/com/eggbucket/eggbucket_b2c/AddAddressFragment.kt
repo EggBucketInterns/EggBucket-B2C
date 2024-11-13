@@ -180,7 +180,7 @@ class AddAddressFragment : Fragment() {
             .build()
 
         val request = Request.Builder()
-            .url("https://b2c-49u4.onrender.com/api/v1/customer/user/$phoneNumber")
+            .url("https://b2c-backend-1.onrender.com/api/v1/customer/user/$phoneNumber")
             .patch(requestBody)
             .build()
 
