@@ -31,11 +31,13 @@ class HomeScreen : Fragment() {
         viewPager = view.findViewById(R.id.carouselViewPager)
         val carouselAdapter = CarouselAdapter(images)
         viewPager.adapter = carouselAdapter
-        val addButton = view.findViewById<Button>(R.id.addButton)
+        val addButton1 = view.findViewById<Button>(R.id.addButton1)
         val ind1 = view.findViewById<ImageView>(R.id.indicator1)
         val ind2 = view.findViewById<ImageView>(R.id.indicator2)
         val ind3 = view.findViewById<ImageView>(R.id.indicator3)
-        val itemCard = view.findViewById<CardView>(R.id.itemCard)
+        val itemCard = view.findViewById<CardView>(R.id.itemCard1)
+        val addButton2=view.findViewById<Button>(R.id.addButton2)
+        val addButton3=view.findViewById<Button>(R.id.addButton3)
 
         itemCard.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_home_to_productPageFragment)
@@ -45,7 +47,13 @@ class HomeScreen : Fragment() {
             findNavController().navigate(R.id.action_navigation_home_to_companyMenu)
         }
 
-        addButton.setOnClickListener {
+        addButton1.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_to_productPageFragment)
+        }
+        addButton2.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_to_productPageFragment)
+        }
+        addButton3.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_home_to_productPageFragment)
         }
         startAutoScroll(ind1, ind2, ind3)
