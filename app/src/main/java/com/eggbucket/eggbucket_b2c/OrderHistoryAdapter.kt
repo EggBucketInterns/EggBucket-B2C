@@ -15,12 +15,10 @@ class OrderHistoryAdapter(private val orderList: List<OrderItem>) :
     RecyclerView.Adapter<OrderHistoryAdapter.OrderViewHolder>() {
 
     inner class OrderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val productImage: ImageView = itemView.findViewById(R.id.productImage)
-        val productName: TextView = itemView.findViewById(R.id.productName)
         val orderDate: TextView = itemView.findViewById(R.id.orderDate)
-        val deliveryStatus: TextView? = itemView.findViewById(R.id.deliveryStatus)
-        val productPrice: TextView = itemView.findViewById(R.id.productPrice)
-
+        val orderAmt: TextView = itemView.findViewById(R.id.orderAmt)
+        val items: TextView = itemView.findViewById(R.id.items)
+        val deliveryStatus: TextView = itemView.findViewById(R.id.orderId)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
@@ -31,25 +29,13 @@ class OrderHistoryAdapter(private val orderList: List<OrderItem>) :
 
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         val order = orderList[position]
-        val products = order.products
-        val sdf = SimpleDateFormat("dd-MM-yy HH:mm:ss", Locale.getDefault())
-        for (key in products.keys){
-            val noOfEggs = key.substring(1)
-            print("Current key: $key, noOfEggs: $noOfEggs")
-            if (noOfEggs == "6") {
-                holder.productImage.setImageResource(R.drawable.eggs_image_6)
-            } else if (noOfEggs == "12") {
-                holder.productImage.setImageResource(R.drawable.eggs_image_12)
-            } else {
-                holder.productImage.setImageResource(R.drawable.eggs_image_30)
-            }
-            holder.productName.text = "Eggs x $noOfEggs x ${products[key]}"
-            // println("Date of object: ${order.createdAt}")
-            holder.productPrice.text = "Rs. ${order.amount}"
-            holder.orderDate.text = sdf.format(Date((order.createdAt._seconds * 1000) + (order.createdAt._nanoseconds / 1000000)))
-            // holder.deliveryStatus?.text = "Status: " + order.status
-        }
-
+        val sdf = SimpleDateFormat("dd/MM/yy", Locale.getDefault())
+        holder.orderDate.text = "Order At: " + sdf.format(Date((order.createdAt._seconds * 1000) + (order.createdAt._nanoseconds / 1000000)))
+        holder.orderAmt.text = "Order Amount: ${order.amount}"
+        var itemString = ""
+        order.products.forEach{(key, value) -> itemString += "Eggs x ${key.substring(1)}: ${value}\n"}
+        holder.items.text = itemString.trimEnd('\n')
+        holder.deliveryStatus.text = "Order ID: ${order.id}\nStatus: ${order.status}"
     }
 
     override fun getItemCount(): Int = orderList.size

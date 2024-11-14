@@ -10,65 +10,55 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp">
+        android:padding="12dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/productImage"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/eggs_image_6" />
-
-            <TextView
-                android:id="@+id/productPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:gravity="center_horizontal"
-                android:text="Price"
-                android:textColor="@android:color/black"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+            android:orientation="vertical"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_weight="1"
             android:orientation="vertical"
             >
 
             <TextView
-                android:id="@+id/productName"
+                android:id="@+id/orderDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Eggs x 6"
+                android:text="Order At: {Date}"
                 android:textColor="@android:color/black"
                 android:textSize="30dp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/orderDate"
+                android:id="@+id/orderAmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Order Amount: {Amt}"
+                android:textSize="24dp" />
+
+            <TextView
+                android:id="@+id/items"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Ordered on 16th June"
+                android:text="Eggs x 6   - {}\nEggs x 12 - {}\nEggs x 30 - {}"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/orderId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Order ID: {ID}\nStatus: {status}"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/deliveryStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Status: Delivered"
-                android:textSize="18sp" />
+
         </LinearLayout>
 
         <LinearLayout

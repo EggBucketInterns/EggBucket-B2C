@@ -80,14 +80,16 @@ class OrderHistory : Fragment() {
     private fun processOrders(orderResponse: OrderResponse) {
         orderList.clear()
         orderResponse.orders.forEach { order ->
-            order.products.forEach { (productCategory, value) ->
-                // Ensure non-null `deliveryPartnerId` in the copy
-                val orderCopy = order.copy(
-                    products = mapOf(productCategory to value),
-                    deliveryPartnerId = order.deliveryPartnerId ?: "Unknown"  // Provide a default if null
-                )
-                orderList.add(orderCopy)
-            }
+            println("$order")
+            orderList.add(order)
+//            order.products.forEach { (productCategory, value) ->
+//                // Ensure non-null `deliveryPartnerId` in the copy
+//                val orderCopy = order.copy(
+//                    products = mapOf(productCategory to value),
+//                    deliveryPartnerId = order.deliveryPartnerId ?: "Unknown"  // Provide a default if null
+//                )
+//                orderList.add(orderCopy)
+//            }
         }
         orderHistoryAdapter.notifyDataSetChanged()
     }
