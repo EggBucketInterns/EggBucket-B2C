@@ -5,27 +5,37 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingTop="20dp"
-    android:outlineAmbientShadowColor="#FFF">
+    android:id="@+id/edit_profile_nav"
+    android:background="#FFFFFF">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginStart="20dp">
+        android:id="@+id/main"
+        android:layout_marginBottom="40dp"
+        android:layout_marginStart="20dp"
+        >
+
         <ImageView
+            android:id="@+id/goBack"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:srcCompat="@drawable/baseline_arrow_back_black"
-            />
+            app:srcCompat="@drawable/baseline_arrow_back_black" />
+
         <TextView
+            android:gravity="center_horizontal"
             android:id="@+id/editProfile"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30dp"
+            android:textSize="24sp"
             android:text="Edit Profile"
             android:textColor="@color/black"
-            android:layout_marginStart="20dp"/>
-
+            android:layout_marginStart="20dp"
+            android:layout_gravity="center" />
     </LinearLayout>
+
+
 
     <!-- First Name Input -->
     <EditText
@@ -33,32 +43,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="First Name"
-        android:layout_margin="20dp"
+        android:layout_margin="16dp"
+        android:layout_marginTop="24dp"
         android:drawableStart="@drawable/baseline_person_24"
-        android:drawablePadding="10dp"
+        android:drawablePadding="8dp"
         android:drawableTint="#3A3838"
-        android:padding="12dp"
+        android:paddingTop="16dp"
+        android:paddingHorizontal="8dp"
+        android:paddingBottom="12dp"
+        android:textColor="#000000"
+        android:gravity="center_vertical"
         android:inputType="textPersonName"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="10dp"
-        android:background="@drawable/edt_background"/>
+        android:background="@drawable/thin_border" />
 
     <!-- Last Name Input -->
-
     <EditText
         android:id="@+id/last_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Last name"
-        android:layout_margin="20dp"
+        android:hint="Last Name"
+        android:layout_margin="16dp"
         android:drawableStart="@drawable/baseline_person_24"
         android:drawablePadding="10dp"
         android:drawableTint="#3A3838"
-        android:padding="12dp"
+        android:paddingTop="16dp"
+        android:paddingHorizontal="10dp"
+        android:paddingBottom="12dp"
+        android:textColor="#000000"
         android:inputType="textPersonName"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="10dp"
-        android:background="@drawable/edt_background"/>
+        android:background="@drawable/thin_border" />
 
     <!-- Phone Number Input -->
     <EditText
@@ -66,30 +79,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Phone Number"
-        android:layout_margin="20dp"
+        android:layout_margin="16dp"
         android:drawableStart="@drawable/baseline_phone_24"
         android:drawablePadding="10dp"
         android:drawableTint="#3A3838"
-        android:padding="12dp"
+        android:paddingTop="16dp"
+        android:paddingHorizontal="10dp"
+        android:paddingBottom="12dp"
+        android:textColor="#000000"
         android:inputType="phone"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="10dp"
-        android:background="@drawable/edt_background"/>
+        android:background="@drawable/thin_border" />
 
+    <!-- Email Input -->
     <EditText
         android:id="@+id/edt_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"
-        android:layout_margin="20dp"
+        android:layout_margin="16dp"
         android:drawableStart="@drawable/baseline_email_24"
         android:drawablePadding="10dp"
         android:drawableTint="#3A3838"
+        android:paddingTop="16dp"
+        android:paddingHorizontal="10dp"
+        android:paddingBottom="12dp"
+        android:textColor="#000000"
         android:inputType="textEmailAddress"
-        android:padding="12dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="10dp"
-        android:background="@drawable/edt_background"/>
+        android:background="@drawable/thin_border" />
 
     <Button
         android:id="@+id/update_profile_btn"
@@ -97,12 +113,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:text="Update Profile"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textColor="#FFFFFF"
         android:backgroundTint="@color/appThemeColor"
-        android:padding="16dp" />
-
+        android:paddingTop="16dp"
+        android:paddingHorizontal="8dp"
+        android:paddingBottom="12dp" />
 
 </LinearLayout>

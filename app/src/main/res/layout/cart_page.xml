@@ -32,7 +32,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="My Cart"
-            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textSize="22sp"
             android:textStyle="bold"
             android:gravity="center" />
 
@@ -67,6 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:text="Cart is Emptyy!!"
+        android:textColor="@color/black"
         android:textAlignment="center"
         android:textSize="26dp" />
 

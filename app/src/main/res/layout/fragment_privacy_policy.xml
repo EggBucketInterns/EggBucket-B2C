@@ -30,10 +30,12 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:padding="16dp"
+                    android:paddingStart="25dp"
                     android:text="Privacy and Policy"
                     android:textColor="@color/appThemeColor"
                     android:textSize="30sp"
                     android:textStyle="bold" />
+
                 <ImageView
                     android:id="@+id/backArrow"
                     android:layout_width="41dp"

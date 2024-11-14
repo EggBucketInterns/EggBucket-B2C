@@ -21,20 +21,38 @@
 
 
     <EditText
-        android:id="@+id/et_name"
+        android:id="@+id/et_flatno"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:hint="Full Name"
-        android:inputType="textPersonName"
+        android:hint="flatNo, Block"
+        android:inputType="text"
         android:layout_marginBottom="16dp" />
 
 
     <EditText
-        android:id="@+id/et_address1"
+        android:id="@+id/et_addressLine1"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:hint="Save address as"
+        android:hint="addressLine1"
         android:inputType="textPostalAddress"
+        android:layout_marginBottom="16dp" />
+
+
+    <EditText
+        android:id="@+id/et_addressLine2"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="addressLine2"
+        android:inputType="text"
+        android:layout_marginBottom="16dp" />
+
+
+    <EditText
+        android:id="@+id/et_area"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Area"
+        android:inputType="text"
         android:layout_marginBottom="16dp" />
 
 
@@ -43,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:hint="City"
-        android:inputType="text"
+        android:inputType="number"
         android:layout_marginBottom="16dp" />
 
 
@@ -55,29 +73,19 @@
         android:inputType="text"
         android:layout_marginBottom="16dp" />
 
-
     <EditText
-        android:id="@+id/et_postal_code"
+        android:id="@+id/et_postalcode"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:hint="Postal Code"
-        android:inputType="number"
-        android:layout_marginBottom="16dp" />
-
-
-    <EditText
-        android:id="@+id/flat_no"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="Flat/House no/Floor/Building"
+        android:hint="postalcode"
         android:inputType="text"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="24dp" />
 
     <EditText
-        android:id="@+id/landmark"
+        android:id="@+id/et_country"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:hint="Nearby landmark (Optional)"
+        android:hint="Country"
         android:inputType="text"
         android:layout_marginBottom="24dp" />
 

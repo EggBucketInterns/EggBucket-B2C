@@ -2,16 +2,18 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/loginWithOtp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".uiscreens.LoginWithOtpActivity">
+    tools:context=".uiscreens.LoginWithOtpActivity"
+    android:background="@color/white">
+
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="230dp"
         android:layout_height="154dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="36dp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,10 +24,10 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
-
+        android:textColor="@color/black"
         android:layout_height="44dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="92dp"
         android:gravity="center|end"
         android:maxLines="1"
         android:padding="1dp"
@@ -37,77 +39,43 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="28dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="99dp"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:srcCompat="@drawable/baseline_person_24" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardcontainer"
-        android:layout_width="363dp"
-        android:layout_height="72dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="92dp"
-        app:cardBackgroundColor="@android:color/white"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
-        app:cardUseCompatPadding="true"
-        app:layout_constraintEnd_toEndOf="@+id/emailContainer"
-        app:layout_constraintStart_toStartOf="@+id/emailContainer"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
-
-        <LinearLayout
-            android:id="@+id/linearLayou"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView">
-
-            <TextView
-                android:id="@+id/txt_login_with_email"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Email"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txt_login_with_phone_number"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight=".6"
-                android:gravity="center"
-                android:text="Phone Number"
-                android:textStyle="bold" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/phoneNumberContainer"
         style="@style/CustomTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="60dp"
+        android:textColorHint="@color/black"
         android:layout_marginHorizontal="20dp"
-        app:helperTextTextColor="@android:color/holo_red_dark"
+        app:helperTextTextColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardcontainer"
-        app:startIconDrawable="@drawable/baseline_phone_24">
+        app:layout_constraintTop_toTopOf="parent"
+        app:hintEnabled="false"
+        app:startIconDrawable="@drawable/baseline_phone_24"
+        app:startIconTint="@color/grey">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etPhoneNumber"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="Enter Phone Number"
+            android:textColorHint="@color/grey"
+            android:background="@drawable/thin_border"
+            android:textColor="@color/black"
             android:inputType="phone"
             android:lines="1"
-            android:paddingStart="40dp" />
+            android:paddingStart="40dp"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -116,109 +84,29 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/login_sendotp_back"
+        android:clickable="true"
+        android:focusable="true"
         android:gravity="center"
         android:text="Send OTP"
         android:textStyle="bold"
-        android:clickable="true"
-        android:focusable="true"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/phoneNumberContainer"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/phoneNumberContainer"
         app:layout_constraintTop_toBottomOf="@+id/phoneNumberContainer" />
 
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="116dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="24dp"
-        android:gravity="center"
-        android:text="Or sign up with"
-        app:layout_constraintEnd_toStartOf="@+id/view"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/view3"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-    <View
-        android:id="@+id/view3"
-        android:layout_width="100dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="24dp"
-        android:background="@android:color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/textView11"
-        app:layout_constraintStart_toStartOf="@+id/textView10"
-        app:layout_constraintTop_toTopOf="@+id/textView11"
-        app:layout_constraintVertical_bias="0.6" />
 
-    <View
-        android:id="@+id/view"
-        android:layout_width="100dp"
-        android:layout_height="1dp"
-        android:layout_marginEnd="48dp"
-        android:background="@color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/textView11"
-        app:layout_constraintEnd_toEndOf="@+id/textView10"
-        app:layout_constraintTop_toTopOf="@+id/textView11"
-        app:layout_constraintVertical_bias="0.56" />
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="30dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="176dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView11"
-        app:srcCompat="@drawable/google_icon" />
-
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="52dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="152dp"
-        android:gravity="center|start"
-        android:text="Google"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
-
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="197dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:gravity="end|center"
-        android:text="Not register yet ?"
-        app:layout_constraintEnd_toStartOf="@+id/textView14"
-        app:layout_constraintHorizontal_bias="0.615"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
-
-    <TextView
-        android:id="@+id/textView14"
-        android:layout_width="125dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="12dp"
-        android:gravity="start|center"
-        android:text="Create Account"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.087"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.50121653" />
-
+        app:layout_constraintGuide_percent="0.5" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

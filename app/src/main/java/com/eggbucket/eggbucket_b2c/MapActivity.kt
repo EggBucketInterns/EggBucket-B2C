@@ -2,9 +2,15 @@ package com.eggbucket.eggbucket_b2c
 
 import android.location.Geocoder
 import android.Manifest
+import android.app.AlertDialog
+import android.content.Context
+import android.content.Context.LOCATION_SERVICE
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Location
+import android.location.LocationManager
+import android.location.LocationListener
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,10 +20,12 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,10 +35,12 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
 import java.util.*
+import android.provider.Settings
+
 
 
 data class FinalAddress(
-    val fullAddress: String,
+    val fullAddress: FullAddress,
     val coordinates: GeoPoint
 )
 
@@ -38,9 +48,10 @@ class MapFragment : Fragment() {
 
     private lateinit var mapView: MapView
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    // private lateinit var locationManager: LocationManager
     private lateinit var marker: Marker
-    private val LOCATION_PERMISSION_REQUEST_CODE = 1
-    private var finalAddress: String? = null
+    private val LOCATION_PERMISSION_REQUEST_CODE = 2
+    private var finalAddress: FullAddress? = null
     private var finalCoordinates: GeoPoint? = null
     var fullFinalAddress: FinalAddress? = null
 
@@ -50,13 +61,34 @@ class MapFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view=inflater.inflate(R.layout.fragment_map, container, false)
-        val saveAddressBtn=view.findViewById<Button>(R.id.save_address)
+
         // Inflate the layout for this fragment
         return view
     }
 
+
+
+    fun isLocationEnabled(context: Context): Boolean {
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (!isLocationEnabled(requireContext())){
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Enable Location Services")
+            builder.setMessage("This app requires location services to be turned on for the best experience.")
+            builder.setPositiveButton("Go to Settings") { _, _ ->
+                // Open the location settings screen
+                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                requireActivity().startActivity(intent)
+            }
+            builder.setNegativeButton("Cancel", null)
+            builder.show()
+        }
 
         // Initialize the map
         mapView = view.findViewById(R.id.osm_map)
@@ -69,14 +101,19 @@ class MapFragment : Fragment() {
         mapView.setBuiltInZoomControls(true)
         mapView.setMultiTouchControls(true)
 
-        // Request user's location
+        // Using the correct Context for the service
+        // locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         val saveButton = view.findViewById<Button>(R.id.save_address)
         saveButton.setOnClickListener{
-            println("Final address: $finalAddress")
-            println("Final co-ordinates: $finalCoordinates")
+
             fullFinalAddress = FinalAddress(fullAddress = finalAddress!!, coordinates = finalCoordinates!!)
             println("Final fullFinalAddress: $fullFinalAddress")
+            val sharedPreferences=requireContext().getSharedPreferences("my_preference", Context.MODE_PRIVATE)
+            val editor=sharedPreferences.edit()
+            val addressJson= Gson().toJson(fullFinalAddress)
+            editor.putString("address",addressJson)
+            editor.apply()
             findNavController().navigate(R.id.action_mapFragment_to_addAddressFragment)
         }
         checkLocationPermission()
@@ -88,25 +125,28 @@ class MapFragment : Fragment() {
             requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
         } else {
             val current = getCurrentLocation()
-            println("Current Co-ordinates: $current")
+            // println("Current Co-ordinates: $current")
         }
     }
 
     private fun getCurrentLocation()  {
-        var currentLocation = GeoPoint(0.0, 0.0)
+        // var currentLocation = GeoPoint(0.0, 0.0)
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED) {
+            println("Couldn't get permissions")
             return
         }
-
+        println("Got Permissions")
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
             location?.let {
                 val currentLat = it.latitude
                 val currentLon = it.longitude
-                currentLocation = GeoPoint(currentLat, currentLon)
+                val currentLocation = GeoPoint(currentLat, currentLon)
+
                 finalCoordinates = currentLocation
+
                 // Move the map to the user's current location
                 mapView.controller.setZoom(15.0)
                 mapView.controller.setCenter(currentLocation)
@@ -158,11 +198,26 @@ class MapFragment : Fragment() {
             try {
                 val addresses: List<Address>? = geocoder.getFromLocation(latitude, longitude, 1)
                 if (addresses != null && addresses.isNotEmpty()) {
+
                     val address = addresses[0].getAddressLine(0)
+                    val addressLine2 = addresses[0].thoroughfare ?: ""
+                    val area = addresses[0].subLocality ?: ""
+                    val city = addresses[0].locality ?: ""
+                    val state = addresses[0].adminArea ?: ""
+                    val postalCode = addresses[0].postalCode ?: ""
+                    val country = addresses[0].countryName ?: ""
+                    val fullAddress = FullAddress(
+                        addressLine2 = addressLine2,
+                        area = area,
+                        city = city,
+                        state = state,
+                        zipCode = postalCode,
+                        country = country
+                    )
                     // Update UI on the main thread
                     CoroutineScope(Dispatchers.Main).launch {
                         marker.snippet = address
-                        finalAddress = address
+                        finalAddress = fullAddress
                         marker.showInfoWindow()
                         // Toast.makeText(requireContext(), "Address: $address", Toast.LENGTH_LONG).show()
                     }

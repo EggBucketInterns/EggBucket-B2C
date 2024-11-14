@@ -1,6 +1,6 @@
 package com.eggbucket.eggbucket_b2c
 
-import com.google.gson.annotations.SerializedName
+
 
 // Main User Data Class
 data class User(
@@ -15,22 +15,23 @@ data class User(
 data class UserAddress(
     val id:String?=null,
     val fullAddress: FullAddress,
-    @SerializedName("coordinates") val customerCoordinates: CustomerCoordinates
+    val coordinates:GeoPoint,
 )
 
 // Full Address Class
 data class FullAddress(
-    val area: String,
-    val zipCode: String,
-    val country: String,
-    val flatNo: String,
-    val city: String,
-    val state: String
+    val flatNo: String? = null,
+    val addressLine1: String? = null,
+    val addressLine2: String? = null,
+    val area: String? = null,
+    val city: String? = null,
+    val state: String? = null,
+    val zipCode: String? = null,
+    val country: String? = null
 )
 
-// Coordinates Class
-data class CustomerCoordinates(
+
+data class GeoPoint(
     val lat: Double,
     val long: Double
 )
-

@@ -12,8 +12,9 @@ val okHttpClient = OkHttpClient.Builder()
     .build()
 
 object RetrofitClient {
+    //prevoius host-https://b2c-49u4.onrender.com/
 
-    private const val BASE_URL = "https://b2c-49u4.onrender.com/"
+    private const val BASE_URL = "https://b2c-backend-1.onrender.com"
 
     val retrofit: Retrofit by lazy {
         Retrofit.Builder()
@@ -29,7 +30,7 @@ object RetrofitClient {
 }
 object RetrofitClient1 {
 
-    private const val BASE_URL = "https://b2c-49u4.onrender.com/"
+    private const val BASE_URL = "https://b2c-backend-1.onrender.com"
 
     val retrofit: Retrofit by lazy {
         Retrofit.Builder()
@@ -41,6 +42,6 @@ object RetrofitClient1 {
     }
 
     val apiService1: ApiService1 by lazy {
-        retrofit.create(ApiService1::class.java)
+        RetrofitClient.retrofit.create(ApiService1::class.java)
     }
 }
