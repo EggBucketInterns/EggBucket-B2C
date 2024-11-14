@@ -23,12 +23,21 @@
         android:id="@+id/nav_view"
         android:layout_width="match_parent"
         android:layout_height="65dp"
+        android:layout_marginBottom="4dp"
         android:background="@color/white"
         android:paddingTop="7dp"
+        app:itemIconSize="24dp"
         app:itemIconTint="@color/appThemeColor"
+        app:itemPaddingBottom="0dp"
+        app:itemPaddingTop="0dp"
+        app:itemTextColor="@color/appThemeColor"
+        app:itemTextSize="14sp"
+        app:paddingBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav_menu" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
