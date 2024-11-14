@@ -31,8 +31,6 @@
         app:itemPaddingBottom="0dp"
         app:itemPaddingTop="0dp"
         app:itemTextColor="@color/appThemeColor"
-        app:itemTextSize="14sp"
-        app:paddingBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
