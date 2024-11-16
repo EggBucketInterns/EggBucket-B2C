@@ -93,10 +93,10 @@
 
                 <TextView
                     android:id="@+id/decrease_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_weight="1"
-                    android:text="  -  "
+                    android:text="-"
                     android:textColor="#FFF"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -107,7 +107,7 @@
 
                 <TextView
                     android:id="@+id/quantity"
-                    android:layout_width="wrap_content"
+                    android:layout_width="45dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="1"
@@ -120,10 +120,10 @@
 
                 <TextView
                     android:id="@+id/increase_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_weight="1"
-                    android:text="  +  "
+                    android:text="+"
                     android:textColor="#FFF"
                     android:textSize="20sp"
                     android:textStyle="bold"
