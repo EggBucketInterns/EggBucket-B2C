@@ -14,6 +14,13 @@
             android:id="@+id/action_navigation_home_to_productPageFragment"
             app:destination="@id/productPageFragment" />
         <action
+            android:id="@+id/action_navigation_home_to_product1Fragment"
+            app:destination="@id/product1Fragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_product2Fragment"
+            app:destination="@id/product2Fragment" />
+
+        <action
             android:id="@+id/action_navigation_home_to_companyMenu"
             app:destination="@id/companyMenu" />
     </fragment>
@@ -58,6 +65,33 @@
             android:id="@+id/action_productPageFragment_to_cartFragment"
             app:destination="@id/cartFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/product1Fragment"
+        android:name="com.eggbucket.eggbucket_b2c.Product1Fragment"
+        android:label="fragment_product1"
+        tools:layout="@layout/fragment_product1" >
+        <action
+            android:id="@+id/action_product1Fragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_product1Fragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/product2Fragment"
+        android:name="com.eggbucket.eggbucket_b2c.Product2Fragment"
+        android:label="fragment_product2"
+        tools:layout="@layout/fragment_product2" >
+        <action
+            android:id="@+id/action_product2Fragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_product2Fragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
+    </fragment>
+
 
 
     <fragment

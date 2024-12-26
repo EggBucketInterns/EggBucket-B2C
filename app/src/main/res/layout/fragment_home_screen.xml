@@ -133,210 +133,218 @@
                     android:textStyle="bold" />
 
             </LinearLayout>
-            <GridLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:columnCount="2">
-            <!-- Product Card -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/itemCard1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="24dp"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="8dp">
+                android:orientation="vertical">
 
-                <LinearLayout
+                <!-- Product Card 1 -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/itemCard1"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <ImageView
-                        android:id="@+id/itemImage1"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
-                        android:contentDescription="Product image"
-                        android:src="@drawable/six_piece_eggs" />
-
-                    <TextView
-                        android:id="@+id/itemName1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Eggs"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="1dp"
-                        android:text="6 pieces"
-                        android:textColor="#AFAFAF"
-                        android:textSize="16sp" />
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="8dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="16dp">
 
+                        <!-- Image -->
+                        <ImageView
+                            android:id="@+id/itemImage1"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_marginEnd="16dp"
+                            android:contentDescription="Product image"
+                            android:src="@drawable/six_piece_eggs" />
+
+                        <!-- Text Section -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginTop="30dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/itemName1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Eggs"
+                                android:textColor="@color/black"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="6 pieces"
+                                android:textColor="#AFAFAF"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <!-- Add Button -->
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/addButton1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/white"
                             android:text="Add"
+                            android:layout_marginTop="30dp"
                             android:textColor="@color/appThemeColor"
                             app:cornerRadius="10dp"
                             app:strokeColor="@color/appThemeColor"
-                            app:strokeWidth="2dp"
-
-                            />
-
+                            app:strokeWidth="2dp" />
                     </LinearLayout>
 
-                </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:id="@+id/itemCard2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="24dp"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="8dp">
+                <!-- Repeat similar blocks for itemCard2 and itemCard3 -->
 
-                <LinearLayout
+                <!-- Product Card 2 -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/itemCard2"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <ImageView
-                        android:id="@+id/itemImage2"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
-                        android:contentDescription="Product image"
-                        android:src="@drawable/twelve_piece_eggs" />
-
-                    <TextView
-                        android:id="@+id/itemName2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Eggs"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="1dp"
-                        android:text="12 pieces"
-                        android:textColor="#AFAFAF"
-                        android:textSize="16sp" />
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="8dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="16dp">
 
+                        <!-- Image -->
+                        <ImageView
+                            android:id="@+id/itemImage2"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_marginEnd="16dp"
+                            android:contentDescription="Product image"
+                            android:src="@drawable/twelve_piece_eggs" />
+
+                        <!-- Text Section -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginTop="30dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/itemName2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Eggs"
+                                android:textColor="@color/black"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="12 pieces"
+                                android:textColor="#AFAFAF"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <!-- Add Button -->
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/addButton2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/white"
                             android:text="Add"
+                            android:layout_marginTop="30dp"
                             android:textColor="@color/appThemeColor"
                             app:cornerRadius="10dp"
                             app:strokeColor="@color/appThemeColor"
-                            app:strokeWidth="2dp"
-
-                            />
-
+                            app:strokeWidth="2dp" />
                     </LinearLayout>
 
-                </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:id="@+id/itemCard3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginBottom="10dp"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="8dp">
-
-                <LinearLayout
+                <!-- Product Card 3 -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/itemCard3"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <ImageView
-                        android:id="@+id/itemImage3"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
-                        android:contentDescription="Product image"
-                        android:src="@drawable/thirty_piece_eggs" />
-
-                    <TextView
-                        android:id="@+id/itemName3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Eggs"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="1dp"
-                        android:text="30 pieces"
-                        android:textColor="#AFAFAF"
-                        android:textSize="16sp" />
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="8dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="16dp">
 
+                        <!-- Image -->
+                        <ImageView
+                            android:id="@+id/itemImage3"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_marginEnd="16dp"
+                            android:contentDescription="Product image"
+                            android:src="@drawable/thirty_piece_eggs" />
+
+                        <!-- Text Section -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginTop="30dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/itemName3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Eggs"
+                                android:textColor="@color/black"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="30 pieces"
+                                android:textColor="#AFAFAF"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <!-- Add Button -->
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/addButton3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/white"
                             android:text="Add"
+                            android:layout_marginTop="30dp"
                             android:textColor="@color/appThemeColor"
                             app:cornerRadius="10dp"
                             app:strokeColor="@color/appThemeColor"
-                            app:strokeWidth="2dp"
-
-                            />
-
+                            app:strokeWidth="2dp" />
                     </LinearLayout>
 
-                </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
-            </androidx.cardview.widget.CardView>
-            </GridLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout

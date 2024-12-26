@@ -1,10 +1,11 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card1"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginLeft="33dp"
     android:background="@color/white"
     android:padding="3dp"
     card_view:cardCornerRadius="16dp"
@@ -15,33 +16,67 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:background="@drawable/card_selector"
-        android:orientation="vertical"
+        android:background="@drawable/card_background"
+        android:orientation="horizontal"
         android:padding="6dp">
 
+        <!-- Product Image -->
         <ImageView
             android:id="@+id/productImageCard"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:background="@drawable/eggimage"
+            android:src="@drawable/eggimage"
             android:contentDescription="Product Image"
             android:scaleType="centerCrop" />
 
+        <!-- Product Text -->
         <TextView
             android:id="@+id/productTextCard"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="0dp"
+            android:layout_marginTop="35dp"
             android:gravity="center"
             android:text="Eggs x 6"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:textStyle="normal"
-            tools:ignore="HardcodedText,RtlSymmetry" />
+            android:textStyle="normal" />
+
+        <!-- Counter Layout -->
+        <LinearLayout
+            android:id="@+id/quantitySelector1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:background="@drawable/quantity_selector_background"
+            >
+
+            <ImageButton
+                android:id="@+id/decreaseButton1"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/nega_button"
+                android:contentDescription="decrease_quantity" />
+
+            <TextView
+                android:id="@+id/quantityText1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="1"
+                android:textSize="24sp" />
+
+            <ImageButton
+                android:id="@+id/increaseButton1"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/ic_plus"
+                android:contentDescription="increase_quantity" />
+        </LinearLayout>
 
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
-
-
