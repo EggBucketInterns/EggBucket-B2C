@@ -5,94 +5,86 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 
-class ProductPageFragment : Fragment() {
+class Product1Fragment : Fragment() {
 
     private val images = listOf(R.drawable.egg_basket3, R.drawable.egg_basket5, R.drawable.egg_basket)
     private lateinit var sharedPreferences: SharedPreferences
 
-    private var count1 = 0
-    private val price1 = 60 // Fixed Prices for each pack
+    private var count2 = 0
+    private val pricePerPack = 120 // Fixed price for pack of 12
     private lateinit var viewPager: ViewPager2
     private val handler = Handler(Looper.getMainLooper())
     private var currentPage = 0
+    private lateinit var bottomNavigationView: BottomNavigationView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         sharedPreferences = requireActivity().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
-        loadQuantitiesFromSharedPreferences()
+        loadQuantityFromSharedPreferences()
 
-        val view = inflater.inflate(R.layout.fragment_product_page, container, false)
+        val view = inflater.inflate(R.layout.fragment_product1, container, false)
         viewPager = view.findViewById(R.id.imageCarousel)
         val carouselAdapter = CarouselAdapterProduct(images)
         viewPager.adapter = carouselAdapter
-
-        setupCard1Listeners(view)
+        bottomNavigationView= requireActivity().findViewById(R.id.nav_view)
+        setupCard2Listeners(view)
         setupUI(view)
         startAutoScroll(view)
 
         return view
     }
 
-    private fun setupCard1Listeners(view: View) {
-        val decreaseBut1 = view.findViewById<ImageButton>(R.id.decreaseButton1)
-        val increaseBut1 = view.findViewById<ImageButton>(R.id.increaseButton1)
-        val quantityText1 = view.findViewById<TextView>(R.id.quantityText1)
+    private fun setupCard2Listeners(view: View) {
+        val decreaseBut2 = view.findViewById<ImageButton>(R.id.decreaseButton2)
+        val increaseBut2 = view.findViewById<ImageButton>(R.id.increaseButton2)
+        val quantityText2 = view.findViewById<TextView>(R.id.quantityText2)
 
-        decreaseBut1.setOnClickListener {
-            if (count1 > 0) {
-                count1--
-                quantityText1.text = count1.toString()
+        decreaseBut2.setOnClickListener {
+            if (count2 > 0) {
+                count2--
+                quantityText2.text = count2.toString()
                 updatePrice(view)
                 saveQuantityToSharedPreferences()
             }
         }
 
-        increaseBut1.setOnClickListener {
-            count1++
-            quantityText1.text = count1.toString()
+        increaseBut2.setOnClickListener {
+            count2++
+            quantityText2.text = count2.toString()
             updatePrice(view)
             saveQuantityToSharedPreferences()
         }
-
-        view.findViewById<View>(R.id.card1).setOnClickListener {
-            updateSelectedCard(view)
-        }
-    }
-
-    private fun updateSelectedCard(view: View) {
-        view.findViewById<LinearLayout>(R.id.cardLayout1)
     }
 
     private fun updatePrice(view: View) {
         val priceTextView = view.findViewById<TextView>(R.id.priceText)
-        priceTextView.text = "Price: ${price1 * count1}"
+        val totalPrice = pricePerPack * count2
+        priceTextView.text = "Price: $totalPrice"
     }
 
     private fun saveQuantityToSharedPreferences() {
         with(sharedPreferences.edit()) {
-            putInt("count1", count1)
+            putInt("count2", count2)
             apply()
         }
     }
 
-    private fun loadQuantitiesFromSharedPreferences() {
-        count1 = sharedPreferences.getInt("count1", 0)
+    private fun loadQuantityFromSharedPreferences() {
+        count2 = sharedPreferences.getInt("count2", 0)
     }
 
     private fun startAutoScroll(view: View) {
@@ -128,9 +120,9 @@ class ProductPageFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        loadQuantitiesFromSharedPreferences()
-        val quantityText2 = view?.findViewById<TextView>(R.id.quantityText1)
-        quantityText2?.text = count1.toString()
+        loadQuantityFromSharedPreferences()
+        val quantityText2 = view?.findViewById<TextView>(R.id.quantityText2)
+        quantityText2?.text = count2.toString()
         updatePrice(requireView())
     }
 
@@ -139,28 +131,19 @@ class ProductPageFragment : Fragment() {
         handler.removeCallbacksAndMessages(null)
     }
 
-
     private fun setupUI(view: View) {
         val previousButton = view.findViewById<ImageButton>(R.id.backButton)
         previousButton.setOnClickListener {
-            findNavController().navigate(R.id.action_productPageFragment_to_navigation_home)
+            findNavController().navigate(R.id.action_product1Fragment_to_navigation_home)
         }
 
         val addToCart = view.findViewById<Button>(R.id.addToCartButton)
         addToCart.setOnClickListener {
-            if (count1 == 0) {
+            if (count2 == 0) {
                 Snackbar.make(view, "Add Items to Cart!", Snackbar.LENGTH_SHORT).show()
             } else {
-                findNavController().navigate(R.id.action_productPageFragment_to_cartFragment)
+                bottomNavigationView.selectedItemId = R.id.navigation_cart
             }
         }
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProductPageFragment().apply {
-                arguments = Bundle().apply { }
-            }
     }
 }

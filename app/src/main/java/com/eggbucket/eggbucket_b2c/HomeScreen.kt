@@ -7,9 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -31,31 +29,30 @@ class HomeScreen : Fragment() {
         viewPager = view.findViewById(R.id.carouselViewPager)
         val carouselAdapter = CarouselAdapter(images)
         viewPager.adapter = carouselAdapter
-        val addButton1 = view.findViewById<Button>(R.id.addButton1)
         val ind1 = view.findViewById<ImageView>(R.id.indicator1)
         val ind2 = view.findViewById<ImageView>(R.id.indicator2)
         val ind3 = view.findViewById<ImageView>(R.id.indicator3)
         val itemCard = view.findViewById<CardView>(R.id.itemCard1)
-        val addButton2=view.findViewById<Button>(R.id.addButton2)
-        val addButton3=view.findViewById<Button>(R.id.addButton3)
+        val addButton1 = view.findViewById<Button>(R.id.addButton1)
+        val addButton2 = view.findViewById<Button>(R.id.addButton2)
+        val addButton3 = view.findViewById<Button>(R.id.addButton3)
 
         itemCard.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_home_to_productPageFragment)
-        }
-        val menuIcon = view.findViewById<ImageView>(R.id.menuIcon)
-        menuIcon.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_companyMenu)
         }
 
         addButton1.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_home_to_productPageFragment)
         }
+
         addButton2.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_productPageFragment)
+            findNavController().navigate(R.id.action_navigation_home_to_product1Fragment)
         }
+
         addButton3.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_productPageFragment)
+            findNavController().navigate(R.id.action_navigation_home_to_product2Fragment)
         }
+
         startAutoScroll(ind1, ind2, ind3)
 
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
