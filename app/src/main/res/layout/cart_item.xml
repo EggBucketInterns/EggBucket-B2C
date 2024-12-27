@@ -1,17 +1,17 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="10dp"
-    app:cardBackgroundColor="@color/grey"
-    app:cardCornerRadius="24dp">
+    android:orientation="vertical"
+    android:background="#FFFFFF">
 
     <LinearLayout
+        android:background="@drawable/thin_grey_border"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp">
-
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -51,16 +51,16 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="horizontal">
-            <TextView
-                android:id="@+id/productName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:text="Eggs x 6"
-                android:textColor="@android:color/black"
-                android:textSize="30sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/productName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="Eggs x 6"
+                    android:textColor="@android:color/black"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
 
                 <View
                     android:layout_width="0dp"
@@ -74,12 +74,9 @@
                     android:contentDescription="remove item"
                     android:minHeight="48dp"
                     android:minWidth="48dp"
-
                     android:layout_gravity="end|center|fill_horizontal"
                     android:backgroundTint="@color/grey"
                     app:srcCompat="@drawable/img_vector_blue_gray_400" />
-
-
             </LinearLayout>
 
             <LinearLayout
@@ -88,19 +85,17 @@
                 android:gravity="end"
                 android:orientation="horizontal"
                 android:paddingTop="10dp"
-                android:paddingLeft="150dp">
-
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="5dp">
 
                 <TextView
                     android:id="@+id/decrease_btn"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_weight="1"
                     android:text="-"
                     android:textColor="#FFF"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:contentDescription="removeItemFromCart"
                     android:textAlignment="center"
                     android:background="@drawable/text_background"
                     android:backgroundTint="@color/appThemeColor"/>
@@ -115,14 +110,12 @@
                     android:textStyle="bold"
                     android:textAlignment="center"
                     android:textSize="20sp"
-                    android:padding="8dp"
-                    />
+                    android:padding="8dp"/>
 
                 <TextView
                     android:id="@+id/increase_btn"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_weight="1"
                     android:text="+"
                     android:textColor="#FFF"
                     android:textSize="20sp"
@@ -130,13 +123,10 @@
                     android:textAlignment="center"
                     android:background="@drawable/text_background"
                     android:backgroundTint="@color/appThemeColor"/>
-
-
             </LinearLayout>
+
         </LinearLayout>
 
-
-
-
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+
+</LinearLayout>

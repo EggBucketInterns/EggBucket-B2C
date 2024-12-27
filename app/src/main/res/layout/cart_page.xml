@@ -76,6 +76,7 @@
         android:layout_width="match_parent"
         android:id="@+id/scroll_view_cart"
         android:layout_height="0dp"
+        android:scrollbars="none"
         android:layout_weight="1"
         android:visibility="gone">
 
@@ -103,32 +104,68 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingTop="16dp"
-        android:visibility="gone">
+        android:elevation="4dp"
+        android:visibility="gone"
+        >
 
-
-        <!-- Delivery Address -->
+        <!-- Delivery Address Section -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:paddingBottom="4dp">
 
-            <TextView
-                android:id="@+id/delivery_address"
+            <!-- Map Pin Icon -->
+            <ImageView
+                android:id="@+id/map_pin_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/map_pin_line2"
+                android:layout_marginEnd="8dp" />
+
+            <!-- Delivering To and Address -->
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="HOME - #490, 3rd cross, 4......."
-                android:textColor="#000"
-                android:paddingEnd="8dp"
-                />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/change_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="CHANGE ADDRESS"
-                android:textColor="@color/appThemeColor" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Delivering to"
+                        android:textColor="#000"
+                        android:textSize="16sp"
+                        android:layout_marginEnd="8dp" />
+
+                    <ImageView
+                        android:id="@+id/change_address"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/arrow_dowm" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/delivery_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="HOME - #490, 3rd cross, 4......."
+                    android:textColor="#000"
+                    android:textSize="14sp"
+                    android:paddingTop="4dp"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:maxLines="1"
+                    android:scrollHorizontally="true" />
+
+            </LinearLayout>
         </LinearLayout>
 
         <!-- Continue to Pay Button -->
@@ -139,8 +176,9 @@
             android:text="CONTINUE TO PAY ₹"
             android:backgroundTint="@color/appThemeColor"
             android:textColor="#FFF"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="6dp"
             android:textAllCaps="false" />
     </LinearLayout>
+
 
 </LinearLayout>

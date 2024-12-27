@@ -44,7 +44,7 @@ class CartFragment : Fragment() {
     private lateinit var cartAdapter: CartAdapter
     private lateinit var emptyCartButton: Button
     private lateinit var addressText: TextView
-    private lateinit var changeAddressButton: TextView
+    private lateinit var changeAddressButton: ImageView
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var continueToPayButton: Button
     private lateinit var footer: LinearLayout
@@ -109,7 +109,7 @@ class CartFragment : Fragment() {
         emptyCartButton = view.findViewById(R.id.empty_cart_button)
         continueToPayButton = view.findViewById(R.id.continue_to_pay)
         addressText = view.findViewById(R.id.delivery_address)
-        changeAddressButton = view.findViewById(R.id.change_address)
+        changeAddressButton = view.findViewById<ImageView>(R.id.change_address)
         footer = view.findViewById(R.id.liniar_layout_cart_foouter)
         cartscroll = view.findViewById(R.id.scroll_view_cart)
         cartempty = view.findViewById(R.id.cart_empty)
@@ -243,7 +243,7 @@ class CartFragment : Fragment() {
     //display address of shared preference in required format
     private fun updateAddress(address: UserAddress) {
         val displayAddress = "${address.fullAddress.flatNo}, ${address.fullAddress.area}, ${address.fullAddress.city}"
-        addressText.text = "Address: $displayAddress"
+        addressText.text = "$displayAddress"
     }
     //calculate total prise
     private fun updateTotalPrice() {
