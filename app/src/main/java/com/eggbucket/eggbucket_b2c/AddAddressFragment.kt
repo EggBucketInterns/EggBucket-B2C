@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -88,6 +89,7 @@ class AddAddressFragment : Fragment() {
         val final_state = view.findViewById<EditText>(R.id.et_state)
         val final_country = view.findViewById<EditText>(R.id.et_country)
         val final_postalcode = view.findViewById<EditText>(R.id.et_postalcode)
+        val progressBar=view.findViewById<ProgressBar>(R.id.progress_bar)
 
         // Populate the fields with retrieved data if available
         final_flatno.setText(flatNo)
@@ -104,27 +106,29 @@ class AddAddressFragment : Fragment() {
         val saveButton = view.findViewById<Button>(R.id.btn_submit)
         saveButton.setOnClickListener {
             val jsonAddress = createAddressJson(
-                final_flatno.getText().toString(),
-                final_address1.getText().toString(),
-                final_address2.getText().toString(),
-                final_area.getText().toString(),
-                final_city.getText().toString(),
-                final_state.getText().toString(),
-                final_postalcode.getText().toString(),
-                final_country.getText().toString(),
+                final_flatno.text.toString(),
+                final_address1.text.toString(),
+                final_address2.text.toString(),
+                final_area.text.toString(),
+                final_city.text.toString(),
+                final_state.text.toString(),
+                final_postalcode.text.toString(),
+                final_country.text.toString(),
                 coordinates!!
             )
+
             patchUserAddress(phoneNumber, jsonAddress) { isSuccess ->
+                progressBar.visibility = View.GONE
+                saveButton.isEnabled = true
+
                 if (isSuccess) {
-                    // Navigate to the address list fragment only if the patch is successful
                     findNavController().navigate(R.id.action_addAddressFragment_to_addressListFragment)
                 } else {
-                    // Handle the failure case (e.g., show a Toast)
                     Toast.makeText(context, "Failed to update address", Toast.LENGTH_SHORT).show()
                 }
-
+            }
         }
-    }}
+    }
 
     fun createAddressJson(
 

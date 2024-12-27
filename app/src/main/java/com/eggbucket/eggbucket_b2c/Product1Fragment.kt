@@ -15,6 +15,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 
 class Product1Fragment : Fragment() {
@@ -27,6 +28,7 @@ class Product1Fragment : Fragment() {
     private lateinit var viewPager: ViewPager2
     private val handler = Handler(Looper.getMainLooper())
     private var currentPage = 0
+    private lateinit var bottomNavigationView: BottomNavigationView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -38,7 +40,7 @@ class Product1Fragment : Fragment() {
         viewPager = view.findViewById(R.id.imageCarousel)
         val carouselAdapter = CarouselAdapterProduct(images)
         viewPager.adapter = carouselAdapter
-
+        bottomNavigationView= requireActivity().findViewById(R.id.nav_view)
         setupCard2Listeners(view)
         setupUI(view)
         startAutoScroll(view)
@@ -140,7 +142,7 @@ class Product1Fragment : Fragment() {
             if (count2 == 0) {
                 Snackbar.make(view, "Add Items to Cart!", Snackbar.LENGTH_SHORT).show()
             } else {
-                findNavController().navigate(R.id.action_product1Fragment_to_cartFragment)
+                bottomNavigationView.selectedItemId = R.id.navigation_cart
             }
         }
     }
