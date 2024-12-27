@@ -36,6 +36,8 @@ import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
 import android.Manifest
+import android.widget.ProgressBar
+import android.widget.RelativeLayout
 
 
 class CartFragment : Fragment() {
@@ -44,6 +46,8 @@ class CartFragment : Fragment() {
     private lateinit var cartAdapter: CartAdapter
     private lateinit var emptyCartButton: Button
     private lateinit var addressText: TextView
+    private lateinit var progressOverlay: RelativeLayout
+    private lateinit var progressBar: ProgressBar
     private lateinit var changeAddressButton: ImageView
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var continueToPayButton: Button
@@ -107,6 +111,8 @@ class CartFragment : Fragment() {
         // Initialize views
         cartItemsRecyclerView = view.findViewById(R.id.recyclerCartItems)
         emptyCartButton = view.findViewById(R.id.empty_cart_button)
+        progressOverlay = view.findViewById(R.id.progress_overlay)
+        progressBar = view.findViewById(R.id.progress_bar)
         continueToPayButton = view.findViewById(R.id.continue_to_pay)
         addressText = view.findViewById(R.id.delivery_address)
         changeAddressButton = view.findViewById<ImageView>(R.id.change_address)
@@ -161,6 +167,7 @@ class CartFragment : Fragment() {
         //continue to pay listener
 
         continueToPayButton.setOnClickListener {
+            showProgress()
             triggerNotification("12345")
             val addressJson = sharedPreferences.getString("selected_address", null)
             if (addressJson == null){
@@ -205,6 +212,8 @@ class CartFragment : Fragment() {
                 customerId = phoneNumber
             )
 
+
+
         }
 
 
@@ -217,6 +226,11 @@ class CartFragment : Fragment() {
 
         return view
     }
+
+    private fun showProgress() {
+        progressOverlay.visibility = View.VISIBLE
+    }
+
     //update price on quantity change to call from adapter
     private fun onQuantityChanged(item: String, newQuantity: Int) {
         updateQuantityInSharedPreferences(item, newQuantity)
@@ -334,8 +348,8 @@ class CartFragment : Fragment() {
                     } else {
                         // Show success message on the main thread
                         activity?.runOnUiThread {
-                            showAlertDialog("Order Success", "Order created successfully!")
-
+                            //showAlertDialog("Order Success", "Order created successfully!")
+                            findNavController().navigate(R.id.action_cartFragment_to_orderCompleted)
                             Log.d("CreateOrder", "Order created successfully: $responseBody")
 
                             clearcart() // Make sure this method also handles UI updates correctly

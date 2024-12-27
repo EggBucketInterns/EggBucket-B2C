@@ -132,6 +132,9 @@
         <action
             android:id="@+id/action_cartFragment_to_mapFragment"
             app:destination="@id/mapFragment" />
+        <action
+            android:id="@+id/action_cartFragment_to_orderCompleted"
+            app:destination="@id/orderCompleted" />
     </fragment>
     <fragment
         android:id="@+id/addressListFragment"
@@ -175,6 +178,14 @@
         <action
             android:id="@+id/action_mapFragment_to_addressListFragment"
             app:destination="@id/addressListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderCompleted"
+        android:name="com.eggbucket.eggbucket_b2c.OrderCompleted"
+        android:label="OrderCompleted" >
+        <action
+            android:id="@+id/action_orderCompleted_to_navigation_home"
+            app:destination="@id/navigation_home" />
     </fragment>
 
 
