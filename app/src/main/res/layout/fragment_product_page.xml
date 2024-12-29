@@ -85,17 +85,29 @@
             app:layout_constraintTop_toBottomOf="@id/imageCarousel" />
 
         <TextView
-            android:id="@+id/productTitle"
+        android:id="@+id/productTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="30dp"
+        android:text="Eggs (Pack of 6 for ₹60)"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/indicatorLayout" />
+        <TextView
+            android:id="@+id/productprize3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="30dp"
-            android:text="Eggs (Pack of 6 for ₹60)"
-            android:textSize="24sp"
+            android:layout_marginTop="10dp"
+            android:text="₹60/pack"
+            android:textSize="18sp"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/indicatorLayout" />
+            app:layout_constraintTop_toBottomOf="@id/productTitle" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -115,7 +127,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/productTitle">
+            app:layout_constraintTop_toBottomOf="@id/productprize3">
 
             <TextView
                 android:id="@+id/priceText"

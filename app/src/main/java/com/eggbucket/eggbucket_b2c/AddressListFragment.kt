@@ -27,6 +27,7 @@ class AddressListFragment : Fragment() {
     private val addressList = ArrayList<UserAddress>()
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var phoneNumber: String
+    private lateinit var progressBar: ProgressBar
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,6 +35,7 @@ class AddressListFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_address, container, false)
         val addaddressBtn = view.findViewById<Button>(R.id.add_New_Address)
         val backBtn = view.findViewById<ImageView>(R.id.backBtn)
+        progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
 
         sharedPreferences = requireContext().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
         phoneNumber= sharedPreferences.getString("user_phone","916363894956").toString()
@@ -57,17 +59,11 @@ class AddressListFragment : Fragment() {
     }
 
     private fun fetchUserData(phone: String) {
-        val progressBar = view?.findViewById<ProgressBar>(R.id.progressBar)
-        val recyclerview = view?.findViewById<RecyclerView>(R.id.BuyAgainRecyclerView)
-
-        recyclerview?.visibility = View.GONE
-        progressBar?.visibility = View.VISIBLE
+        progressBar.visibility = View.VISIBLE
 
         RetrofitClient.apiService.getUserByPhone(phone).enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
-                progressBar?.visibility = View.GONE
-                recyclerview?.visibility = View.VISIBLE
-
+                progressBar.visibility = View.INVISIBLE
                 if (response.isSuccessful) {
                     response.body()?.let { user ->
                         user.addresses?.let { addresses ->
@@ -86,7 +82,7 @@ class AddressListFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<User>, t: Throwable) {
-                progressBar?.visibility = View.GONE
+                progressBar.visibility = View.INVISIBLE
                 Log.e("fetchUserData", "Failed: ${t.message}", t)
                 Toast.makeText(requireContext(), "Failed: ${t.message}", Toast.LENGTH_LONG).show()
             }

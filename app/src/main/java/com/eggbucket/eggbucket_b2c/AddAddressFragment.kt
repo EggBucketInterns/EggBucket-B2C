@@ -14,6 +14,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import okhttp3.Call
 import okhttp3.Callback
@@ -40,6 +41,8 @@ class AddAddressFragment : Fragment() {
     private var country: String? = null
     private var coordinates:GeoPoint? = null
     private lateinit var phoneNumber: String
+    private lateinit var progressBar: ProgressBar
+
 
 
 
@@ -54,7 +57,7 @@ class AddAddressFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        progressBar=view.findViewById(R.id.progress_bar)
         val sharedPreferences = requireContext().getSharedPreferences("my_preference", Context.MODE_PRIVATE)
         phoneNumber = sharedPreferences.getString("phone_number", "916363894956").toString()
         val savedAddressJson = sharedPreferences.getString("address", null)
@@ -89,7 +92,7 @@ class AddAddressFragment : Fragment() {
         val final_state = view.findViewById<EditText>(R.id.et_state)
         val final_country = view.findViewById<EditText>(R.id.et_country)
         val final_postalcode = view.findViewById<EditText>(R.id.et_postalcode)
-        val progressBar=view.findViewById<ProgressBar>(R.id.progress_bar)
+
 
         // Populate the fields with retrieved data if available
         final_flatno.setText(flatNo)
@@ -105,6 +108,8 @@ class AddAddressFragment : Fragment() {
 
         val saveButton = view.findViewById<Button>(R.id.btn_submit)
         saveButton.setOnClickListener {
+            progressBar.visibility = View.VISIBLE
+            saveButton.isEnabled = false
             val jsonAddress = createAddressJson(
                 final_flatno.text.toString(),
                 final_address1.text.toString(),

@@ -11,58 +11,72 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="8dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/topImage"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:contentDescription="Top image"
+                android:src="@drawable/egg"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/comfortaabold"
+                android:text="@string/egg_bucket"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/topImage"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/menuIcon"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/menuicon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@id/constraintLayout"
+            android:background="#EA1F1D1D"
+            android:paddingHorizontal="-16dp" />
         <LinearLayout
+            android:id="@+id/MainBody"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="vertical"
             android:paddingHorizontal="16dp"
             android:paddingTop="8dp"
-            android:id="@+id/MainBody"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/divider">
 
             <!-- Top Image -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
 
-                >
 
-                <ImageView
-                    android:id="@+id/topImage"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:contentDescription="Top image"
-                    android:src="@drawable/egg"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:fontFamily="@font/comfortaabold"
-                    android:text="@string/egg_bucket"
-                    android:textColor="#000000"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/topImage"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/menuIcon"
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/menuicon"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/carouselViewPager"
@@ -133,6 +147,7 @@
                     android:textStyle="bold" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -166,10 +181,10 @@
 
                         <!-- Text Section -->
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:layout_marginTop="30dp"
+                            android:layout_weight="1"
                             android:orientation="vertical">
 
                             <TextView
@@ -195,13 +210,57 @@
                             android:id="@+id/addButton1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
                             android:backgroundTint="@color/white"
                             android:text="Add"
-                            android:layout_marginTop="30dp"
                             android:textColor="@color/appThemeColor"
+                            android:visibility="visible"
                             app:cornerRadius="10dp"
                             app:strokeColor="@color/appThemeColor"
                             app:strokeWidth="2dp" />
+                        <!-- Counter Section -->
+                        <LinearLayout
+                            android:id="@+id/counterLayout1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
+
+
+                            <Button
+                                android:id="@+id/decrementButton1"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:backgroundTint="@color/appThemeColor"
+                                android:gravity="center"
+                                android:padding="0dp"
+                                android:text="-"
+                                android:textColor="@color/white"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/itemCount1"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:gravity="center"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
+
+                            <Button
+                                android:id="@+id/incrementButton1"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:backgroundTint="@color/appThemeColor"
+                                android:gravity="center"
+                                android:padding="0dp"
+                                android:text="+"
+                                android:textColor="@color/white"
+                                android:textSize="20sp" />
+
+                        </LinearLayout>
+
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -225,20 +284,22 @@
                         android:padding="16dp">
 
                         <!-- Image -->
+
+                        <!-- Text Section -->
                         <ImageView
                             android:id="@+id/itemImage2"
                             android:layout_width="120dp"
                             android:layout_height="120dp"
                             android:layout_marginEnd="16dp"
+                            android:padding="5dp"
                             android:contentDescription="Product image"
-                            android:src="@drawable/twelve_piece_eggs" />
+                            android:src="@drawable/eggs_image_12" />
 
-                        <!-- Text Section -->
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:layout_marginTop="30dp"
+                            android:layout_weight="1"
                             android:orientation="vertical">
 
                             <TextView
@@ -264,13 +325,55 @@
                             android:id="@+id/addButton2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
                             android:backgroundTint="@color/white"
                             android:text="Add"
-                            android:layout_marginTop="30dp"
                             android:textColor="@color/appThemeColor"
                             app:cornerRadius="10dp"
                             app:strokeColor="@color/appThemeColor"
                             app:strokeWidth="2dp" />
+
+                        <LinearLayout
+                            android:id="@+id/counterLayout2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
+
+
+                            <Button
+                                android:id="@+id/decrementButton2"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:backgroundTint="@color/appThemeColor"
+                                android:gravity="center"
+                                android:padding="0dp"
+                                android:text="-"
+                                android:textColor="@color/white"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/itemCount2"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:gravity="center"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
+
+                            <Button
+                                android:id="@+id/incrementButton2"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:backgroundTint="@color/appThemeColor"
+                                android:gravity="center"
+                                android:padding="0dp"
+                                android:text="+"
+                                android:textColor="@color/white"
+                                android:textSize="20sp" />
+
+                        </LinearLayout>
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -296,6 +399,7 @@
                             android:id="@+id/itemImage3"
                             android:layout_width="120dp"
                             android:layout_height="120dp"
+                            android:padding="5dp"
                             android:layout_marginEnd="16dp"
                             android:contentDescription="Product image"
                             android:src="@drawable/thirty_piece_eggs" />
@@ -304,8 +408,8 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:layout_marginTop="30dp"
+                            android:layout_weight="1"
                             android:orientation="vertical">
 
                             <TextView
@@ -331,13 +435,55 @@
                             android:id="@+id/addButton3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
                             android:backgroundTint="@color/white"
                             android:text="Add"
-                            android:layout_marginTop="30dp"
                             android:textColor="@color/appThemeColor"
                             app:cornerRadius="10dp"
                             app:strokeColor="@color/appThemeColor"
                             app:strokeWidth="2dp" />
+
+                        <LinearLayout
+                            android:id="@+id/counterLayout3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
+
+
+                            <Button
+                                android:id="@+id/decrementButton3"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:backgroundTint="@color/appThemeColor"
+                                android:gravity="center"
+                                android:padding="0dp"
+                                android:text="-"
+                                android:textColor="@color/white"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/itemCount3"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:gravity="center"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
+
+                            <Button
+                                android:id="@+id/incrementButton3"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:backgroundTint="@color/appThemeColor"
+                                android:gravity="center"
+                                android:padding="0dp"
+                                android:text="+"
+                                android:textColor="@color/white"
+                                android:textSize="20sp" />
+
+                        </LinearLayout>
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
