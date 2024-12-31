@@ -1,9 +1,11 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardBackgroundColor="@color/grey"
+    app:cardBackgroundColor="@android:color/white"
     app:cardCornerRadius="24dp"
+    app:cardElevation="8dp"
     android:layout_margin="8dp">
 
     <LinearLayout
@@ -26,37 +28,51 @@
             >
 
             <TextView
-                android:id="@+id/orderDate"
+                android:id="@+id/orderId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Order At: {Date}"
-                android:textColor="@android:color/black"
-                android:textSize="30dp"
-                android:textStyle="bold" />
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Order ID: {ID}\nStatus: {status}"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/orderAmt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Order Amount: {Amt}"
-                android:textSize="24dp" />
+                android:fontFamily="@font/poppins_regular"
+                android:text="Order Amount: ₹{Amt}"
+                android:textSize="17dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="7dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/dotted_line" />
+
 
             <TextView
                 android:id="@+id/items"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:fontFamily="@font/poppins_regular"
                 android:text="Eggs x 6   - {}\nEggs x 12 - {}\nEggs x 30 - {}"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/orderId"
+                android:id="@+id/orderDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Order ID: {ID}\nStatus: {status}"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="15sp" />
+                android:fontFamily="@font/poppins_regular"
+                android:text="Order placed on {Date}"
+                android:textColor="@android:color/black"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+
 
 
         </LinearLayout>
