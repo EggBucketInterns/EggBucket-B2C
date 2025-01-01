@@ -58,8 +58,8 @@ class AddAddressFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         progressBar=view.findViewById(R.id.progress_bar)
-        val sharedPreferences = requireContext().getSharedPreferences("my_preference", Context.MODE_PRIVATE)
-        phoneNumber = sharedPreferences.getString("phone_number", "916363894956").toString()
+        val sharedPreferences = requireContext().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
+        phoneNumber = sharedPreferences.getString("user_phone", "916363894956").toString()
         val savedAddressJson = sharedPreferences.getString("address", null)
         if (savedAddressJson != null) {
             // Deserialize the JSON

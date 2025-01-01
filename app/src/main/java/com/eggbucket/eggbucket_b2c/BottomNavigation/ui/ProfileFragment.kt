@@ -66,7 +66,7 @@ class ProfileFragment : Fragment() {
         // Clear user phone number from SharedPreferences
         val sharedPref = requireActivity().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
-        editor.putString("user_phone", null) // Set to null
+        editor.clear()
         editor.apply()
 
         // Redirect to LoginActivity

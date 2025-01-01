@@ -27,7 +27,7 @@ import java.net.URL
 
 class HomeScreen : Fragment() {
 
-    private val images = listOf(R.drawable.cros_2, R.drawable.orangeyolk, R.drawable.farmfresh)
+    private val images = listOf(R.drawable.freshegg, R.drawable.farmfresh, R.drawable.promo)
     private lateinit var viewPager: ViewPager2
     private val handler = Handler(Looper.getMainLooper())
     private var currentPage = 0
@@ -121,7 +121,7 @@ class HomeScreen : Fragment() {
             }
         })
 
-        makeApiRequestWithRetries()
+
 
         return view
     }
@@ -178,37 +178,7 @@ class HomeScreen : Fragment() {
         }
     }
 
-    private fun makeApiRequestWithRetries() {
-        CoroutineScope(Dispatchers.IO).launch {
-            val url = "https://b2c-backend-1.onrender.com/api/v1/customer/user/916363894956"
-            var attempts = 0
-            var success = false
 
-            while (attempts < 3 && !success) {
-                try {
-                    val connection = URL(url).openConnection() as HttpURLConnection
-                    connection.requestMethod = "GET"
-
-                    val responseCode = connection.responseCode
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
-                        success = true
-                        val response = connection.inputStream.bufferedReader().use { it.readText() }
-                        Log.d("API_RESPONSE", response)
-                    } else {
-                        Log.e("API_ERROR", "Response code: $responseCode")
-                    }
-                } catch (e: Exception) {
-                    Log.e("API_ERROR", "Exception: ${e.message}")
-                } finally {
-                    attempts++
-                }
-            }
-
-            if (!success) {
-                Log.e("API_ERROR", "API request failed after 3 attempts.")
-            }
-        }
-    }
 
     private fun startAutoScroll(ind1: ImageView, ind2: ImageView, ind3: ImageView) {
         val runnable = object : Runnable {

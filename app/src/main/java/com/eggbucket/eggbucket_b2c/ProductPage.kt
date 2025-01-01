@@ -22,7 +22,7 @@ import com.google.android.material.snackbar.Snackbar
 
 class ProductPageFragment : Fragment() {
 
-    private val images = listOf(R.drawable.egg_basket3, R.drawable.egg_basket5, R.drawable.egg_basket)
+    private val images = listOf(R.drawable.six_piece_eggs, R.drawable.eggside, R.drawable.orangeyolk)
     private lateinit var sharedPreferences: SharedPreferences
 
     private var count1 = 0

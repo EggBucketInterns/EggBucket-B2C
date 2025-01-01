@@ -1,6 +1,7 @@
 package com.eggbucket.eggbucket_b2c.BottomNavigation.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -8,6 +9,11 @@ import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.eggbucket.eggbucket_b2c.R
 import com.eggbucket.eggbucket_b2c.databinding.ActivityBottomNavigationScreenBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.net.HttpURLConnection
+import java.net.URL
 
 class BottomNavigationScreen : AppCompatActivity() {
 
@@ -22,6 +28,8 @@ class BottomNavigationScreen : AppCompatActivity() {
         val navView: BottomNavigationView = binding.navView
         val navController = findNavController(R.id.nav_host)
 
+        makeApiRequestWithRetries()
+        makeApiRequestWithRetries2()
         // Setup the AppBarConfiguration
         val appBarConfiguration = AppBarConfiguration(
             setOf(R.id.navigation_home, R.id.cartFragment, R.id.navigation_profile)
@@ -69,6 +77,68 @@ class BottomNavigationScreen : AppCompatActivity() {
                 R.id.navigation_home -> navView.selectedItemId = R.id.navigation_home
                 R.id.cartFragment -> navView.selectedItemId = R.id.navigation_cart
                 R.id.navigation_profile -> navView.selectedItemId = R.id.navigation_profile
+            }
+        }
+    }
+    private fun makeApiRequestWithRetries() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val url = "https://b2c-backend-1.onrender.com/api/v1/customer/user/916363894956"
+            var attempts = 0
+            var success = false
+
+            while (attempts < 3 && !success) {
+                try {
+                    val connection = URL(url).openConnection() as HttpURLConnection
+                    connection.requestMethod = "GET"
+
+                    val responseCode = connection.responseCode
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        success = true
+                        val response = connection.inputStream.bufferedReader().use { it.readText() }
+                        Log.d("API_RESPONSE", response)
+                    } else {
+                        Log.e("API_ERROR", "Response code: $responseCode")
+                    }
+                } catch (e: Exception) {
+                    Log.e("API_ERROR", "Exception: ${e.message}")
+                } finally {
+                    attempts++
+                }
+            }
+
+            if (!success) {
+                Log.e("API_ERROR", "API request failed after 3 attempts.")
+            }
+        }
+    }
+    private fun makeApiRequestWithRetries2() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val url = "https://b2c-backend-1.onrender.com/api/v1/order/order"
+            var attempts = 0
+            var success = false
+
+            while (attempts < 3 && !success) {
+                try {
+                    val connection = URL(url).openConnection() as HttpURLConnection
+                    connection.requestMethod = "POST"
+
+                    val responseCode = connection.responseCode
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        success = true
+                        val response = connection.inputStream.bufferedReader().use { it.readText() }
+                        Log.d("API_RESPONSE", response)
+                    } else {
+                        Log.e("API_ERROR", "Response code: $responseCode")
+                    }
+                } catch (e: Exception) {
+                    Log.e("API_ERROR", "Exception: ${e.message}")
+                } finally {
+                    attempts++
+                }
+            }
+
+            if (!success) {
+                Log.e("API_ERROR", "API request failed after 3 attempts.")
             }
         }
     }

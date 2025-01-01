@@ -5,6 +5,7 @@
     <color name="grey">#E4E0E0</color>
     <color name="darker_grey">#989E9E</color>
     <color name="appThemeColor">#F8810B</color>
+    <color name="lightfadeorange">#C2F4A959</color>
     <color name="deletecolor">#FF5722</color>
     <color name="archivecolor">#8BC34A</color>
     <color name="orange">#FF9431</color>

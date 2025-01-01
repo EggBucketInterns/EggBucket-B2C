@@ -16,6 +16,7 @@
             android:id="@+id/imageCarousel"
             android:layout_width="0dp"
             android:layout_height="340dp"
+            android:padding="75dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
