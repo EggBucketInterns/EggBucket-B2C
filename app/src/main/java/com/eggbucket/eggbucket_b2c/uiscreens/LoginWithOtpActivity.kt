@@ -2,6 +2,9 @@ package com.eggbucket.eggbucket_b2c.uiscreens
 //
 import android.os.Bundle
 import android.content.Intent
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -19,6 +22,7 @@ import java.util.concurrent.TimeUnit
 class LoginWithOtpActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: ActivityLoginWithOtpBinding
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +30,7 @@ class LoginWithOtpActivity : AppCompatActivity() {
         // Inflate the binding
         binding = ActivityLoginWithOtpBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        progressBar=binding.loginprogressBar
 
         // Handle window insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.loginWithOtp)) { v, insets ->
@@ -42,7 +46,7 @@ class LoginWithOtpActivity : AppCompatActivity() {
         binding.btnSendOtp.setOnClickListener {
             val phoneNumber = binding.etPhoneNumber.text.toString()
             if (phoneNumber.isNotEmpty()) {
-                sendVerificationCode(phoneNumber)
+                sendVerificationCode("+91${phoneNumber}")
             } else {
                 Toast.makeText(this, "Please enter a phone number", Toast.LENGTH_SHORT).show()
             }
@@ -50,11 +54,13 @@ class LoginWithOtpActivity : AppCompatActivity() {
     }
 
     private fun sendVerificationCode(phoneNumber: String) {
+        progressBar.visibility=VISIBLE
         val options = PhoneAuthOptions.newBuilder(auth)
             .setPhoneNumber(phoneNumber)
             .setTimeout(60L, TimeUnit.SECONDS)
             .setActivity(this)
             .setCallbacks(callbacks)
+
             .build()
         PhoneAuthProvider.verifyPhoneNumber(options)
     }
@@ -66,11 +72,13 @@ class LoginWithOtpActivity : AppCompatActivity() {
         }
 
         override fun onVerificationFailed(e: FirebaseException) {
+            progressBar.visibility=INVISIBLE
             Toast.makeText(this@LoginWithOtpActivity, "Verification failed: ${e.message}", Toast.LENGTH_LONG).show()
         }
 
         override fun onCodeSent(verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
             val phoneNumber = binding.etPhoneNumber.text.toString()
+            progressBar.visibility=INVISIBLE
             val intent = Intent(this@LoginWithOtpActivity, OtpVerificationActivity::class.java)
             intent.putExtra("verificationId", verificationId)
             intent.putExtra("phoneNumber", phoneNumber)

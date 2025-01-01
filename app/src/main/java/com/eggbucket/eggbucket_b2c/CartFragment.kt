@@ -1,6 +1,6 @@
 package com.eggbucket.eggbucket_b2c
 
-import NotificationHelper
+
 import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
@@ -38,6 +38,7 @@ import java.io.IOException
 import android.Manifest
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
+import java.util.concurrent.TimeUnit
 
 
 class CartFragment : Fragment() {
@@ -168,7 +169,7 @@ class CartFragment : Fragment() {
 
         continueToPayButton.setOnClickListener {
             showProgress()
-            triggerNotification("12345")
+
             val addressJson = sharedPreferences.getString("selected_address", null)
             if (addressJson == null){
                 findNavController().navigate(R.id.action_cartFragment_to_mapFragment)
@@ -295,7 +296,11 @@ class CartFragment : Fragment() {
         products: JSONObject,
         customerId: String
     ) {
-        val client = OkHttpClient()
+        val client = OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS) // Set connection timeout
+            .readTimeout(30, TimeUnit.SECONDS)    // Set read timeout
+            .writeTimeout(30, TimeUnit.SECONDS)   // Set write timeout
+            .build()
 
 
         // Create the JSON body
@@ -308,13 +313,11 @@ class CartFragment : Fragment() {
             put("products", products)
             put("customerId", customerId)
         }
-        Log.d("SharedPreferences", bodyJson.toString())
-
         val requestBody = RequestBody.create(
             MediaType.parse("application/json; charset=utf-8"),
             bodyJson.toString()
         )
-        Log.d("SharedPreferences", requestBody.toString())
+
 
         // Create the request
         val request = Request.Builder()
@@ -327,9 +330,11 @@ class CartFragment : Fragment() {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
                 Log.e("CreateOrder", "Order creation failed", e)
+
             }
 
             override fun onResponse(call: Call, response: Response) {
+
                 response.use {
                     val responseBody = it.body()?.string()
                     if (!it.isSuccessful) {
@@ -338,10 +343,12 @@ class CartFragment : Fragment() {
                             jsonResponse.getString("message")
                         } catch (e: Exception) {
                             "Request failed"
+
                         }
 
                         // Show alert dialog on the main thread
                         activity?.runOnUiThread {
+                            findNavController().popBackStack()
                             showAlertDialog("Order Failed", message)
                             Log.e("CreateOrder", "Request failed: $responseBody")
                         }
@@ -351,7 +358,7 @@ class CartFragment : Fragment() {
                             //showAlertDialog("Order Success", "Order created successfully!")
                             findNavController().navigate(R.id.action_cartFragment_to_orderCompleted)
                             Log.d("CreateOrder", "Order created successfully: $responseBody")
-
+                            triggerNotification("12345")
                             clearcart() // Make sure this method also handles UI updates correctly
 
                         }

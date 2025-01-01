@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity() {
         // Close MainActivity so that the user cannot go back to it
         finish()
     }
-
     // Existing fragment navigation method (optional, keep it if you need it)
     private fun openFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()

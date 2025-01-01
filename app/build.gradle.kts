@@ -67,6 +67,8 @@ dependencies {
     implementation ("com.google.firebase:firebase-bom:32.0.0")
     implementation ("com.google.gms:google-services:4.4.2")
     implementation ("com.google.firebase:firebase-firestore:24.7.1")
+    implementation ("com.google.firebase:firebase-auth")
+
     implementation ("io.insert-koin:koin-android:4.0.0")
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation ("androidx.security:security-crypto-ktx:1.1.0-alpha06")

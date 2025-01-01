@@ -1,3 +1,5 @@
+package com.eggbucket.eggbucket_b2c
+
 import android.Manifest
 import android.app.Activity
 import android.app.NotificationChannel
@@ -12,9 +14,16 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.eggbucket.eggbucket_b2c.BottomNavigation.ui.home.HomeFragment
-import com.eggbucket.eggbucket_b2c.R
 
-class NotificationHelper(private val context: Context) {
+class NotificationHelper() {
+
+    private lateinit var context: Context
+
+    constructor(context: Context) : this() {
+        this.context = context
+    }
+
+
 
     private val CHANNEL_ID = "order_channel_id"
     private val NOTIFICATION_ID = 100

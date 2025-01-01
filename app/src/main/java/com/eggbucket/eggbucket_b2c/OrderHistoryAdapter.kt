@@ -31,7 +31,7 @@ class OrderHistoryAdapter(private val orderList: List<OrderItem>) :
         val order = orderList[position]
         val sdf = SimpleDateFormat("dd/MM/yy", Locale.getDefault())
         holder.orderDate.text = "Order At: " + sdf.format(Date((order.createdAt._seconds * 1000) + (order.createdAt._nanoseconds / 1000000)))
-        holder.orderAmt.text = "Order Amount: ${order.amount}"
+        holder.orderAmt.text = "Order Amount: ₹${order.amount}"
         var itemString = ""
         order.products.forEach{(key, value) -> itemString += "Eggs x ${key.substring(1)}: ${value}\n"}
         holder.items.text = itemString.trimEnd('\n')
