@@ -3,6 +3,7 @@ package com.eggbucket.eggbucket_b2c
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,11 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.net.HttpURLConnection
+import java.net.URL
 
 class HomeScreen : Fragment() {
 
@@ -63,7 +69,41 @@ class HomeScreen : Fragment() {
             }
         })
 
+        makeApiRequestWithRetries()
+
         return view
+    }
+
+    private fun makeApiRequestWithRetries() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val url = "https://b2c-backend-1.onrender.com/api/v1/customer/user/916363894956"
+            var attempts = 0
+            var success = false
+
+            while (attempts < 3 && !success) {
+                try {
+                    val connection = URL(url).openConnection() as HttpURLConnection
+                    connection.requestMethod = "GET"
+
+                    val responseCode = connection.responseCode
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        success = true
+                        val response = connection.inputStream.bufferedReader().use { it.readText() }
+                        Log.d("API_RESPONSE", response)
+                    } else {
+                        Log.e("API_ERROR", "Response code: $responseCode")
+                    }
+                } catch (e: Exception) {
+                    Log.e("API_ERROR", "Exception: ${e.message}")
+                } finally {
+                    attempts++
+                }
+            }
+
+            if (!success) {
+                Log.e("API_ERROR", "API request failed after 3 attempts.")
+            }
+        }
     }
 
     private fun startAutoScroll(ind1: ImageView, ind2: ImageView, ind3: ImageView) {
