@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -28,6 +29,8 @@ class AddressListFragment : Fragment() {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var phoneNumber: String
     private lateinit var progressBar: ProgressBar
+    private lateinit var noaddress:TextView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,6 +38,8 @@ class AddressListFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_address, container, false)
         val addaddressBtn = view.findViewById<Button>(R.id.add_New_Address)
         val backBtn = view.findViewById<ImageView>(R.id.backBtn)
+        noaddress=view.findViewById(R.id.noaddresstext)
+        noaddress.visibility=View.INVISIBLE
         progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
 
         sharedPreferences = requireContext().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
@@ -77,6 +82,10 @@ class AddressListFragment : Fragment() {
                         }
                     }
                 } else {
+                    if (response.code()==404){
+                        noaddress.visibility=View.VISIBLE
+                    }
+
                     Toast.makeText(requireContext(), "Error: ${response.code()}", Toast.LENGTH_LONG).show()
                 }
             }

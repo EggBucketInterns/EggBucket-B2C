@@ -78,6 +78,19 @@
             android:visibility="invisible"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/noaddresstext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please Add Address"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.515"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView12"
+            app:layout_constraintVertical_bias="0.352" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -38,6 +38,7 @@ import java.io.IOException
 import android.Manifest
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import java.util.concurrent.TimeUnit
 
 
@@ -314,7 +315,7 @@ class CartFragment : Fragment() {
             put("customerId", customerId)
         }
         val requestBody = RequestBody.create(
-            MediaType.parse("application/json; charset=utf-8"),
+            "application/json; charset=utf-8".toMediaTypeOrNull(),
             bodyJson.toString()
         )
 
@@ -336,7 +337,7 @@ class CartFragment : Fragment() {
             override fun onResponse(call: Call, response: Response) {
 
                 response.use {
-                    val responseBody = it.body()?.string()
+                    val responseBody = it.body?.string()
                     if (!it.isSuccessful) {
                         val message = try {
                             val jsonResponse = JSONObject(responseBody)

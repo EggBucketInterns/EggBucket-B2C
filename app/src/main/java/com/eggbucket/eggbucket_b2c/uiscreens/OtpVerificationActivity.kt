@@ -20,6 +20,14 @@ import com.eggbucket.eggbucket_b2c.databinding.ActivityOtpVerificationBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
+import org.json.JSONObject
+import java.io.IOException
+
 
 class OtpVerificationActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -121,25 +129,93 @@ class OtpVerificationActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val user = task.result?.user
 
+                    // Save user details in SharedPreferences
                     val sharedPref = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
                     val editor = sharedPref.edit()
-                    val sanitizedPhoneNumber = user?.phoneNumber?.replace("+", "")
+                    val sanitizedPhoneNumber = user?.phoneNumber?.replace("+91", "")
                     editor.putString("user_id", user?.uid)
                     editor.putString("user_phone", sanitizedPhoneNumber)
                     editor.apply()
 
                     Toast.makeText(this, "Authentication successful", Toast.LENGTH_SHORT).show()
 
-                    // Hide OTP verification UI if applicable
+                    // Check user details
+                    val phoneNumber = sanitizedPhoneNumber ?: ""
+                    checkDetails(phoneNumber,this) { isSuccess ->
+                        runOnUiThread {
+                            if (isSuccess) {
+                                Toast.makeText(this, "User details found!", Toast.LENGTH_SHORT).show()
 
-                    // Start BottomNavigationActivity
-                    val intent = Intent(this, BottomNavigationScreen::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK) // Clear the stack
-                    startActivity(intent)
+                                // Navigate to BottomNavigationScreen
+                                val intent = Intent(this, BottomNavigationScreen::class.java)
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                startActivity(intent)
+                            } else {
+                                Toast.makeText(this, "User not found. Redirecting to GetInfo.", Toast.LENGTH_SHORT).show()
+
+                                // Navigate to GetInfo
+                                val intent = Intent(this, GetInfo::class.java)
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                startActivity(intent)
+                            }
+                        }
+                    }
                 } else {
                     Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
                 }
             }
     }
 
+    fun checkDetails(phoneNumber: String, context: Context, callback: (Boolean) -> Unit) {
+        val client = OkHttpClient()
+        val request = Request.Builder()
+            .url("https://b2c-backend-1.onrender.com/api/v1/customer/user/$phoneNumber")
+            .get()
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                callback(false)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                response.use { // Ensure resources are properly closed
+                    if (response.isSuccessful) {
+                        val responseBody = response.body?.string()
+                        if (!responseBody.isNullOrEmpty()) {
+                            try {
+                                val jsonObject = JSONObject(responseBody)
+                                val name = jsonObject.optString("name")
+                                val phone = jsonObject.optString("phone")
+                                val email = jsonObject.optString("email")
+
+                                // Save to SharedPreferences
+                                val sharedPreferences = context.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
+                                sharedPreferences.edit().apply {
+                                    putString("name", name)
+                                    putString("user_phone", phone)
+                                    putString("email", email)
+                                    apply()
+                                }
+                                callback(true)
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                                callback(false)
+                            }
+                        } else {
+                            callback(false)
+                        }
+                    } else {
+                        callback(false)
+                    }
+                }
+            }
+        })
+    }
+
 }
+
+
+
+

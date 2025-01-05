@@ -105,7 +105,7 @@ class MapFragment : Fragment() {
 
             fullFinalAddress = FinalAddress(fullAddress = finalAddress!!, coordinates = finalCoordinates!!)
             println("Final fullFinalAddress: $fullFinalAddress")
-            val sharedPreferences=requireContext().getSharedPreferences("my_preference", Context.MODE_PRIVATE)
+            val sharedPreferences=requireContext().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
             val editor=sharedPreferences.edit()
             val addressJson= Gson().toJson(fullFinalAddress)
             editor.putString("address",addressJson)

@@ -209,7 +209,7 @@ class AddAddressFragment : Fragment() {
                             .show()
                         callback(true)
                     } else {
-                        val responseBody = response.body()?.string() ?: "Unknown error"
+                        val responseBody = response.body?.string() ?: "Unknown error"
                         callback(false)
                         Toast.makeText(
                             context,
@@ -217,8 +217,8 @@ class AddAddressFragment : Fragment() {
                             Toast.LENGTH_LONG
                         ).show()
                     }
-                    println("Response Code: ${response.code()}")
-                    println("Response Body: ${response.body()?.toString()}")
+                    println("Response Code: ${response.code}")
+                    println("Response Body: ${response.body?.toString()}")
                 }
 
             }

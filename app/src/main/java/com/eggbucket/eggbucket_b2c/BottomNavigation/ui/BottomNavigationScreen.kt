@@ -86,13 +86,13 @@ class BottomNavigationScreen : AppCompatActivity() {
             var attempts = 0
             var success = false
 
-            while (attempts < 3 && !success) {
+            while (attempts < 2 && !success) {
                 try {
                     val connection = URL(url).openConnection() as HttpURLConnection
                     connection.requestMethod = "GET"
 
                     val responseCode = connection.responseCode
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                    if (responseCode == 404) {
                         success = true
                         val response = connection.inputStream.bufferedReader().use { it.readText() }
                         Log.d("API_RESPONSE", response)
@@ -100,7 +100,7 @@ class BottomNavigationScreen : AppCompatActivity() {
                         Log.e("API_ERROR", "Response code: $responseCode")
                     }
                 } catch (e: Exception) {
-                    Log.e("API_ERROR", "Exception: ${e.message}")
+                    Log.e("API_Refresh", "Exception: ${e.message}")
                 } finally {
                     attempts++
                 }
@@ -117,13 +117,45 @@ class BottomNavigationScreen : AppCompatActivity() {
             var attempts = 0
             var success = false
 
-            while (attempts < 3 && !success) {
+            // Define the default body as a JSON string
+            val requestBody = """
+            {
+                "address": {
+                    "fullAddress": {
+                        "flatNo": "101",
+                        "area": "Downtown",
+                        "city": "New York",
+                        "state": "New York",
+                        "zipCode": "10001",
+                        "country": "USA",
+                        "addressLine1": "banshankari 3rd stage",
+                        "addressLine2": "kumarshwami layout"
+                    }
+                },
+                "amount": 6600,
+                "products": {
+                    "E6": 909,
+                    "E12": 9,
+                    "E30": 3
+                },
+                "customerId": "1111111113"
+            }
+        """.trimIndent()
+
+            while (attempts < 2 && !success) {
                 try {
                     val connection = URL(url).openConnection() as HttpURLConnection
                     connection.requestMethod = "POST"
+                    connection.setRequestProperty("Content-Type", "application/json")
+                    connection.doOutput = true
+
+                    // Write the request body to the output stream
+                    connection.outputStream.use { outputStream ->
+                        outputStream.write(requestBody.toByteArray(Charsets.UTF_8))
+                    }
 
                     val responseCode = connection.responseCode
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                    if (responseCode == 200 || responseCode == 404) { // Handle success codes
                         success = true
                         val response = connection.inputStream.bufferedReader().use { it.readText() }
                         Log.d("API_RESPONSE", response)
@@ -138,8 +170,9 @@ class BottomNavigationScreen : AppCompatActivity() {
             }
 
             if (!success) {
-                Log.e("API_ERROR", "API request failed after 3 attempts.")
+                Log.e("API_ERROR", "API request failed after 2 attempts.")
             }
         }
     }
+
 }

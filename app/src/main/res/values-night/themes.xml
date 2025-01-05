@@ -3,4 +3,9 @@
     <style name="Base.Theme.EggBucketB2C" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:fontFamily">@font/poppins_regular</item>
     </style>
+
+    <style name="ThemeOverlay.EggBucketB2C.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_900</item>
+        <item name="fullscreenTextColor">@color/light_blue_A400</item>
+    </style>
 </resources>
