@@ -298,9 +298,9 @@ class CartFragment : Fragment() {
         customerId: String
     ) {
         val client = OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS) // Set connection timeout
-            .readTimeout(30, TimeUnit.SECONDS)    // Set read timeout
-            .writeTimeout(30, TimeUnit.SECONDS)   // Set write timeout
+            .connectTimeout(10, TimeUnit.SECONDS) // Set connection timeout
+            .readTimeout(10, TimeUnit.SECONDS)    // Set read timeout
+            .writeTimeout(10, TimeUnit.SECONDS)   // Set write timeout
             .build()
 
 
@@ -329,40 +329,25 @@ class CartFragment : Fragment() {
         // Execute the request
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-                Log.e("CreateOrder", "Order creation failed", e)
-
+                activity?.runOnUiThread {
+                    Toast.makeText(requireContext(), "Order creation failed. Please try again.", Toast.LENGTH_LONG).show()
+                    progressOverlay.visibility = View.GONE
+                    findNavController().navigate(R.id.action_cartFragment_self) // Redirect to CartFragment
+                }
             }
 
             override fun onResponse(call: Call, response: Response) {
-
-                response.use {
-                    val responseBody = it.body?.string()
-                    if (!it.isSuccessful) {
-                        val message = try {
-                            val jsonResponse = JSONObject(responseBody)
-                            jsonResponse.getString("message")
-                        } catch (e: Exception) {
-                            "Request failed"
-
-                        }
-
-                        // Show alert dialog on the main thread
-                        activity?.runOnUiThread {
-                            findNavController().popBackStack()
-                            showAlertDialog("Order Failed", message)
-                            Log.e("CreateOrder", "Request failed: $responseBody")
-                        }
+                activity?.runOnUiThread {
+                    if (response.isSuccessful) {
+                        // Handle successful order creation
+                        progressOverlay.visibility = View.GONE
+                        Toast.makeText(requireContext(), "Order placed successfully!", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.action_cartFragment_to_orderCompleted)
                     } else {
-                        // Show success message on the main thread
-                        activity?.runOnUiThread {
-                            //showAlertDialog("Order Success", "Order created successfully!")
-                            findNavController().navigate(R.id.action_cartFragment_to_orderCompleted)
-                            Log.d("CreateOrder", "Order created successfully: $responseBody")
-                            triggerNotification("12345")
-                            clearcart() // Make sure this method also handles UI updates correctly
-
-                        }
+                        // Handle server-side errors
+                        progressOverlay.visibility = View.GONE
+                        Toast.makeText(requireContext(), "Failed to create order. Please try again.", Toast.LENGTH_LONG).show()
+                        findNavController().navigate(R.id.action_cartFragment_self) // Redirect to CartFragment
                     }
                 }
             }
