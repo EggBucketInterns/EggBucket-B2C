@@ -73,23 +73,6 @@
         android:inputType="textPersonName"
         android:background="@drawable/thin_border" />
 
-    <!-- Phone Number Input -->
-    <EditText
-        android:id="@+id/phone_number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Phone Number"
-        android:layout_margin="16dp"
-        android:drawableStart="@drawable/baseline_phone_24"
-        android:drawablePadding="10dp"
-        android:drawableTint="#3A3838"
-        android:paddingTop="16dp"
-        android:paddingHorizontal="10dp"
-        android:paddingBottom="12dp"
-        android:textColor="#000000"
-        android:inputType="phone"
-        android:background="@drawable/thin_border" />
-
     <!-- Email Input -->
     <EditText
         android:id="@+id/edt_email"

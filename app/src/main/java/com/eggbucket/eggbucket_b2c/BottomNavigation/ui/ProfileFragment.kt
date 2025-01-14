@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.navigation.fragment.findNavController
 import com.eggbucket.eggbucket_b2c.R
 import com.eggbucket.eggbucket_b2c.databinding.FragmentProfileBinding
@@ -18,6 +17,7 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private lateinit var sharedPref: SharedPreferences
+    private lateinit var number: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,20 +25,21 @@ class ProfileFragment : Fragment() {
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
 
+        // Initialize SharedPreferences
         sharedPref = requireActivity().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
-        val userPhone = sharedPref.getString("user_phone", null)
 
+        // Fetch details from SharedPreferences
+        val firstName = sharedPref.getString("firstName", "First Name")
+        val lastName = sharedPref.getString("lastName", "Last Name")
+        val email = sharedPref.getString("email", "Email")
+        val phone = sharedPref.getString("user_phone", "9999999999")
 
-        val name=sharedPref.getString("name",null)
-
-
-        val email=sharedPref.getString("email",null)
-
-
-        binding.personName.text = name
-        binding.phoneNo.text = userPhone
-
+        // Update UI with fetched details
+        binding.personName.text = "$firstName $lastName"
+        binding.phoneNo.text = "$phone"
+        // Set up click listeners
         setupClickListeners()
+
         return binding.root
     }
 
@@ -52,28 +53,30 @@ class ProfileFragment : Fragment() {
         binding.yourOrdersLayout.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_notifications_to_orderHistory)
         }
-        binding.editProfileLayout.setOnClickListener{
+
+        // Navigate to Edit Profile Fragment
+        binding.editProfileLayout.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_notifications_to_editProfile)
         }
 
-        binding.logoutLayout.setOnClickListener{
-                logout()
+        // Handle Logout
+        binding.logoutLayout.setOnClickListener {
+            logout()
         }
     }
 
     private fun logout() {
-        // Clear user phone number from SharedPreferences
-        val sharedPref = requireActivity().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
+        // Clear SharedPreferences
         val editor = sharedPref.edit()
         editor.clear()
         editor.apply()
 
-        // Redirect to LoginActivity
+        // Redirect to Login Activity
         val intent = Intent(requireActivity(), LoginWithOtpActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK) // Clear the stack
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK) // Clear activity stack
         startActivity(intent)
 
-        // Optionally finish the current activity if needed
+        // Finish current activity
         requireActivity().finish()
     }
 
