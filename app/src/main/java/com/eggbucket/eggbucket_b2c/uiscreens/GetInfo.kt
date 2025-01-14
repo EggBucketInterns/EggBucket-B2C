@@ -14,6 +14,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
+import androidx.navigation.Navigation.findNavController
 import com.eggbucket.eggbucket_b2c.BottomNavigation.ui.BottomNavigationScreen
 import com.eggbucket.eggbucket_b2c.R
 import okhttp3.*
@@ -136,12 +137,15 @@ class GetInfo : AppCompatActivity() {
                     editor.putString("user_phone", phoneno)
                     editor.putString("email", email)
                     editor.apply()
+                    Toast.makeText(this@GetInfo, "Profile updated! Continue shopping.", Toast.LENGTH_SHORT).show()
                     intent= Intent(this@GetInfo,BottomNavigationScreen::class.java)
+
                     startActivity(intent)
                     finish()
                 } else {
                     progressBar.visibility=GONE
                     Log.d("response",response.toString())
+                    Toast.makeText(this@GetInfo, "Failed to update profile. Please try again.", Toast.LENGTH_SHORT).show()
                     // Handle unsuccessful response
 
                 }

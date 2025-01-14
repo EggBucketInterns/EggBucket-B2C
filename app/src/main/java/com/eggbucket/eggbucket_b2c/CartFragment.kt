@@ -36,8 +36,10 @@ import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
 import android.Manifest
+import android.content.Intent
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
+import com.eggbucket.eggbucket_b2c.uiscreens.GetInfo
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import java.util.concurrent.TimeUnit
 
@@ -59,6 +61,7 @@ class CartFragment : Fragment() {
     private lateinit var phoneNumber: String
 
     private val cartItems = mutableListOf<CartItem>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -170,7 +173,10 @@ class CartFragment : Fragment() {
 
         continueToPayButton.setOnClickListener {
             showProgress()
-
+            if (!checkUserInfo()) {
+                val intent = Intent(requireContext(), GetInfo::class.java)
+                startActivity(intent)
+            }
             val addressJson = sharedPreferences.getString("selected_address", null)
             if (addressJson == null){
                 findNavController().navigate(R.id.action_cartFragment_to_mapFragment)
@@ -286,6 +292,23 @@ class CartFragment : Fragment() {
             apply()
         }
     }
+    private fun checkUserInfo(): Boolean {
+        val firstName = sharedPreferences.getString("firstName_$phoneNumber", null)
+        val lastName = sharedPreferences.getString("lastName_$phoneNumber", null)
+        val city = sharedPreferences.getString("city_$phoneNumber", null)
+        val email = sharedPreferences.getString("email_$phoneNumber", null)
+        val age = sharedPreferences.getString("age_$phoneNumber", null)
+        val gender = sharedPreferences.getString("gender_$phoneNumber", null)
+
+
+        return !(firstName.isNullOrEmpty() ||
+                lastName.isNullOrEmpty() ||
+                city.isNullOrEmpty() ||
+                email.isNullOrEmpty() ||
+                age.isNullOrEmpty() ||
+                gender.isNullOrEmpty())
+    }
+
 
 
     //function to create order and store it in database

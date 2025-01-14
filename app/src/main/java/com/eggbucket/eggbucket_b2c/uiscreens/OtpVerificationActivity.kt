@@ -144,17 +144,17 @@ class OtpVerificationActivity : AppCompatActivity() {
                     checkDetails(phoneNumber,this) { isSuccess ->
                         runOnUiThread {
                             if (isSuccess) {
-                                Toast.makeText(this, "User details found!", Toast.LENGTH_SHORT).show()
+                               // Toast.makeText(this, "User details found!", Toast.LENGTH_SHORT).show()
 
                                 // Navigate to BottomNavigationScreen
                                 val intent = Intent(this, BottomNavigationScreen::class.java)
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                                 startActivity(intent)
                             } else {
-                                Toast.makeText(this, "User not found. Redirecting to GetInfo.", Toast.LENGTH_SHORT).show()
+                                //Toast.makeText(this, "User not found. Redirecting to GetInfo.", Toast.LENGTH_SHORT).show()
 
-                                // Navigate to GetInfo
-                                val intent = Intent(this, GetInfo::class.java)
+                                // Navigate to BottomNavigationScreen
+                                val intent = Intent(this, BottomNavigationScreen::class.java)
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                                 startActivity(intent)
                             }
