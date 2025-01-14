@@ -5,8 +5,11 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +32,8 @@ class GetInfo : AppCompatActivity() {
     private lateinit var updateProfileButton: AppCompatButton
     private lateinit var phoneno:String
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var progressBar: ProgressBar
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +48,7 @@ class GetInfo : AppCompatActivity() {
         ageEditText = findViewById(R.id.age_input)
         genderSpinner = findViewById(R.id.gender_spinner)
         updateProfileButton = findViewById(R.id.update_profile_btn)
+        progressBar=findViewById(R.id.progressBar3)
         sharedPreferences=getSharedPreferences("MyPreferences", MODE_PRIVATE)
         phoneno=sharedPreferences.getString("user_phone","")!!
 
@@ -83,6 +89,7 @@ class GetInfo : AppCompatActivity() {
 
 
     fun createUser(firstName:String,lastName:String,city:String,email:String,age:String,gender:String) {
+        progressBar.visibility=VISIBLE
         val client = OkHttpClient()
 
         // Construct the JSON body
@@ -121,6 +128,7 @@ class GetInfo : AppCompatActivity() {
 
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
+                    progressBar.visibility=GONE
 
                    Log.d("response",response.toString())
                     val editor = sharedPreferences.edit()
@@ -132,6 +140,7 @@ class GetInfo : AppCompatActivity() {
                     startActivity(intent)
                     finish()
                 } else {
+                    progressBar.visibility=GONE
                     Log.d("response",response.toString())
                     // Handle unsuccessful response
 

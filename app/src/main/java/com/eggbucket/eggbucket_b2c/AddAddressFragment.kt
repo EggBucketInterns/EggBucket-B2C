@@ -14,7 +14,6 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import okhttp3.Call
 import okhttp3.Callback
@@ -42,10 +41,6 @@ class AddAddressFragment : Fragment() {
     private var coordinates:GeoPoint? = null
     private lateinit var phoneNumber: String
     private lateinit var progressBar: ProgressBar
-
-
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

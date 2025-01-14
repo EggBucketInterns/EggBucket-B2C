@@ -14,7 +14,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.eggbucket.eggbucket_b2c.R
 
 class EditProfileFragment : Fragment() {
 

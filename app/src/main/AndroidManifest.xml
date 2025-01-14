@@ -58,7 +58,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".BottomNavigation.ui.BottomNavigationScreen"
-            android:exported="false" /> <!-- <activity -->
+            android:exported="true" /> <!-- <activity -->
         <!-- android:name=".MainActivity" -->
         <!-- android:exported="false" /> -->
         <service

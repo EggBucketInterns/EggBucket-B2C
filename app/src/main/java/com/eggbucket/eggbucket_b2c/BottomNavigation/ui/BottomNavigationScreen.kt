@@ -122,23 +122,23 @@ class BottomNavigationScreen : AppCompatActivity() {
             {
                 "address": {
                     "fullAddress": {
-                        "flatNo": "101",
-                        "area": "Downtown",
-                        "city": "New York",
-                        "state": "New York",
-                        "zipCode": "10001",
-                        "country": "USA",
-                        "addressLine1": "banshankari 3rd stage",
-                        "addressLine2": "kumarshwami layout"
+                        "flatNo": "0",
+                        "area": "0",
+                        "city": "0",
+                        "state": "0",
+                        "zipCode": "0",
+                        "country": "0",
+                        "addressLine1": "0",
+                        "addressLine2": "0"
                     }
                 },
-                "amount": 6600,
+                "amount": 0,
                 "products": {
-                    "E6": 909,
-                    "E12": 9,
-                    "E30": 3
+                    "E6": 0,
+                    "E12": 0,
+                    "E30": 0
                 },
-                "customerId": "1111111113"
+                "customerId": "00000000"
             }
         """.trimIndent()
 
@@ -160,10 +160,12 @@ class BottomNavigationScreen : AppCompatActivity() {
                         val response = connection.inputStream.bufferedReader().use { it.readText() }
                         Log.d("API_RESPONSE", response)
                     } else {
-                        Log.e("API_ERROR", "Response code: $responseCode")
+                        Log.e("API_ERROR2", "Response code: $responseCode")
+                        Log.e("API_ERROR2", "Response body:${connection.responseMessage} ")
                     }
                 } catch (e: Exception) {
-                    Log.e("API_ERROR", "Exception: ${e.message}")
+                    Log.e("API_ERROR2", "Exception: ${e.message}")
+
                 } finally {
                     attempts++
                 }

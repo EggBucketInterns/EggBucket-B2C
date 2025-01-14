@@ -44,15 +44,7 @@
                 app:layout_constraintStart_toEndOf="@id/topImage"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/menuIcon"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/menuicon"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 <!--        <View-->
@@ -204,6 +196,13 @@
                                 android:text="6 pieces"
                                 android:textColor="#AFAFAF"
                                 android:textSize="14sp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="₹60 /pack"
+                                android:textColor="#AFAFAF"
+                                android:textSize="14sp" />
                         </LinearLayout>
 
                         <!-- Add Button -->
@@ -319,6 +318,13 @@
                                 android:text="12 pieces"
                                 android:textColor="#AFAFAF"
                                 android:textSize="14sp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="₹120 /pack"
+                                android:textColor="#AFAFAF"
+                                android:textSize="14sp" />
                         </LinearLayout>
 
                         <!-- Add Button -->
@@ -427,6 +433,13 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
                                 android:text="30 pieces"
+                                android:textColor="#AFAFAF"
+                                android:textSize="14sp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="₹300 /pack"
                                 android:textColor="#AFAFAF"
                                 android:textSize="14sp" />
                         </LinearLayout>

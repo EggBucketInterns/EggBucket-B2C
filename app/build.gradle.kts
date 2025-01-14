@@ -2,10 +2,12 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("com.google.gms.google-services")
+
 }
 
 
 android {
+
     namespace = "com.eggbucket.eggbucket_b2c"
     compileSdk = 34
 

@@ -314,6 +314,7 @@ class CartFragment : Fragment() {
             put("products", products)
             put("customerId", customerId)
         }
+        Log.d("jsonbody",bodyJson.toString())
         val requestBody = RequestBody.create(
             "application/json; charset=utf-8".toMediaTypeOrNull(),
             bodyJson.toString()
@@ -340,12 +341,17 @@ class CartFragment : Fragment() {
                 activity?.runOnUiThread {
                     if (response.isSuccessful) {
                         // Handle successful order creation
+                        Log.d("ordered place", response.body.toString())
+                        triggerNotification("success")
+                        clearcart()
                         progressOverlay.visibility = View.GONE
                         Toast.makeText(requireContext(), "Order placed successfully!", Toast.LENGTH_SHORT).show()
                         findNavController().navigate(R.id.action_cartFragment_to_orderCompleted)
                     } else {
                         // Handle server-side errors
+                        showAlertDialog("please change address", "we will searve this location soon")
                         progressOverlay.visibility = View.GONE
+                        Log.d("ordered place", response.message.toString())
                         Toast.makeText(requireContext(), "Failed to create order. Please try again.", Toast.LENGTH_LONG).show()
                         findNavController().navigate(R.id.action_cartFragment_self) // Redirect to CartFragment
                     }

@@ -53,7 +53,7 @@ class NotificationHelper() {
             val builder = NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.deliverytruck)
                 .setContentTitle("New Order Placed")
-                .setContentText("Order ID: $orderId")
+                .setContentText("Status: $orderId")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent)

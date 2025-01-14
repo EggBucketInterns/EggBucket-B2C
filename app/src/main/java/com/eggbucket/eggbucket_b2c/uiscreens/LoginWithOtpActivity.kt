@@ -109,14 +109,14 @@ class LoginWithOtpActivity : AppCompatActivity() {
     // this function is to juat make api active for the next uses
     private fun makeApiRequestWithRetries01() {
         CoroutineScope(Dispatchers.IO).launch {
-            val url = "https://b2c-backend-1.onrender.com/api/v1/order/order/000000000"
+            val url = "https://b2c-backend-1.onrender.com/api/v1/customer/user/0000000000"
             var attempts = 0
             var success = false
 
             while (attempts < 3 && !success) {
                 try {
                     val connection = URL(url).openConnection() as HttpURLConnection
-                    connection.requestMethod = "POST"
+                    connection.requestMethod = "GET"
 
                     val responseCode = connection.responseCode
                     if (responseCode == 200 ||responseCode == 404) {
