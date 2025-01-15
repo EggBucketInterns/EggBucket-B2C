@@ -176,6 +176,7 @@ class CartFragment : Fragment() {
             if (!checkUserInfo()) {
                 val intent = Intent(requireContext(), GetInfo::class.java)
                 startActivity(intent)
+                return@setOnClickListener
             }
             val addressJson = sharedPreferences.getString("selected_address", null)
             if (addressJson == null){
@@ -293,20 +294,8 @@ class CartFragment : Fragment() {
         }
     }
     private fun checkUserInfo(): Boolean {
-        val firstName = sharedPreferences.getString("firstName_$phoneNumber", null)
-        val lastName = sharedPreferences.getString("lastName_$phoneNumber", null)
-        val city = sharedPreferences.getString("city_$phoneNumber", null)
-        val email = sharedPreferences.getString("email_$phoneNumber", null)
-        val age = sharedPreferences.getString("age_$phoneNumber", null)
-        val gender = sharedPreferences.getString("gender_$phoneNumber", null)
-
-
-        return !(firstName.isNullOrEmpty() ||
-                lastName.isNullOrEmpty() ||
-                city.isNullOrEmpty() ||
-                email.isNullOrEmpty() ||
-                age.isNullOrEmpty() ||
-                gender.isNullOrEmpty())
+        val firstName = sharedPreferences.getString("name", null)
+        return !(firstName.isNullOrEmpty() )
     }
 
 
@@ -372,7 +361,7 @@ class CartFragment : Fragment() {
                         findNavController().navigate(R.id.action_cartFragment_to_orderCompleted)
                     } else {
                         // Handle server-side errors
-                        showAlertDialog("please change address", "we will searve this location soon")
+                        showAlertDialog("Please change address", "We will expand to this location soon")
                         progressOverlay.visibility = View.GONE
                         Log.d("ordered place", response.message.toString())
                         Toast.makeText(requireContext(), "Failed to create order. Please try again.", Toast.LENGTH_LONG).show()

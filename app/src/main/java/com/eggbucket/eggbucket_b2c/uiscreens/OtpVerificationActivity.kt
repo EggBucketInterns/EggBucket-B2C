@@ -20,13 +20,20 @@ import com.eggbucket.eggbucket_b2c.databinding.ActivityOtpVerificationBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.Call
 import okhttp3.Callback
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody
 import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
+import java.net.HttpURLConnection
+import java.net.URL
 
 
 class OtpVerificationActivity : AppCompatActivity() {
@@ -74,13 +81,14 @@ class OtpVerificationActivity : AppCompatActivity() {
                 Log.d("pinview4", "On text changed: $s")
                 binding.verifyButton.isEnabled = s?.length == 6
                 if (s.toString().length == 6) {
-                    Toast.makeText(this@OtpVerificationActivity, "It's Working", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@OtpVerificationActivity, "Verifying...", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun afterTextChanged(s: Editable?) {
                 if (s?.length == 6) {
                     verifyCode(s.toString())
+                    Log.d("loginwithotp", "start")
                 }
             }
         })
@@ -101,6 +109,7 @@ class OtpVerificationActivity : AppCompatActivity() {
     private fun verifyCode(code: String) {
         verificationId?.let {
             val credential = PhoneAuthProvider.getCredential(it, code)
+            Log.d("loginwithotp", "called signInWithPhoneAuthCredential")
             signInWithPhoneAuthCredential(credential)
         }
     }
@@ -124,11 +133,12 @@ class OtpVerificationActivity : AppCompatActivity() {
 
 
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
+        Log.d("loginwithotp", "started signInWithPhoneAuthCredential")
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user = task.result?.user
-
+                    Log.d("loginwithotp", "otp varification success ful")
                     // Save user details in SharedPreferences
                     val sharedPref = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
                     val editor = sharedPref.edit()
@@ -141,9 +151,11 @@ class OtpVerificationActivity : AppCompatActivity() {
 
                     // Check user details
                     val phoneNumber = sanitizedPhoneNumber ?: ""
+                    Log.d("loginwithotp", "check curent details${phoneNumber}")
                     checkDetails(phoneNumber,this) { isSuccess ->
                         runOnUiThread {
                             if (isSuccess) {
+                                Log.d("loginwithotp", "check curent details success}")
                                // Toast.makeText(this, "User details found!", Toast.LENGTH_SHORT).show()
 
                                 // Navigate to BottomNavigationScreen
@@ -151,8 +163,8 @@ class OtpVerificationActivity : AppCompatActivity() {
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                                 startActivity(intent)
                             } else {
-                                //Toast.makeText(this, "User not found. Redirecting to GetInfo.", Toast.LENGTH_SHORT).show()
-
+                                Log.d("loginwithotp", "check curent details failure}")
+                                createAccount(phoneNumber)
                                 // Navigate to BottomNavigationScreen
                                 val intent = Intent(this, BottomNavigationScreen::class.java)
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -183,12 +195,14 @@ class OtpVerificationActivity : AppCompatActivity() {
                 response.use { // Ensure resources are properly closed
                     if (response.isSuccessful) {
                         val responseBody = response.body?.string()
+                        Log.d("loginwithotp", "Response Body:${responseBody}")
                         if (!responseBody.isNullOrEmpty()) {
                             try {
                                 val jsonObject = JSONObject(responseBody)
                                 val name = jsonObject.optString("name")
                                 val phone = jsonObject.optString("phone")
                                 val email = jsonObject.optString("email")
+
 
                                 // Save to SharedPreferences
                                 val sharedPreferences = context.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
@@ -213,6 +227,55 @@ class OtpVerificationActivity : AppCompatActivity() {
             }
         })
     }
+    private fun createAccount(phoneNumber: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val url = "https://b2c-backend-1.onrender.com/api/v1/customer/user"
+            var attempts = 0
+            var success = false
+
+            // Define the default body as a JSON string
+            val requestBody = JSONObject().apply {
+                put("phone", phoneNumber)
+                put("password", "1234567")
+            }.toString()
+
+            while (attempts < 2 && !success) {
+                var connection: HttpURLConnection? = null
+                try {
+                    connection = URL(url).openConnection() as HttpURLConnection
+                    connection.requestMethod = "POST"
+                    connection.setRequestProperty("Content-Type", "application/json")
+                    connection.doOutput = true
+
+                    // Write the request body to the output stream
+                    connection.outputStream.use { outputStream ->
+                        outputStream.write(requestBody.toByteArray(Charsets.UTF_8))
+                    }
+
+                    val responseCode = connection.responseCode
+                    if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
+                        // Handle success
+                        success = true
+                        val response = connection.inputStream.bufferedReader().use { it.readText() }
+                        Log.d("API_RESPONSE", response)
+                    } else {
+                        Log.e("API_ERROR", "Response code: $responseCode")
+                        Log.e("API_ERROR", "Response message: ${connection.responseMessage}")
+                    }
+                } catch (e: Exception) {
+                    Log.e("API_ERROR", "Exception: ${e.message}")
+                } finally {
+                    connection?.disconnect()
+                    attempts++
+                }
+            }
+
+            if (!success) {
+                Log.e("API_ERROR", "API request failed after 2 attempts.")
+            }
+        }
+    }
+
 
 }
 

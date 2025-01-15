@@ -81,8 +81,9 @@ class BottomNavigationScreen : AppCompatActivity() {
         }
     }
     private fun makeApiRequestWithRetries() {
+        Log.d("acvtive api user", "started.")
         CoroutineScope(Dispatchers.IO).launch {
-            val url = "https://b2c-backend-1.onrender.com/api/v1/customer/user/916363894956"
+            val url = "https://b2c-backend-1.onrender.com/api/v1/customer/user/6363894956"
             var attempts = 0
             var success = false
 
@@ -112,6 +113,7 @@ class BottomNavigationScreen : AppCompatActivity() {
         }
     }
     private fun makeApiRequestWithRetries2() {
+        Log.d("avtive api order", "started.")
         CoroutineScope(Dispatchers.IO).launch {
             val url = "https://b2c-backend-1.onrender.com/api/v1/order/order"
             var attempts = 0
@@ -119,31 +121,32 @@ class BottomNavigationScreen : AppCompatActivity() {
 
             // Define the default body as a JSON string
             val requestBody = """
-            {
-                "address": {
-                    "fullAddress": {
-                        "flatNo": "0",
-                        "area": "0",
-                        "city": "0",
-                        "state": "0",
-                        "zipCode": "0",
-                        "country": "0",
-                        "addressLine1": "0",
-                        "addressLine2": "0"
-                    }
+                    {
+            "address": {
+                "fullAddress": {
+                    "flatNo": "",
+                    "area": "Chamrajpet",
+                    "city": "Bengaluru",
+                    "state": "Karnataka",
+                    "zipCode": "560018",
+                    "country": "India"
                 },
-                "amount": 0,
-                "products": {
-                    "E6": 0,
-                    "E12": 0,
-                    "E30": 0
-                },
-                "customerId": "00000000"
-            }
+                "coordinates": {
+                    "lat": 34.0549,
+                    "long": 118.2426
+                }
+            },
+            "amount": 120,
+            "products": {
+                "E12": 1
+            },
+            "customerId": "6363894956"
+        }
         """.trimIndent()
 
             while (attempts < 2 && !success) {
                 try {
+                    Log.d("avtive api order", "count ${attempts+1}.")
                     val connection = URL(url).openConnection() as HttpURLConnection
                     connection.requestMethod = "POST"
                     connection.setRequestProperty("Content-Type", "application/json")

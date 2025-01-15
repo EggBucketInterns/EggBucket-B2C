@@ -29,13 +29,13 @@ class ProfileFragment : Fragment() {
         sharedPref = requireActivity().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
 
         // Fetch details from SharedPreferences
-        val firstName = sharedPref.getString("firstName", "First Name")
-        val lastName = sharedPref.getString("lastName", "Last Name")
+        val Name = sharedPref.getString("name", "Please update Profile ! ")
+
         val email = sharedPref.getString("email", "Email")
         val phone = sharedPref.getString("user_phone", "9999999999")
 
         // Update UI with fetched details
-        binding.personName.text = "$firstName $lastName"
+        binding.personName.text = "$Name"
         binding.phoneNo.text = "$phone"
         // Set up click listeners
         setupClickListeners()
