@@ -218,6 +218,16 @@
                             app:cornerRadius="10dp"
                             app:strokeColor="@color/appThemeColor"
                             app:strokeWidth="2dp" />
+
+                        <ImageView
+                            android:id="@+id/outOfStockImage1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
+                            android:contentDescription="Out of stock"
+                            android:src="@drawable/out_of_stock"
+                            android:visibility="gone" />
+
                         <!-- Counter Section -->
                         <LinearLayout
                             android:id="@+id/counterLayout1"
@@ -340,6 +350,15 @@
                             app:strokeColor="@color/appThemeColor"
                             app:strokeWidth="2dp" />
 
+                        <ImageView
+                            android:id="@+id/outOfStockImage2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
+                            android:contentDescription="Out of stock"
+                            android:src="@drawable/out_of_stock"
+                            android:visibility="gone" />
+
                         <LinearLayout
                             android:id="@+id/counterLayout2"
                             android:layout_width="wrap_content"
@@ -385,6 +404,7 @@
 
                 </androidx.cardview.widget.CardView>
 
+                <!-- Product Card 3 -->
                 <!-- Product Card 3 -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/itemCard3"
@@ -455,7 +475,18 @@
                             android:textColor="@color/appThemeColor"
                             app:cornerRadius="10dp"
                             app:strokeColor="@color/appThemeColor"
-                            app:strokeWidth="2dp" />
+                            app:strokeWidth="2dp"
+                            android:visibility="visible" />
+
+                        <!-- Out of Stock Image -->
+                        <ImageView
+                            android:id="@+id/outOfStockImage3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
+                            android:contentDescription="Out of stock"
+                            android:src="@drawable/out_of_stock"
+                            android:visibility="gone" />
 
                         <LinearLayout
                             android:id="@+id/counterLayout3"
@@ -464,7 +495,6 @@
                             android:layout_marginTop="30dp"
                             android:orientation="horizontal"
                             android:visibility="gone">
-
 
                             <Button
                                 android:id="@+id/decrementButton3"
@@ -499,8 +529,8 @@
 
                         </LinearLayout>
                     </LinearLayout>
-
                 </androidx.cardview.widget.CardView>
+
 
 
             </LinearLayout>
