@@ -105,4 +105,11 @@
         android:paddingHorizontal="8dp"
         android:paddingBottom="12dp" />
 
+    <ProgressBar
+        android:id="@+id/Edit_profile_progressbar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:visibility="invisible"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

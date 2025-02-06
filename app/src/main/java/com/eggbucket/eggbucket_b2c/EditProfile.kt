@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -28,6 +29,7 @@ class EditProfileFragment : Fragment() {
     private lateinit var emailEditText: EditText
     private lateinit var updateProfileButton: Button
     private lateinit var goBackImageView: ImageView
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +43,7 @@ class EditProfileFragment : Fragment() {
         updateProfileButton = view.findViewById(R.id.update_profile_btn)
         goBackImageView = view.findViewById(R.id.goBack)
         sharedPreferences = requireContext().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
-
+        progressBar=view.findViewById(R.id.Edit_profile_progressbar)
         loadProfileData()
 
         goBackImageView.setOnClickListener {
@@ -75,8 +77,8 @@ class EditProfileFragment : Fragment() {
 
     private fun saveProfileData(firstName: String, lastName: String,email: String) {
         val editor = sharedPreferences.edit()
-        editor.putString("firstName", firstName)
-        editor.putString("lastName", lastName)
+        editor.putString("name", "$firstName $lastName")
+
         editor.putString("email", email)
         editor.apply()
     }
@@ -88,6 +90,7 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun sendProfileDataToServer(name: String, email: String) {
+        progressBar.visibility=View.VISIBLE
         val phone = sharedPreferences.getString("user_phone", "9999999999")
         val url = "https://b2c-backend-1.onrender.com/api/v1/customer/user/$phone"
         val client = OkHttpClient()
@@ -109,6 +112,7 @@ class EditProfileFragment : Fragment() {
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 requireActivity().runOnUiThread {
+                    progressBar.visibility=View.INVISIBLE
                     Toast.makeText(requireContext(), "Failed to update profile on server", Toast.LENGTH_SHORT).show()
                     Log.e("EditProfileFragment", "Error: ${e.message}")
                 }
@@ -117,10 +121,11 @@ class EditProfileFragment : Fragment() {
             override fun onResponse(call: Call, response: Response) {
                 requireActivity().runOnUiThread {
                     if (response.isSuccessful) {
+                        progressBar.visibility=View.INVISIBLE
                         Toast.makeText(requireContext(), "Profile updated successfully", Toast.LENGTH_SHORT).show()
                         findNavController().navigate(R.id.action_editProfile_to_navigation_notifications)
                     } else {
-                        Toast.makeText(requireContext(), "Failed to update profile on server", Toast.LENGTH_SHORT).show()
+                        progressBar.visibility=View.INVISIBLE
                         Log.e("EditProfileFragment", "Response Code: ${response.code}")
                     }
                 }

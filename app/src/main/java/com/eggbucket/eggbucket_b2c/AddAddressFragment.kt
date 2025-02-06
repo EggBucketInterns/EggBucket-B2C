@@ -103,31 +103,49 @@ class AddAddressFragment : Fragment() {
 
         val saveButton = view.findViewById<Button>(R.id.btn_submit)
         saveButton.setOnClickListener {
+            // Show progress bar and disable the button
             progressBar.visibility = View.VISIBLE
             saveButton.isEnabled = false
-            val jsonAddress = createAddressJson(
-                final_flatno.text.toString(),
-                final_address1.text.toString(),
-                final_address2.text.toString(),
-                final_area.text.toString(),
-                final_city.text.toString(),
-                final_state.text.toString(),
-                final_postalcode.text.toString(),
-                final_country.text.toString(),
-                coordinates!!
-            )
 
-            patchUserAddress(phoneNumber, jsonAddress) { isSuccess ->
+            // Validate mandatory fields
+            val flatno = final_flatno.text.toString()
+            val address1 = final_address1.text.toString()
+            val address2 = final_address2.text.toString()
+            val area = final_area.text.toString()
+            val city = final_city.text.toString()
+            val state = final_state.text.toString()
+            val postalcode = final_postalcode.text.toString()
+            val country = final_country.text.toString()
+
+            // Check if any of the fields are empty
+            if (flatno.isEmpty() || address1.isEmpty() || address2.isEmpty() || area.isEmpty() ||
+                city.isEmpty() || state.isEmpty() || postalcode.isEmpty() || country.isEmpty()) {
+
+                // Hide progress bar and enable the button again
                 progressBar.visibility = View.GONE
                 saveButton.isEnabled = true
 
-                if (isSuccess) {
-                    findNavController().navigate(R.id.action_addAddressFragment_to_addressListFragment)
-                } else {
-                    Toast.makeText(context, "Failed to update address", Toast.LENGTH_SHORT).show()
+                // Show a toast message to inform the user
+                Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
+            } else {
+                // If all fields are filled, proceed with creating the JSON and API call
+                val jsonAddress = createAddressJson(
+                    flatno, address1, address2, area, city, state, postalcode, country, coordinates!!
+                )
+
+                patchUserAddress(phoneNumber, jsonAddress) { isSuccess ->
+                    progressBar.visibility = View.GONE
+                    saveButton.isEnabled = true
+
+                    if (isSuccess) {
+                        findNavController().navigate(R.id.action_addAddressFragment_to_addressListFragment)
+                    } else {
+                        Toast.makeText(context, "Failed to update address", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
+
     }
 
     fun createAddressJson(

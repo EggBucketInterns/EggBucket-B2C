@@ -40,7 +40,13 @@ import android.content.Intent
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import com.eggbucket.eggbucket_b2c.uiscreens.GetInfo
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import java.io.FileNotFoundException
+import java.net.HttpURLConnection
+import java.net.URL
 import java.util.concurrent.TimeUnit
 
 
@@ -130,7 +136,7 @@ class CartFragment : Fragment() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
+        makeApiRequestWithRetries2(phoneNumber)
         // Check for saved address in SharedPreferences
         val addressJson = sharedPreferences.getString("selected_address", null)
         //updating address
@@ -213,7 +219,7 @@ class CartFragment : Fragment() {
             val totalAmount = cartItems.sumOf { it.quantity * it.price }.toInt()
             //Function call for place order
             createOrder(
-                apiUrl = "https://b2c-49u4.onrender.com",
+                apiUrl = "https://b2c-backend-1.onrender.com",
                 fullAddress = fullAddress,
                 coordinates = coordinates,
                 amount = totalAmount,
@@ -271,7 +277,7 @@ class CartFragment : Fragment() {
     //calculate total prise
     private fun updateTotalPrice() {
         val total = cartItems.sumOf { it.quantity * it.price }
-        continueToPayButton.text = "CONTINUE TO PAY ₹$total"
+        continueToPayButton.text = "PLACE ORDER OF ₹$total"
     }
     // update quantity of specific item
     private fun updateQuantityInSharedPreferences(itemName: String, quantity: Int) {
@@ -386,4 +392,77 @@ class CartFragment : Fragment() {
     companion object {
         private const val NOTIFICATION_PERMISSION_CODE = 1001
     }
+
+
+    private fun makeApiRequestWithRetries2(phone: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val url = "https://b2c-backend-1.onrender.com/api/v1/order/order"
+            var attempts = 0
+            var success = false
+
+            val requestBody = """
+        {
+            "address": {
+                "fullAddress": {
+                    "flatNo": "",
+                    "area": "Chamrajpet",
+                    "city": "Bengaluru",
+                    "state": "Karnataka",
+                    "zipCode": "560018",
+                    "country": "India"
+                },
+                "coordinates": {
+                    "lat": 34.0549,
+                    "long": 118.2426
+                }
+            },
+            "amount": 120,
+            "products": {
+                "E12": 1
+            },
+            "customerId": "$phone"
+        }
+        """.trimIndent()
+
+            while (attempts < 2 && !success) {
+                try {
+                    Log.d("API_REQUEST", "Attempt: ${attempts + 1}")
+                    val connection = URL(url).openConnection() as HttpURLConnection
+                    connection.requestMethod = "POST"
+                    connection.setRequestProperty("Content-Type", "application/json")
+                    connection.doOutput = true
+
+                    // Writing the request body
+                    connection.outputStream.use { outputStream ->
+                        outputStream.write(requestBody.toByteArray(Charsets.UTF_8))
+                    }
+
+                    // Reading the response
+                    val responseCode = connection.responseCode
+                    val responseMessage = connection.responseMessage
+                    Log.d("API_RESPONSE", "Response Code: $responseCode, Message: $responseMessage")
+
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        success = true
+                        val response = connection.inputStream.bufferedReader().use { it.readText() }
+                        Log.d("API_RESPONSE_BODY", "Response: $response")
+                    } else {
+                        Log.e("API_ERROR", "Failed with Response Code: $responseCode, Message: $responseMessage")
+                    }
+                } catch (e: Exception) {
+                    Log.e("API_EXCEPTION", "Error occurred during API request", e)
+                } finally {
+                    attempts++
+                    Log.d("API_REQUEST", "Attempt $attempts completed")
+                }
+            }
+
+            if (!success) {
+                Log.e("API_FAILURE", "API request failed after $attempts attempts")
+            } else {
+                Log.d("API_SUCCESS", "API request succeeded after $attempts attempts")
+            }
+        }
+    }
+
 }

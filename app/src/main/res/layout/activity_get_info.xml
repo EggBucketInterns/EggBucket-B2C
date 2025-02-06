@@ -76,78 +76,7 @@
             android:background="@drawable/thin_border" />
 
         <!-- Gender Dropdown -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="Gender:"
-            android:textSize="16sp"
-            android:textColor="#000000"
-            android:layout_marginBottom="8dp"/>
-        <!-- Age Input Field -->
-        <Spinner
-            android:id="@+id/gender_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginHorizontal="16dp"
-            android:background="@drawable/thin_border"
-            android:entries="@array/gender_options"
-            android:paddingHorizontal="10dp"
-            android:layout_marginBottom="10dp"
-            android:paddingVertical="12dp"
-            android:spinnerMode="dropdown" />
 
-        <EditText
-            android:id="@+id/age_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Age"
-            android:layout_margin="16dp"
-            android:drawableStart="@drawable/baseline_person_24"
-            android:drawablePadding="10dp"
-            android:drawableTint="#3A3838"
-            android:paddingTop="16dp"
-            android:paddingHorizontal="10dp"
-            android:paddingBottom="12dp"
-            android:textColor="#000000"
-            android:inputType="textPersonName"
-            android:background="@drawable/thin_border" />
-
-
-        <!-- Phone Number Input -->
-        <EditText
-            android:id="@+id/city"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="City"
-            android:layout_margin="16dp"
-            android:drawableStart="@drawable/location"
-            android:drawablePadding="10dp"
-            android:drawableTint="#3A3838"
-            android:paddingTop="16dp"
-            android:paddingHorizontal="10dp"
-            android:paddingBottom="12dp"
-            android:textColor="#000000"
-            android:inputType="text"
-            android:background="@drawable/thin_border" />
-
-        <!-- Email Input -->
-        <EditText
-            android:id="@+id/edt_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email"
-            android:layout_margin="16dp"
-            android:drawableStart="@drawable/baseline_email_24"
-            android:drawablePadding="10dp"
-            android:drawableTint="#3A3838"
-            android:paddingTop="16dp"
-            android:paddingHorizontal="10dp"
-            android:paddingBottom="12dp"
-            android:textColor="#000000"
-            android:inputType="textEmailAddress"
-            android:background="@drawable/thin_border" />
 
         <ProgressBar
             android:id="@+id/progressBar3"

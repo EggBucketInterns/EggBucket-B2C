@@ -26,16 +26,10 @@ class GetInfo : AppCompatActivity() {
 
     private lateinit var firstNameEditText: EditText
     private lateinit var lastNameEditText: EditText
-    private lateinit var cityEditText: EditText
-    private lateinit var emailEditText: EditText
-    private lateinit var ageEditText: EditText
-    private lateinit var genderSpinner: Spinner
     private lateinit var updateProfileButton: AppCompatButton
-    private lateinit var phoneno:String
+    private lateinit var phoneno: String
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var progressBar: ProgressBar
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,21 +38,11 @@ class GetInfo : AppCompatActivity() {
         // Initialize views
         firstNameEditText = findViewById(R.id.first_name)
         lastNameEditText = findViewById(R.id.last_name)
-        cityEditText = findViewById(R.id.city)
-        emailEditText = findViewById(R.id.edt_email)
-        ageEditText = findViewById(R.id.age_input)
-        genderSpinner = findViewById(R.id.gender_spinner)
         updateProfileButton = findViewById(R.id.update_profile_btn)
-        progressBar=findViewById(R.id.progressBar3)
-        sharedPreferences=getSharedPreferences("MyPreferences", MODE_PRIVATE)
-        phoneno=sharedPreferences.getString("user_phone","")!!
+        progressBar = findViewById(R.id.progressBar3)
+        sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE)
 
-
-        // Set up gender spinner with options
-        val genderOptions = arrayOf("select","Male", "Female", "Other")
-        val genderAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, genderOptions)
-        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        genderSpinner.adapter = genderAdapter
+        phoneno = sharedPreferences.getString("user_phone", "") ?: ""
 
         // Handle button click to submit form
         updateProfileButton.setOnClickListener {
@@ -69,44 +53,26 @@ class GetInfo : AppCompatActivity() {
     private fun submitForm() {
         val firstName = firstNameEditText.text.toString()
         val lastName = lastNameEditText.text.toString()
-        val city = cityEditText.text.toString()
-        val email = emailEditText.text.toString()
-        val age = ageEditText.text.toString()
-        val gender = genderSpinner.selectedItem.toString()
-
 
         // Simple validation
-        if (firstName.isEmpty() || lastName.isEmpty() || city.isEmpty() || email.isEmpty() || age.isEmpty()) {
+        if (firstName.isEmpty() || lastName.isEmpty()) {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
-
-
         } else {
-            createUser(firstName,lastName,city,email,age,gender)
-
-
-
+            createUser(firstName, lastName)
         }
     }
 
-
-    fun createUser(firstName:String,lastName:String,city:String,email:String,age:String,gender:String) {
-        progressBar.visibility=VISIBLE
+    private fun createUser(firstName: String, lastName: String) {
+        val fullName = "$firstName $lastName"
+        progressBar.visibility = VISIBLE
         val client = OkHttpClient()
 
         // Construct the JSON body
         val jsonBody = JSONObject().apply {
-
-            put("phone", phoneno)// Phone is required
-            put("name","${firstName}  ${lastName}")
-
-            put("email", email)
-            put("age", age)
-            put("gender", gender)
-            put("city",city)
-            put("password","1234567")
-
+            put("name", fullName)
         }
-        Log.d("API CALL",jsonBody.toString())
+
+        Log.d("API CALL", jsonBody.toString())
 
         // Create the request body
         val body = RequestBody.create(
@@ -116,38 +82,38 @@ class GetInfo : AppCompatActivity() {
 
         // Construct the request
         val request = Request.Builder()
-            .url("https://b2c-backend-1.onrender.com/api/v1/customer/user")  // Replace {{host}} with the actual host
-            .post(body)
+            .url("https://b2c-backend-1.onrender.com/api/v1/customer/user/$phoneno")
+            .patch(body)
             .build()
 
         // Make the request
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
+                runOnUiThread {
+                    progressBar.visibility = GONE
+                    Toast.makeText(this@GetInfo, "Failed to update profile. Please try again.", Toast.LENGTH_SHORT).show()
+                }
                 e.printStackTrace()
-                // Handle failure
             }
 
             override fun onResponse(call: Call, response: Response) {
-                if (response.isSuccessful) {
-                    progressBar.visibility=GONE
+                runOnUiThread {
+                    progressBar.visibility = GONE
+                    if (response.isSuccessful) {
+                        Log.d("API SUCCESS", response.body?.string().orEmpty())
+                        val editor = sharedPreferences.edit()
+                        editor.putString("name", fullName)
+                        editor.putString("user_phone", phoneno)
+                        editor.apply()
 
-                   Log.d("response",response.toString())
-                    val editor = sharedPreferences.edit()
-                    editor.putString("name", "${firstName}  ${lastName}")
-                    editor.putString("user_phone", phoneno)
-                    editor.putString("email", email)
-                    editor.apply()
-                    Toast.makeText(this@GetInfo, "Profile updated! Continue shopping.", Toast.LENGTH_SHORT).show()
-                    intent= Intent(this@GetInfo,BottomNavigationScreen::class.java)
-
-                    startActivity(intent)
-                    finish()
-                } else {
-                    progressBar.visibility=GONE
-                    Log.d("response",response.toString())
-                    Toast.makeText(this@GetInfo, "Failed to update profile. Please try again.", Toast.LENGTH_SHORT).show()
-                    // Handle unsuccessful response
-
+                        Toast.makeText(this@GetInfo, "Profile updated! Continue shopping.", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this@GetInfo, BottomNavigationScreen::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        Log.e("API ERROR", "Failed to update user: ${response.code}")
+                        Toast.makeText(this@GetInfo, "Failed to update profile. Please try again.", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         })
