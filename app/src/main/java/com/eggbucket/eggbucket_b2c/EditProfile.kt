@@ -77,8 +77,9 @@ class EditProfileFragment : Fragment() {
 
     private fun saveProfileData(firstName: String, lastName: String,email: String) {
         val editor = sharedPreferences.edit()
-        editor.putString("name", "$firstName $lastName")
-
+        editor.putString("firstName", firstName)
+        editor.putString("lastName", lastName)
+        editor.putString("name","$firstName $lastName")
         editor.putString("email", email)
         editor.apply()
     }
