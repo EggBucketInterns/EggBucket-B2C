@@ -17,9 +17,11 @@ import androidx.navigation.fragment.findNavController
 import com.google.gson.Gson
 import okhttp3.Call
 import okhttp3.Callback
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import org.json.JSONArray
 import org.json.JSONObject
@@ -130,7 +132,7 @@ class AddAddressFragment : Fragment() {
             } else {
                 // If all fields are filled, proceed with creating the JSON and API call
                 val jsonAddress = createAddressJson(
-                    flatno, address1, address2, area, city, state, postalcode, country, coordinates!!
+                    flatno, area, city, state, postalcode, country, coordinates!!
                 )
 
                 patchUserAddress(phoneNumber, jsonAddress) { isSuccess ->
@@ -149,10 +151,7 @@ class AddAddressFragment : Fragment() {
     }
 
     fun createAddressJson(
-
         flatNo: String,
-        addressLine1: String,
-        addressLine2: String,
         area: String,
         city: String,
         state: String,
@@ -160,83 +159,75 @@ class AddAddressFragment : Fragment() {
         country: String,
         coordinates: GeoPoint
     ): String {
-        // Check values before JSON creation
-        Log.d("AddressInfo", "Flat No: ${flatNo}")
-        Log.d("AddressInfo", "Address Line 1: ${addressLine1}")
-        val addressDetails = JSONObject().apply {
-            put("flatNo", flatNo)
-            put("addressLine1", addressLine1)
-            put("addressLine2", addressLine2)
-            put("area", area)
-            put("city", city)
-            put("state", state)
-            put("zipCode", zipCode)
-            put("country", country)
-        }
+        val addressDetails = JSONObject(
+            mapOf(
+                "flatNo" to flatNo,
+                "area" to area,
+                "city" to city,
+                "state" to state,
+                "zipCode" to zipCode,
+                "country" to country
+            )
+        )
 
-        val coordinatesObject = JSONObject().apply {
-            put("lat", coordinates.latitude)
-            put("long", coordinates.longitude)
-        }
+        val coordinatesObject = JSONObject(
+            mapOf(
+                "lat" to coordinates.latitude,
+                "long" to coordinates.longitude
+            )
+        )
 
-        val addressObject = JSONObject().apply {
-            put("fullAddress", addressDetails)
-            put("coordinates", coordinatesObject)
-        }
+        val addressObject = JSONObject(
+            mapOf(
+                "fullAddress" to addressDetails,
+                "coordinates" to coordinatesObject
+            )
+        )
 
-        val addressesArray = JSONArray().apply {
-            put(addressObject)
-        }
-
-        return addressesArray.toString()
+        return JSONObject(mapOf("addresses" to JSONArray(listOf(addressObject)))).toString()
     }
 
-
-    // Function to patch user address using the API
-    private fun patchUserAddress(userId: String, addressJson: String ,callback: (Boolean) -> Unit) {
-        val client = OkHttpClient()
-
-        val requestBody = MultipartBody.Builder()
-            .setType(MultipartBody.FORM)
-            .addFormDataPart("addresses", addressJson)
+    private fun patchUserAddress(userId: String, addressJson: String, callback: (Boolean) -> Unit) {
+        val client = OkHttpClient.Builder()
+            .connectTimeout(60, java.util.concurrent.TimeUnit.SECONDS) // Connection timeout
+            .readTimeout(60, java.util.concurrent.TimeUnit.SECONDS) // Read timeout
+            .writeTimeout(60, java.util.concurrent.TimeUnit.SECONDS) // Write timeout
             .build()
 
+        Log.d("AddressJson", addressJson) // Log the JSON payload for debugging
+
+        val requestBody = addressJson.toRequestBody("application/json".toMediaTypeOrNull())
+        Log.d("url","https://b2c-backend-1.onrender.com/api/v1/customer/user/$userId")
         val request = Request.Builder()
-            .url("https://b2c-backend-1.onrender.com/api/v1/customer/user/$phoneNumber")
+            .url("https://b2c-backend-1.onrender.com/api/v1/customer/user/$userId") // Use dynamic userId
             .patch(requestBody)
+            .addHeader("Content-Type", "application/json") // Ensure JSON is sent properly
             .build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                activity?.runOnUiThread {
-                    Toast.makeText(context, "Message", Toast.LENGTH_SHORT).show()
+                Handler(Looper.getMainLooper()).post {
+                    Toast.makeText(context, "Failed to update address", Toast.LENGTH_SHORT).show()
                     callback(false)
-                } // Handle error
+                }
             }
-
 
             override fun onResponse(call: Call, response: Response) {
                 Handler(Looper.getMainLooper()).post {
+                    val responseBody = response.body?.string() ?: "Unknown error"
                     if (response.isSuccessful) {
-                        Toast.makeText(context, "Address updated successfully!", Toast.LENGTH_SHORT)
-                            .show()
+                        Toast.makeText(context, "Address updated successfully!", Toast.LENGTH_SHORT).show()
                         callback(true)
                     } else {
-                        val responseBody = response.body?.string() ?: "Unknown error"
-                        callback(false)
-                        Toast.makeText(
-                            context,
-                            "Failed to update address: $responseBody",
-                            Toast.LENGTH_LONG
-                        ).show()
+                        Toast.makeText(context, "Failed to update address: $responseBody", Toast.LENGTH_LONG).show()
+                        Log.d("responseBody", responseBody)
                     }
-                    println("Response Code: ${response.code}")
-                    println("Response Body: ${response.body?.toString()}")
+                    Log.d("Response Code", response.code.toString())
                 }
-
             }
         })
     }
+
 
 
 }

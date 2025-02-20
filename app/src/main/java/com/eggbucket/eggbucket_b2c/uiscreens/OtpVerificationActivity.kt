@@ -145,8 +145,7 @@ class OtpVerificationActivity : AppCompatActivity() {
                     val sanitizedPhoneNumber = user?.phoneNumber?.replace("+91", "")
                     editor.putString("user_id", user?.uid)
                     editor.putString("user_phone", sanitizedPhoneNumber)
-                    editor.apply()
-
+                    editor.commit()
                     Toast.makeText(this, "Authentication successful", Toast.LENGTH_SHORT).show()
 
                     // Check user details
@@ -200,7 +199,7 @@ class OtpVerificationActivity : AppCompatActivity() {
                             try {
                                 val jsonObject = JSONObject(responseBody)
                                 val name = jsonObject.optString("name")
-                                val phone = jsonObject.optString("phone")
+                                val phone = jsonObject.optString("phoneNumber")
                                 val email = jsonObject.optString("email")
 
 
