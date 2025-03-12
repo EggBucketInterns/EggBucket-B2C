@@ -196,11 +196,13 @@
                                 android:text="6 pieces"
                                 android:textColor="#AFAFAF"
                                 android:textSize="14sp" />
+
                             <TextView
+                                android:id="@+id/price1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
-                                android:text="₹60 /pack"
+                                android:text="₹0 /pack"
                                 android:textColor="#AFAFAF"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -329,10 +331,11 @@
                                 android:textColor="#AFAFAF"
                                 android:textSize="14sp" />
                             <TextView
+                                android:id="@+id/price2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
-                                android:text="₹120 /pack"
+                                android:text="₹0 /pack"
                                 android:textColor="#AFAFAF"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -456,10 +459,11 @@
                                 android:textColor="#AFAFAF"
                                 android:textSize="14sp" />
                             <TextView
+                                android:id="@+id/price3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
-                                android:text="₹300 /pack"
+                                android:text="₹0 /pack"
                                 android:textColor="#AFAFAF"
                                 android:textSize="14sp" />
                         </LinearLayout>

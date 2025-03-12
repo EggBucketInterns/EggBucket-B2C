@@ -1,6 +1,5 @@
 package com.eggbucket.eggbucket_b2c
 
-
 import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
@@ -26,13 +25,17 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.Call
 import okhttp3.Callback
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.Response
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import android.Manifest
@@ -40,15 +43,9 @@ import android.content.Intent
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import com.eggbucket.eggbucket_b2c.uiscreens.GetInfo
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import java.io.FileNotFoundException
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.concurrent.TimeUnit
-
 
 class CartFragment : Fragment() {
 
@@ -66,8 +63,9 @@ class CartFragment : Fragment() {
     private lateinit var cartempty: TextView
     private lateinit var phoneNumber: String
 
+    // Cart items list; initially prices are set as hardcoded defaults.
+    // They will be updated dynamically after fetching product details.
     private val cartItems = mutableListOf<CartItem>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,20 +73,22 @@ class CartFragment : Fragment() {
 
         // Initialize SharedPreferences and phone number
         sharedPreferences = requireContext().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
-        phoneNumber= sharedPreferences.getString("user_phone","916363894956").toString()
+        phoneNumber = sharedPreferences.getString("user_phone", "916363894956").toString()
         Log.d("phonenumber", phoneNumber)
 
-        // Populate cartItems if empty to avoid duplication
+        // Populate cartItems if empty to avoid duplication.
+        // The price values here are temporary defaults.
         if (cartItems.isEmpty()) {
             val count1 = sharedPreferences.getInt("count1", 0)
             val count2 = sharedPreferences.getInt("count2", 0)
             val count3 = sharedPreferences.getInt("count3", 0)
-            //only add if item exist
-            if (count1 > 0) cartItems.add(CartItem("image6", "Eggs x 6", count1, 60.0))
-            if (count2 > 0) cartItems.add(CartItem("image12", "Eggs x 12", count2, 120.0))
-            if (count3 > 0) cartItems.add(CartItem("image30", "Eggs x 30", count3, 300.0))
+            // Only add if item exists in SharedPreferences.
+            if (count1 > 0) cartItems.add(CartItem("image6", "Eggs x 6", count1, 0.0))
+            if (count2 > 0) cartItems.add(CartItem("image12", "Eggs x 12", count2, 0.0))
+            if (count3 > 0) cartItems.add(CartItem("image30", "Eggs x 30", count3, 0.0))
         }
     }
+
     private val REQUEST_CODE = 100
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -136,17 +136,19 @@ class CartFragment : Fragment() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         makeApiRequestWithRetries2(phoneNumber)
+
         // Check for saved address in SharedPreferences
         val addressJson = sharedPreferences.getString("selected_address", null)
-        //updating address
         if (addressJson != null) {
             val address = Gson().fromJson(addressJson, UserAddress::class.java)
-            updateAddress(address) // Updated method call with UserAddress type
+            updateAddress(address)
         } else {
             Log.d("Saved Address", "No address found")
         }
-        //display cart item empty
+
+        // Show/hide views based on cart items existence
         if (cartItems.isNotEmpty()) {
             cartempty.visibility = View.GONE
             cartscroll.visibility = View.VISIBLE
@@ -158,25 +160,17 @@ class CartFragment : Fragment() {
         cartItemsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         cartItemsRecyclerView.adapter = cartAdapter
 
-
-        // empty cart function listner
+        // Empty cart listener
         emptyCartButton.setOnClickListener {
             clearcart()
         }
-        //update address on click  if only string
-//        parentFragmentManager.setFragmentResultListener("address_request_key", viewLifecycleOwner) { _, bundle ->
-//            val selectedAddress = bundle.getString("selected_address")
-//            selectedAddress?.let {
-//                val address = Gson().fromJson(it, UserAddress::class.java)
-//                updateAddress(address)
-//            }
-//        }
-        //listener for change address button
+
+        // Listener for change address button
         changeAddressButton.setOnClickListener {
             findNavController().navigate(R.id.action_cartFragment_to_addressListFragment)
         }
-        //continue to pay listener
 
+        // Continue to pay listener
         continueToPayButton.setOnClickListener {
             showProgress()
             if (!checkUserInfo()) {
@@ -184,14 +178,16 @@ class CartFragment : Fragment() {
                 startActivity(intent)
                 return@setOnClickListener
             }
+
             val addressJson = sharedPreferences.getString("selected_address", null)
-            if (addressJson == null){
+            if (addressJson == null) {
                 findNavController().navigate(R.id.action_cartFragment_to_mapFragment)
                 Toast.makeText(requireContext(), "Choose an Address", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
+
             val address = Gson().fromJson(addressJson, UserAddress::class.java)
-            //create json format address and coordinates
+            // Create JSON format address and coordinates
             val fullAddress = JSONObject().apply {
                 put("flatNo", address.fullAddress.flatNo)
                 put("area", address.fullAddress.area)
@@ -205,30 +201,44 @@ class CartFragment : Fragment() {
                 put("long", address.coordinates.long)
             }
 
-
-            // Generate product data from cart items
+            // Generate product data from cart items in the desired structure
             val products = JSONObject()
+
+            // Map the "Eggs x N" cart label to (productId, nameInBackend)
+            val productIdMap = mapOf(
+                "Eggs x 6"  to Pair("0Xkt5nPNGubaZ9mMpzGs", "6pc_tray"),
+                "Eggs x 12" to Pair("NVPDbCfymcyD7KpH6J5J", "12pc_tray"),
+                "Eggs x 30" to Pair("a2MeuuaCweGQNBIc4l51", "30pc_tray")
+            )
+
             cartItems.forEach { item ->
-                when (item.name) {
-                    "Eggs x 6" -> products.put("E6", item.quantity)
-                    "Eggs x 12" -> products.put("E12", item.quantity)
-                    "Eggs x 30" -> products.put("E30", item.quantity)
+                // Look up the corresponding productId + backend name for the cart item
+                val productInfo = productIdMap[item.name]
+                if (productInfo != null) {
+                    val (productId, apiName) = productInfo
+
+                    // Build the inner JSON object
+                    val productObj = JSONObject().apply {
+                        put("name", apiName)        // e.g. "6pc_tray"
+                        put("productId", productId) // e.g. "0Xkt5nPNGubaZ9mMpzGs"
+                        put("quantity", item.quantity)
+                    }
+                    // Put that object in the 'products' JSON using productId as the key
+                    products.put(productId, productObj)
                 }
             }
 
             val totalAmount = cartItems.sumOf { it.quantity * it.price }.toInt()
-            //Function call for place order
+
+            // Call createOrder with your final JSON
             createOrder(
                 apiUrl = "https://b2c-backend-1.onrender.com",
                 fullAddress = fullAddress,
                 coordinates = coordinates,
                 amount = totalAmount,
-                products = products,
+                products = products,  // <--- This now has the correct structure
                 customerId = phoneNumber
             )
-
-
-
         }
 
 
@@ -236,8 +246,11 @@ class CartFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        // Update the total price
+        // Update the total price initially
         updateTotalPrice()
+
+        // Fetch dynamic product details to update prices and remove hardcoded values.
+        fetchProductDetailsAndUpdatePrices()
 
         return view
     }
@@ -246,18 +259,20 @@ class CartFragment : Fragment() {
         progressOverlay.visibility = View.VISIBLE
     }
 
-    //update price on quantity change to call from adapter
+    // Called when quantity changes from adapter
     private fun onQuantityChanged(item: String, newQuantity: Int) {
         updateQuantityInSharedPreferences(item, newQuantity)
         updateTotalPrice()
     }
-    //remove item from cart
+
+    // Remove an item from the cart
     private fun onRemoveItem(item: CartItem) {
         cartItems.remove(item)
         cartAdapter.notifyDataSetChanged()
         updateTotalPrice()
     }
-    //delete all item from cart
+
+    // Clear the entire cart
     private fun clearcart() {
         activity?.runOnUiThread {
             cartItems.clear()
@@ -269,17 +284,20 @@ class CartFragment : Fragment() {
             cartempty.visibility = View.VISIBLE
         }
     }
-    //display address of shared preference in required format
+
+    // Display the saved address in the required format
     private fun updateAddress(address: UserAddress) {
         val displayAddress = "${address.fullAddress.flatNo}, ${address.fullAddress.area}, ${address.fullAddress.city}"
-        addressText.text = "$displayAddress"
+        addressText.text = displayAddress
     }
-    //calculate total prise
+
+    // Calculate total price and update the button text
     private fun updateTotalPrice() {
         val total = cartItems.sumOf { it.quantity * it.price }
         continueToPayButton.text = "PLACE ORDER OF ₹$total"
     }
-    // update quantity of specific item
+
+    // Update quantity for a specific item in SharedPreferences
     private fun updateQuantityInSharedPreferences(itemName: String, quantity: Int) {
         val editor = sharedPreferences.edit()
         when (itemName) {
@@ -290,7 +308,7 @@ class CartFragment : Fragment() {
         editor.apply()
     }
 
-    //clear all data of item from shared preferences
+    // Clear cart item data from SharedPreferences
     private fun clearSharedPreferences() {
         sharedPreferences.edit().apply {
             putInt("count1", 0)
@@ -299,14 +317,13 @@ class CartFragment : Fragment() {
             apply()
         }
     }
+
     private fun checkUserInfo(): Boolean {
         val firstName = sharedPreferences.getString("name", null)
-        return !(firstName.isNullOrEmpty() )
+        return !firstName.isNullOrEmpty()
     }
 
-
-
-    //function to create order and store it in database
+    // Function to create order and store it in the database
     private fun createOrder(
         apiUrl: String,
         fullAddress: JSONObject,
@@ -321,7 +338,6 @@ class CartFragment : Fragment() {
             .writeTimeout(10, TimeUnit.SECONDS)   // Set write timeout
             .build()
 
-
         // Create the JSON body
         val bodyJson = JSONObject().apply {
             put("address", JSONObject().apply {
@@ -332,12 +348,11 @@ class CartFragment : Fragment() {
             put("products", products)
             put("customerId", customerId)
         }
-        Log.d("jsonbody",bodyJson.toString())
+        Log.d("jsonbody", bodyJson.toString())
         val requestBody = RequestBody.create(
             "application/json; charset=utf-8".toMediaTypeOrNull(),
             bodyJson.toString()
         )
-
 
         // Create the request
         val request = Request.Builder()
@@ -351,14 +366,13 @@ class CartFragment : Fragment() {
                 activity?.runOnUiThread {
                     Toast.makeText(requireContext(), "Order creation failed. Please try again.", Toast.LENGTH_LONG).show()
                     progressOverlay.visibility = View.GONE
-                    findNavController().navigate(R.id.action_cartFragment_self) // Redirect to CartFragment
+                    findNavController().navigate(R.id.action_cartFragment_self)
                 }
             }
 
             override fun onResponse(call: Call, response: Response) {
                 activity?.runOnUiThread {
                     if (response.isSuccessful) {
-                        // Handle successful order creation
                         Log.d("ordered place", response.body.toString())
                         triggerNotification("success")
                         clearcart()
@@ -366,19 +380,18 @@ class CartFragment : Fragment() {
                         Toast.makeText(requireContext(), "Order placed successfully!", Toast.LENGTH_SHORT).show()
                         findNavController().navigate(R.id.action_cartFragment_to_orderCompleted)
                     } else {
-                        // Handle server-side errors
                         showAlertDialog("Please change address", "We will expand to this location soon")
                         progressOverlay.visibility = View.GONE
                         Log.d("ordered place", response.message.toString())
                         Toast.makeText(requireContext(), "Failed to create order. Please try again.", Toast.LENGTH_LONG).show()
-                        findNavController().navigate(R.id.action_cartFragment_self) // Redirect to CartFragment
+                        findNavController().navigate(R.id.action_cartFragment_self)
                     }
                 }
             }
-
         })
     }
-    //dialog to show result
+
+    // Show an alert dialog with a message
     private fun showAlertDialog(title: String, message: String) {
         activity?.runOnUiThread {
             val builder = AlertDialog.Builder(requireContext())
@@ -389,11 +402,12 @@ class CartFragment : Fragment() {
                 .show()
         }
     }
+
     companion object {
         private const val NOTIFICATION_PERMISSION_CODE = 1001
     }
 
-
+    // This function remains unchanged (example API request with retries for order creation)
     private fun makeApiRequestWithRetries2(phone: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val url = "https://b2c-backend-1.onrender.com/api/v1/order/order"
@@ -401,28 +415,32 @@ class CartFragment : Fragment() {
             var success = false
 
             val requestBody = """
-        {
-            "address": {
-                "fullAddress": {
-                    "flatNo": "",
-                    "area": "Chamrajpet",
-                    "city": "Bengaluru",
-                    "state": "Karnataka",
-                    "zipCode": "560018",
-                    "country": "India"
-                },
-                "coordinates": {
-                    "lat": 34.0549,
-                    "long": 118.2426
+                {
+                    "address": {
+                        "fullAddress": {
+                            "flatNo": "",
+                            "area": "Chamrajpet",
+                            "city": "Bengaluru",
+                            "state": "Karnataka",
+                            "zipCode": "560018",
+                            "country": "India"
+                        },
+                        "coordinates": {
+                            "lat": 34.0549,
+                            "long": 118.2426
+                        }
+                    },
+                    "amount": 120,
+                    "products": {
+                        "0Xkt5nPNGubaZ9mMpzGs": {
+                            "name": "6pc_tray",
+                            "productId": "0Xkt5nPNGubaZ9mMpzGs",
+                            "quantity" : 1                       
+                        }
+                    },
+                    "customerId": "$phone"
                 }
-            },
-            "amount": 120,
-            "products": {
-                "E12": 1
-            },
-            "customerId": "$phone"
-        }
-        """.trimIndent()
+            """.trimIndent()
 
             while (attempts < 2 && !success) {
                 try {
@@ -432,12 +450,10 @@ class CartFragment : Fragment() {
                     connection.setRequestProperty("Content-Type", "application/json")
                     connection.doOutput = true
 
-                    // Writing the request body
                     connection.outputStream.use { outputStream ->
                         outputStream.write(requestBody.toByteArray(Charsets.UTF_8))
                     }
 
-                    // Reading the response
                     val responseCode = connection.responseCode
                     val responseMessage = connection.responseMessage
                     Log.d("API_RESPONSE", "Response Code: $responseCode, Message: $responseMessage")
@@ -465,4 +481,46 @@ class CartFragment : Fragment() {
         }
     }
 
+    // New function: Fetch product details from the API and update cart item prices dynamically.
+    private fun fetchProductDetailsAndUpdatePrices() {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val url = "https://b2c-backend-1.onrender.com/api/v1/admin/getallproducts"
+                val client = OkHttpClient()
+                val request = Request.Builder().url(url).build()
+                val response = client.newCall(request).execute()
+                if (response.isSuccessful) {
+                    val responseBody = response.body?.string() ?: ""
+                    val jsonArray = JSONArray(responseBody)
+                    // Build a map from product name (from API) to the current price (using "currentPrice")
+                    val productPriceMap = mutableMapOf<String, Double>()
+                    for (i in 0 until jsonArray.length()) {
+                        val productObj = jsonArray.getJSONObject(i)
+                        val productName = productObj.getString("name") // e.g., "6pc_tray"
+                        // Use currentPrice (string) and convert to Double
+                        val price = productObj.getString("price").toDoubleOrNull() ?: productObj.getDouble("price")
+                        productPriceMap[productName] = price
+                    }
+
+                    // Update cart items: Map "Eggs x 6" -> "6pc_tray", etc.
+                    cartItems.forEach { item ->
+                        when (item.name) {
+                            "Eggs x 6" -> productPriceMap["6pc_tray"]?.let { item.price = it }
+                            "Eggs x 12" -> productPriceMap["12pc_tray"]?.let { item.price = it }
+                            "Eggs x 30" -> productPriceMap["30pc_tray"]?.let { item.price = it }
+                        }
+                    }
+                    // Update UI on main thread
+                    activity?.runOnUiThread {
+                        updateTotalPrice()
+                        cartAdapter.notifyDataSetChanged()
+                    }
+                } else {
+                    Log.e("ProductAPI", "Failed to fetch product details: ${response.message}")
+                }
+            } catch (e: Exception) {
+                Log.e("ProductAPI", "Exception in fetching product details", e)
+            }
+        }
+    }
 }

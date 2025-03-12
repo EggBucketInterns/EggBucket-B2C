@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,17 +20,23 @@ import androidx.viewpager2.widget.ViewPager2
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import org.json.JSONArray
 import java.net.HttpURLConnection
 import java.net.URL
 
 class HomeScreen : Fragment() {
 
-    private val images = listOf(R.drawable.freshegg, R.drawable.farmfresh, R.drawable.promo)
+    private val images = listOf(R.drawable.promo, R.drawable.farmfresh, R.drawable.freshegg)
     private lateinit var viewPager: ViewPager2
     private val handler = Handler(Looper.getMainLooper())
     private var currentPage = 0
     private lateinit var sharedPreferences: SharedPreferences
+    private var dynamicPrice1: Double = 0.0
+    private var dynamicPrice2: Double = 0.0
+    private var dynamicPrice3: Double = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +58,8 @@ class HomeScreen : Fragment() {
         val ind3 = view.findViewById<ImageView>(R.id.indicator3)
 
         fetchProductData(view, ind1, ind2, ind3)
+
+        fetchProductPrice()
 
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -216,9 +225,60 @@ class HomeScreen : Fragment() {
         }
     }
 
+    private fun updatePrice(view: View) {
+        val priceTextView1 = view.findViewById<TextView>(R.id.price1)
+        val priceTextView2 = view.findViewById<TextView>(R.id.price2)
+        val priceTextView3 = view.findViewById<TextView>(R.id.price3)
+
+        val packprice1 = "₹${"%.2f".format(dynamicPrice1)}/pack"
+        priceTextView1.text = packprice1
+        val packprice2 = "₹${"%.2f".format(dynamicPrice2)}/pack"
+        priceTextView2.text = packprice2
+        val packprice3 = "₹${"%.2f".format(dynamicPrice3)}/pack"
+        priceTextView3.text = packprice3
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         handler.removeCallbacksAndMessages(null)
+    }
+
+    private fun fetchProductPrice() {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val url = "https://b2c-backend-1.onrender.com/api/v1/admin/getallproducts"
+                val client = OkHttpClient()
+                val request = Request.Builder().url(url).build()
+                val response = client.newCall(request).execute()
+                if (response.isSuccessful) {
+                    val responseBody = response.body?.string() ?: ""
+                    val jsonArray = JSONArray(responseBody)
+                    for (i in 0 until jsonArray.length()) {
+                        val productObj = jsonArray.getJSONObject(i)
+                        val productName = productObj.getString("name")
+                        if (productName == "6pc_tray") {
+                            val priceStr1 = productObj.getString("price")
+                            dynamicPrice1 = priceStr1.toDoubleOrNull() ?: productObj.getDouble("price")
+                        }
+                        if (productName == "12pc_tray") {
+                            val priceStr2 = productObj.getString("price")
+                            dynamicPrice2 = priceStr2.toDoubleOrNull() ?: productObj.getDouble("price")
+                        }
+                        if (productName == "30pc_tray") {
+                            val priceStr3 = productObj.getString("price")
+                            dynamicPrice3 = priceStr3.toDoubleOrNull() ?: productObj.getDouble("price")
+                        }
+                    }
+                    withContext(Dispatchers.Main) {
+                        updatePrice(requireView())
+                    }
+                } else {
+                    Log.e("ProductAPI", "Failed to fetch product details: ${response.message}")
+                }
+            } catch (e: Exception) {
+                Log.e("ProductAPI", "Exception in fetching product details", e)
+            }
+        }
     }
 
     companion object {

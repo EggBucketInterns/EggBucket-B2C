@@ -10,8 +10,7 @@ data class CartItem(
     val image:String,
     val name: String,
     var quantity: Int,
-    val price: Double
-
+    var price: Double
 )
 
 data class OrderResponse(

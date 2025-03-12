@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import org.json.JSONArray
 
 class Product1Fragment : Fragment() {
 
@@ -24,7 +32,7 @@ class Product1Fragment : Fragment() {
     private lateinit var sharedPreferences: SharedPreferences
 
     private var count2 = 0
-    private val pricePerPack = 120 // Fixed price for pack of 12
+    private var dynamicPrice: Double = 0.0 // Fixed price for pack of 12
     private lateinit var viewPager: ViewPager2
     private val handler = Handler(Looper.getMainLooper())
     private var currentPage = 0
@@ -44,6 +52,8 @@ class Product1Fragment : Fragment() {
         setupCard2Listeners(view)
         setupUI(view)
         startAutoScroll(view)
+
+        fetchProductPrice()
 
         return view
     }
@@ -71,9 +81,13 @@ class Product1Fragment : Fragment() {
     }
 
     private fun updatePrice(view: View) {
-        val priceTextView = view.findViewById<TextView>(R.id.priceText)
-        val totalPrice = pricePerPack * count2
-        priceTextView.text = "Price: $totalPrice"
+        val priceTextView = view.findViewById<TextView>(R.id.productprize)
+        val priceSectionTextView = view.findViewById<TextView>(R.id.priceText)
+        val totalPrice = dynamicPrice * count2
+        val formattedPrice = "₹${"%.2f".format(totalPrice)}"
+        val packprice = "₹${"%.2f".format(dynamicPrice)}/pack"
+        priceTextView.text = packprice
+        priceSectionTextView?.text = formattedPrice
     }
 
     private fun saveQuantityToSharedPreferences() {
@@ -143,6 +157,37 @@ class Product1Fragment : Fragment() {
                 Snackbar.make(view, "Add Items to Cart!", Snackbar.LENGTH_SHORT).show()
             } else {
                 bottomNavigationView.selectedItemId = R.id.navigation_cart
+            }
+        }
+    }
+    private fun fetchProductPrice() {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val url = "https://b2c-backend-1.onrender.com/api/v1/admin/getallproducts"
+                val client = OkHttpClient()
+                val request = Request.Builder().url(url).build()
+                val response = client.newCall(request).execute()
+                if (response.isSuccessful) {
+                    val responseBody = response.body?.string() ?: ""
+                    val jsonArray = JSONArray(responseBody)
+                    for (i in 0 until jsonArray.length()) {
+                        val productObj = jsonArray.getJSONObject(i)
+                        val productName = productObj.getString("name")
+                        if (productName == "12pc_tray") {
+                            // Use currentPrice if available; fallback to "price" otherwise.
+                            val priceStr = productObj.getString("price")
+                            dynamicPrice = priceStr.toDoubleOrNull() ?: productObj.getDouble("price")
+                            break
+                        }
+                    }
+                    withContext(Dispatchers.Main) {
+                        updatePrice(requireView())
+                    }
+                } else {
+                    Log.e("ProductAPI", "Failed to fetch product details: ${response.message}")
+                }
+            } catch (e: Exception) {
+                Log.e("ProductAPI", "Exception in fetching product details", e)
             }
         }
     }
