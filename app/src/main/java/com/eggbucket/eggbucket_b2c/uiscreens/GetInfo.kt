@@ -82,7 +82,7 @@ class GetInfo : AppCompatActivity() {
 
         // Construct the request
         val request = Request.Builder()
-            .url("https://b2c-backend-1.onrender.com/api/v1/customer/user/$phoneno")
+            .url("https://b2c-backend-eik4.onrender.com/api/v1/customer/user/$phoneno")
             .patch(body)
             .build()
 

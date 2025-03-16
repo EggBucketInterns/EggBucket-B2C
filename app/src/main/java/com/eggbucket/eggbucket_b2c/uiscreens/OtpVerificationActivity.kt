@@ -180,7 +180,7 @@ class OtpVerificationActivity : AppCompatActivity() {
     fun checkDetails(phoneNumber: String, context: Context, callback: (Boolean) -> Unit) {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("https://b2c-backend-1.onrender.com/api/v1/customer/user/$phoneNumber")
+            .url("https://b2c-backend-eik4.onrender.com/api/v1/customer/user/$phoneNumber")
             .get()
             .build()
 
@@ -228,7 +228,7 @@ class OtpVerificationActivity : AppCompatActivity() {
     }
     private fun createAccount(phoneNumber: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val url = "https://b2c-backend-1.onrender.com/api/v1/customer/user"
+            val url = "https://b2c-backend-eik4.onrender.com/api/v1/customer/user"
             var attempts = 0
             var success = false
 

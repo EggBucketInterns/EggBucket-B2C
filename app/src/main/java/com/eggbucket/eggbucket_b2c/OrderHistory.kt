@@ -2,10 +2,12 @@ package com.eggbucket.eggbucket_b2c
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,10 +33,10 @@ class OrderHistory : Fragment() {
         _binding = FragmentOrderHistoryBinding.inflate(inflater, container, false)
 
         sharedPref = requireActivity().getSharedPreferences("MyPreferences", MODE_PRIVATE)
-        userPhone = sharedPref.getString("user_phone", null)
-
+        userPhone = sharedPref.getString("user_phone", "6363894956")
+        Log.d("user_phone","$userPhone")
         setupViews()
-        userPhone?.let { fetchOrdersFromApi(it.replace("+", "")) }
+        fetchOrdersFromApi(userPhone.toString())
         return binding.root
     }
 
@@ -72,7 +74,9 @@ class OrderHistory : Fragment() {
                 }
 
                 override fun onFailure(call: Call<OrderResponse>, t: Throwable) {
+                    Toast.makeText(requireContext(), "ERRORRRR!!!!", Toast.LENGTH_LONG).show()
                     showError("Error: ${t.message}")
+                    Log.d("err","${t.message}")
                 }
             })
     }

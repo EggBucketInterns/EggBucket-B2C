@@ -22,7 +22,7 @@ data class OrderItem(
     val id: String,
     @SerializedName("address") val orderAddress: OrderAddress,
     val amount: Double,
-    val products: Map<String, Int>,
+    val products: Map<String, ProductDetail>,
     val createdAt: Timestamp,
     val updatedAt: Timestamp,
     val outletId: String,
@@ -30,6 +30,7 @@ data class OrderItem(
     val deliveryPartnerId: String,
     val status: String?
 )
+
 
 data class OrderAddress(
     val addressLine1: String,
@@ -48,3 +49,8 @@ data class Timestamp(
     val _nanoseconds: Long
 )
 
+data class ProductDetail(
+    val name: String,
+    val productId: String,
+    val quantity: Int
+)

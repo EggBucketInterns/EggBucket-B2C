@@ -15,6 +15,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import kotlinx.coroutines.CoroutineScope
@@ -26,6 +27,7 @@ import okhttp3.Request
 import org.json.JSONArray
 import java.net.HttpURLConnection
 import java.net.URL
+import java.util.concurrent.TimeUnit
 
 class HomeScreen : Fragment() {
 
@@ -59,8 +61,6 @@ class HomeScreen : Fragment() {
 
         fetchProductData(view, ind1, ind2, ind3)
 
-        fetchProductPrice()
-
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
@@ -68,14 +68,14 @@ class HomeScreen : Fragment() {
                 updateIndicatorBackgrounds(ind1, ind2, ind3, currentPage)
             }
         })
-
+        fetchProductPrice()
         return view
     }
 
     private fun fetchProductData(view: View, ind1: ImageView, ind2: ImageView, ind3: ImageView) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val url = URL("https://b2c-backend-1.onrender.com/api/v1/deliveryPartner/getproduct")
+                val url = URL("https://b2c-backend-eik4.onrender.com/api/v1/admin/getallproducts")
                 val connection = url.openConnection() as HttpURLConnection
                 connection.requestMethod = "GET"
 
@@ -244,33 +244,45 @@ class HomeScreen : Fragment() {
     }
 
     private fun fetchProductPrice() {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             try {
-                val url = "https://b2c-backend-1.onrender.com/api/v1/admin/getallproducts"
-                val client = OkHttpClient()
-                val request = Request.Builder().url(url).build()
+                val url = "https://b2c-backend-eik4.onrender.com/api/v1/admin/getallproducts"
+                // Create an OkHttpClient with timeout settings (if needed, you can use your shared okHttpClient)
+                val client = OkHttpClient.Builder()
+                    .connectTimeout(30, TimeUnit.SECONDS)
+                    .readTimeout(30, TimeUnit.SECONDS)
+                    .writeTimeout(30, TimeUnit.SECONDS)
+                    .build()
+
+                val request = okhttp3.Request.Builder().url(url).build()
                 val response = client.newCall(request).execute()
+
                 if (response.isSuccessful) {
                     val responseBody = response.body?.string() ?: ""
-                    val jsonArray = JSONArray(responseBody)
+                    val jsonArray = org.json.JSONArray(responseBody)
+
                     for (i in 0 until jsonArray.length()) {
                         val productObj = jsonArray.getJSONObject(i)
                         val productName = productObj.getString("name")
-                        if (productName == "6pc_tray") {
-                            val priceStr1 = productObj.getString("price")
-                            dynamicPrice1 = priceStr1.toDoubleOrNull() ?: productObj.getDouble("price")
-                        }
-                        if (productName == "12pc_tray") {
-                            val priceStr2 = productObj.getString("price")
-                            dynamicPrice2 = priceStr2.toDoubleOrNull() ?: productObj.getDouble("price")
-                        }
-                        if (productName == "30pc_tray") {
-                            val priceStr3 = productObj.getString("price")
-                            dynamicPrice3 = priceStr3.toDoubleOrNull() ?: productObj.getDouble("price")
+                        when (productName) {
+                            "6pc_tray" -> {
+                                val priceStr1 = productObj.getString("price")
+                                dynamicPrice1 = priceStr1.toDoubleOrNull() ?: productObj.getDouble("price")
+                            }
+                            "12pc_tray" -> {
+                                val priceStr2 = productObj.getString("price")
+                                dynamicPrice2 = priceStr2.toDoubleOrNull() ?: productObj.getDouble("price")
+                            }
+                            "30pc_tray" -> {
+                                val priceStr3 = productObj.getString("price")
+                                dynamicPrice3 = priceStr3.toDoubleOrNull() ?: productObj.getDouble("price")
+                            }
                         }
                     }
+
                     withContext(Dispatchers.Main) {
-                        updatePrice(requireView())
+                        // Update UI only if view is still available
+                        view?.let { updatePrice(it) }
                     }
                 } else {
                     Log.e("ProductAPI", "Failed to fetch product details: ${response.message}")
@@ -280,6 +292,8 @@ class HomeScreen : Fragment() {
             }
         }
     }
+
+
 
     companion object {
         @JvmStatic

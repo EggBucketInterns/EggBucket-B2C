@@ -42,7 +42,11 @@ import android.Manifest
 import android.content.Intent
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
+import androidx.lifecycle.lifecycleScope
 import com.eggbucket.eggbucket_b2c.uiscreens.GetInfo
+import kotlinx.coroutines.withContext
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.concurrent.TimeUnit
@@ -170,7 +174,6 @@ class CartFragment : Fragment() {
             findNavController().navigate(R.id.action_cartFragment_to_addressListFragment)
         }
 
-        // Continue to pay listener
         continueToPayButton.setOnClickListener {
             showProgress()
             if (!checkUserInfo()) {
@@ -232,7 +235,7 @@ class CartFragment : Fragment() {
 
             // Call createOrder with your final JSON
             createOrder(
-                apiUrl = "https://b2c-backend-1.onrender.com",
+                apiUrl = "https://b2c-backend-eik4.onrender.com",
                 fullAddress = fullAddress,
                 coordinates = coordinates,
                 amount = totalAmount,
@@ -410,43 +413,50 @@ class CartFragment : Fragment() {
     // This function remains unchanged (example API request with retries for order creation)
     private fun makeApiRequestWithRetries2(phone: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val url = "https://b2c-backend-1.onrender.com/api/v1/order/order"
+            // Updated URL with trailing slash
+            val url = "https://b2c-backend-eik4.onrender.com/api/v1/order/order"
             var attempts = 0
             var success = false
 
             val requestBody = """
-                {
-                    "address": {
-                        "fullAddress": {
-                            "flatNo": "",
-                            "area": "Chamrajpet",
-                            "city": "Bengaluru",
-                            "state": "Karnataka",
-                            "zipCode": "560018",
-                            "country": "India"
-                        },
-                        "coordinates": {
-                            "lat": 34.0549,
-                            "long": 118.2426
-                        }
+            {
+                "id": "6363894956-1742048111738-43",
+                  "address": {
+                    "fullAddress": {
+                      "flatNo": "491",
+                      "area": "Marathahalli",
+                      "city": "Bengaluru",
+                      "state": "Karnataka",
+                      "zipCode": "560037",
+                      "country": "India"
                     },
-                    "amount": 120,
-                    "products": {
-                        "0Xkt5nPNGubaZ9mMpzGs": {
-                            "name": "6pc_tray",
-                            "productId": "0Xkt5nPNGubaZ9mMpzGs",
-                            "quantity" : 1                       
-                        }
+                    "coordinates": {
+                      "lat": 12.9650126187683,
+                      "long": 77.7158141012058
+                    }
+                  },
+                  "amount": 420,
+                  "products": {[
+                    "0Xkt5nPNGubaZ9mMpzGs": {
+                      "name": "6pc_tray",
+                      "productId": "0Xkt5nPNGubaZ9mMpzGs",
+                      "quantity": 1
                     },
-                    "customerId": "$phone"
+                    "a2MeuuaCweGQNBIc4l51": {
+                      "name": "30pc_tray",
+                      "productId": "a2MeuuaCweGQNBIc4l51",
+                      "quantity": 2
+                    }]
+                  },
+                  "customerId": "$phone"
                 }
-            """.trimIndent()
+        """.trimIndent()
 
             while (attempts < 2 && !success) {
                 try {
                     Log.d("API_REQUEST", "Attempt: ${attempts + 1}")
                     val connection = URL(url).openConnection() as HttpURLConnection
-                    connection.requestMethod = "POST"
+                    connection.requestMethod = "GET"
                     connection.setRequestProperty("Content-Type", "application/json")
                     connection.doOutput = true
 
@@ -458,7 +468,8 @@ class CartFragment : Fragment() {
                     val responseMessage = connection.responseMessage
                     Log.d("API_RESPONSE", "Response Code: $responseCode, Message: $responseMessage")
 
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                    // Treat HTTP_OK (200) or HTTP_CREATED (201) as success
+                    if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED) {
                         success = true
                         val response = connection.inputStream.bufferedReader().use { it.readText() }
                         Log.d("API_RESPONSE_BODY", "Response: $response")
@@ -481,23 +492,26 @@ class CartFragment : Fragment() {
         }
     }
 
-    // New function: Fetch product details from the API and update cart item prices dynamically.
     private fun fetchProductDetailsAndUpdatePrices() {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             try {
-                val url = "https://b2c-backend-1.onrender.com/api/v1/admin/getallproducts"
-                val client = OkHttpClient()
+                val url = "https://b2c-backend-eik4.onrender.com/api/v1/admin/getallproducts"
+                val client = OkHttpClient.Builder()
+                    .connectTimeout(30, TimeUnit.SECONDS)
+                    .readTimeout(30, TimeUnit.SECONDS)
+                    .writeTimeout(30, TimeUnit.SECONDS)
+                    .build()
                 val request = Request.Builder().url(url).build()
                 val response = client.newCall(request).execute()
                 if (response.isSuccessful) {
                     val responseBody = response.body?.string() ?: ""
                     val jsonArray = JSONArray(responseBody)
-                    // Build a map from product name (from API) to the current price (using "currentPrice")
+                    // Build a map from product name (from API) to the current price
                     val productPriceMap = mutableMapOf<String, Double>()
                     for (i in 0 until jsonArray.length()) {
                         val productObj = jsonArray.getJSONObject(i)
                         val productName = productObj.getString("name") // e.g., "6pc_tray"
-                        // Use currentPrice (string) and convert to Double
+                        // Convert the price string to Double (fallback to getDouble)
                         val price = productObj.getString("price").toDoubleOrNull() ?: productObj.getDouble("price")
                         productPriceMap[productName] = price
                     }
@@ -505,15 +519,23 @@ class CartFragment : Fragment() {
                     // Update cart items: Map "Eggs x 6" -> "6pc_tray", etc.
                     cartItems.forEach { item ->
                         when (item.name) {
-                            "Eggs x 6" -> productPriceMap["6pc_tray"]?.let { item.price = it }
-                            "Eggs x 12" -> productPriceMap["12pc_tray"]?.let { item.price = it }
-                            "Eggs x 30" -> productPriceMap["30pc_tray"]?.let { item.price = it }
+                            "Eggs x 6" -> productPriceMap["6pc_tray"]?.let { price ->
+                                item.price = BigDecimal(price).setScale(2, RoundingMode.HALF_UP).toDouble()
+                            }
+                            "Eggs x 12" -> productPriceMap["12pc_tray"]?.let { price ->
+                                item.price = BigDecimal(price).setScale(2, RoundingMode.HALF_UP).toDouble()
+                            }
+                            "Eggs x 30" -> productPriceMap["30pc_tray"]?.let { price ->
+                                item.price = BigDecimal(price).setScale(2, RoundingMode.HALF_UP).toDouble()
+                            }
                         }
                     }
-                    // Update UI on main thread
-                    activity?.runOnUiThread {
-                        updateTotalPrice()
-                        cartAdapter.notifyDataSetChanged()
+                    // Switch to main thread to update UI
+                    withContext(Dispatchers.Main) {
+                        view?.let {
+                            updateTotalPrice()
+                            cartAdapter.notifyDataSetChanged()
+                        }
                     }
                 } else {
                     Log.e("ProductAPI", "Failed to fetch product details: ${response.message}")
@@ -523,4 +545,5 @@ class CartFragment : Fragment() {
             }
         }
     }
+
 }

@@ -52,19 +52,38 @@ class OrderHistoryAdapter(private val orderList: List<OrderItem>) :
         val order = orderList[position]
         val sdf = SimpleDateFormat("dd/MM/yy", Locale.getDefault())
 
+        // Format the date
         holder.orderDate.text = "Order At: " + sdf.format(
-            Date((order.createdAt._seconds * 1000) + (order.createdAt._nanoseconds / 1000000))
+            Date(
+                (order.createdAt._seconds * 1000) + (order.createdAt._nanoseconds / 1000000)
+            )
         )
+
         holder.orderAmt.text = "Order Amount: ₹${order.amount}"
 
-        var itemString = ""
-        order.products.forEach { (key, value) -> itemString += "Eggs x ${key.substring(1)}: $value\n" }
-        holder.items.text = itemString.trimEnd('\n')
+        // 1) Map product IDs to a friendly name
+        val productNameMap = mapOf(
+            "0Xkt5nPNGubaZ9mMpzGs" to "Eggs x 6",
+            "NVPDbCfymcyD7KpH6J5J" to "Eggs x 12",
+            "a2MeuuaCweGQNBIc4l51" to "Eggs x 30"
+        )
 
+        // 2) Build a string with just the friendly name and integer quantity
+        val itemStringBuilder = StringBuilder()
+        order.products.forEach { (productId, productDetail) ->
+            val displayName = productNameMap[productId] ?: "Unknown Product"
+            itemStringBuilder.append("$displayName: ${productDetail.quantity}\n")
+        }
+        holder.items.text = itemStringBuilder.toString().trim()
+
+        // Show order ID and status
         holder.deliveryStatus.text = "Order ID: ${order.id}\nStatus: ${order.status}"
 
-        // Check if order is within 10 minutes
-        if (getTimeDifference(FireBaseTimestamp(order.createdAt._seconds, order.createdAt._nanoseconds.toInt())) < 10L && order.status=="Pending") {
+        // Enable or disable Cancel button
+        if (getTimeDifference(
+                FireBaseTimestamp(order.createdAt._seconds, order.createdAt._nanoseconds.toInt())
+            ) < 10L && order.status == "Pending"
+        ) {
             holder.cancelOrderBtn.visibility = View.VISIBLE
             holder.cancelOrderBtn.setOnClickListener {
                 cancelOrder(order.id, holder)
@@ -72,14 +91,22 @@ class OrderHistoryAdapter(private val orderList: List<OrderItem>) :
         } else {
             holder.cancelOrderBtn.visibility = View.GONE
         }
-        if (order.status.equals("Canceled", ignoreCase = true)) {
-            holder.deliveryStatus.setTextColor(Color.RED)
-        } else if(order.status.equals("Pending", ignoreCase = true)) {
-            holder.deliveryStatus.setTextColor(Color.BLACK)
-        }else{
-            holder.deliveryStatus.setTextColor(Color.GREEN)
+
+        // Color-code the status
+        when {
+            order.status.equals("Canceled", ignoreCase = true) -> {
+                holder.deliveryStatus.setTextColor(Color.RED)
+            }
+            order.status.equals("Pending", ignoreCase = true) -> {
+                holder.deliveryStatus.setTextColor(Color.BLACK)
+            }
+            else -> {
+                holder.deliveryStatus.setTextColor(Color.GREEN)
+            }
         }
     }
+
+
 
     fun getTimeDifference(createdAt: FireBaseTimestamp): Long {
         val currentTime = FireBaseTimestamp.now()

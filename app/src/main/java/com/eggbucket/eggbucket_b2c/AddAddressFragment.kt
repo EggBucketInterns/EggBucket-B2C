@@ -197,9 +197,9 @@ class AddAddressFragment : Fragment() {
         Log.d("AddressJson", addressJson) // Log the JSON payload for debugging
 
         val requestBody = addressJson.toRequestBody("application/json".toMediaTypeOrNull())
-        Log.d("url","https://b2c-backend-1.onrender.com/api/v1/customer/user/$userId")
+        Log.d("url","https://b2c-backend-eik4.onrender.com/api/v1/customer/user/$userId")
         val request = Request.Builder()
-            .url("https://b2c-backend-1.onrender.com/api/v1/customer/user/$userId") // Use dynamic userId
+            .url("https://b2c-backend-eik4.onrender.com/api/v1/customer/user/$userId") // Use dynamic userId
             .patch(requestBody)
             .addHeader("Content-Type", "application/json") // Ensure JSON is sent properly
             .build()

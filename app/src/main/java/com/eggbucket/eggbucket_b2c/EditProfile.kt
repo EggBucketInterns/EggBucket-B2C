@@ -93,7 +93,7 @@ class EditProfileFragment : Fragment() {
     private fun sendProfileDataToServer(name: String, email: String) {
         progressBar.visibility=View.VISIBLE
         val phone = sharedPreferences.getString("user_phone", "9999999999")
-        val url = "https://b2c-backend-1.onrender.com/api/v1/customer/user/$phone"
+        val url = "https://b2c-backend-eik4.onrender.com/api/v1/customer/user/$phone"
         val client = OkHttpClient()
 
         val jsonBody = JSONObject().apply {

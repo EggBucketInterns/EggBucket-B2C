@@ -11,6 +11,7 @@ import com.eggbucket.eggbucket_b2c.R
 import com.eggbucket.eggbucket_b2c.databinding.ActivityBottomNavigationScreenBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.net.HttpURLConnection
 import java.net.URL
@@ -30,33 +31,27 @@ class BottomNavigationScreen : AppCompatActivity() {
 
         makeApiRequestWithRetries()
 
-        // Setup the AppBarConfiguration
         val appBarConfiguration = AppBarConfiguration(
             setOf(R.id.navigation_home, R.id.cartFragment, R.id.navigation_profile)
         )
 
-        // Setup Bottom Navigation and link it with the NavController
         NavigationUI.setupWithNavController(navView, navController)
 
-        // Attach a custom listener to handle the Home, Cart, and Notifications button press
         navView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
-                    // Prevent navigating to the same fragment (Home)
                     if (navController.currentDestination?.id != R.id.navigation_home) {
                         navController.navigate(R.id.navigation_home)
                     }
                     true
                 }
                 R.id.navigation_cart -> {
-                    // Prevent navigating to the same fragment (Cart)
                     if (navController.currentDestination?.id != R.id.cartFragment) {
                         navController.navigate(R.id.cartFragment)
                     }
                     true
                 }
                 R.id.navigation_profile -> {
-                    // Prevent navigating to the same fragment (Notifications)
                     if (navController.currentDestination?.id != R.id.navigation_profile) {
                         navController.navigate(R.id.navigation_profile)
                     }
@@ -66,44 +61,47 @@ class BottomNavigationScreen : AppCompatActivity() {
             }
         }
 
-        // Ensure the selected item is updated when navigating back
+        // Ensure BottomNav highlights the correct tab on navigation
         navController.addOnDestinationChangedListener { _, destination, _ ->
             navView.menu.findItem(destination.id)?.isChecked = true
         }
-
-        // Handling the back button press to update the selected item
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.navigation_home -> navView.selectedItemId = R.id.navigation_home
-                R.id.cartFragment -> navView.selectedItemId = R.id.navigation_cart
-                R.id.navigation_profile -> navView.selectedItemId = R.id.navigation_profile
-            }
-        }
     }
+
     private fun makeApiRequestWithRetries() {
-        Log.d("acvtive api user", "started.")
+        Log.d("API Request", "Started.")
+
         CoroutineScope(Dispatchers.IO).launch {
-            val url = "https://b2c-backend-1.onrender.com/api/v1/customer/user/6363894956"
+            val url = "https://b2c-backend-eik4.onrender.com/api/v1/customer/user/6363894956"
             var attempts = 0
             var success = false
 
-            while (attempts < 2 && !success) {
+            while (attempts < 3 && !success) { // 3 attempts
                 try {
                     val connection = URL(url).openConnection() as HttpURLConnection
                     connection.requestMethod = "GET"
+                    connection.connectTimeout = 5000
+                    connection.readTimeout = 5000
 
                     val responseCode = connection.responseCode
-                    if (responseCode == 404) {
-                        success = true
+                    Log.d("API_RESPONSE", "Attempt ${attempts + 1}: Response Code - $responseCode")
+
+                    if (responseCode == 200 || responseCode == 201) { // Only success for 200/201
                         val response = connection.inputStream.bufferedReader().use { it.readText() }
-                        Log.d("API_RESPONSE", response)
+                        Log.d("API_RESPONSE", "Success: $response")
+                        success = true
                     } else {
-                        Log.e("API_ERROR", "Response code: $responseCode")
+                        Log.e("API_ERROR", "Attempt ${attempts + 1}: Failed with response code $responseCode")
                     }
+
+                    connection.disconnect()
                 } catch (e: Exception) {
-                    Log.e("API_Refresh", "Exception: ${e.message}")
-                } finally {
-                    attempts++
+                    Log.e("API_ERROR", "Exception on attempt ${attempts + 1}: ${e.message}")
+                }
+
+                attempts++
+                if (!success) {
+                    Log.d("API_ERROR", "Retrying in 2 seconds...")
+                    delay(2000)
                 }
             }
 
@@ -112,6 +110,4 @@ class BottomNavigationScreen : AppCompatActivity() {
             }
         }
     }
-
-
 }

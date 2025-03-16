@@ -14,6 +14,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
@@ -24,6 +25,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONArray
+import java.util.concurrent.TimeUnit
 
 class Product2Fragment : Fragment() {
 
@@ -160,10 +162,15 @@ class Product2Fragment : Fragment() {
         }
     }
     private fun fetchProductPrice() {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             try {
-                val url = "https://b2c-backend-1.onrender.com/api/v1/admin/getallproducts"
-                val client = OkHttpClient()
+                val url = "https://b2c-backend-eik4.onrender.com/api/v1/admin/getallproducts"
+                // Optionally, use a shared OkHttpClient with timeout settings if available
+                val client = OkHttpClient.Builder()
+                    .connectTimeout(30, TimeUnit.SECONDS)
+                    .readTimeout(30, TimeUnit.SECONDS)
+                    .writeTimeout(30, TimeUnit.SECONDS)
+                    .build()
                 val request = Request.Builder().url(url).build()
                 val response = client.newCall(request).execute()
                 if (response.isSuccessful) {
@@ -180,7 +187,8 @@ class Product2Fragment : Fragment() {
                         }
                     }
                     withContext(Dispatchers.Main) {
-                        updatePrice(requireView())
+                        // Safely update UI only if view is still available
+                        view?.let { updatePrice(it) }
                     }
                 } else {
                     Log.e("ProductAPI", "Failed to fetch product details: ${response.message}")

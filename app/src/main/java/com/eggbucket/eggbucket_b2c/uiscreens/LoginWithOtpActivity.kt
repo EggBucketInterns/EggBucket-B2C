@@ -109,7 +109,7 @@ class LoginWithOtpActivity : AppCompatActivity() {
     // this function is to juat make api active for the next uses
     private fun makeApiRequestWithRetries01() {
         CoroutineScope(Dispatchers.IO).launch {
-            val url = "https://b2c-backend-1.onrender.com/api/v1/customer/user/0000000000"
+            val url = "https://b2c-backend-eik4.onrender.com/api/v1/customer/user/6363894956"
             var attempts = 0
             var success = false
 
@@ -117,14 +117,19 @@ class LoginWithOtpActivity : AppCompatActivity() {
                 try {
                     val connection = URL(url).openConnection() as HttpURLConnection
                     connection.requestMethod = "GET"
-
                     val responseCode = connection.responseCode
-                    if (responseCode == 200 ||responseCode == 404) {
+
+                    if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
                         success = true
-                        val response = connection.inputStream.bufferedReader().use { it.readText() }
-                        Log.d("API_RESPONSE", response)
+                        // Use the appropriate stream based on the response code
+                        val response = if (responseCode == HttpURLConnection.HTTP_OK) {
+                            connection.inputStream.bufferedReader().use { it.readText() }
+                        } else {
+                            connection.errorStream?.bufferedReader()?.use { it.readText() } ?: "No error details"
+                        }
+                        Log.d("API_RESPONSE", "Response Code: $responseCode, Response: $response")
                     } else {
-                        Log.e("API_ERROR", "Response code: $responseCode")
+                        Log.e("API_ERROR", "Unexpected Response code: $responseCode")
                     }
                 } catch (e: Exception) {
                     Log.e("API_ERROR", "Exception: ${e.message}")
@@ -138,5 +143,6 @@ class LoginWithOtpActivity : AppCompatActivity() {
             }
         }
     }
+
 
 }
