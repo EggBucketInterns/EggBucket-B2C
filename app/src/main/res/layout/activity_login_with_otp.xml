@@ -65,7 +65,7 @@
 
         <!-- Phone Number Input -->
         <EditText
-            android:id="@+id/phoneInput"
+            android:id="@+id/etPhoneNumber"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:hint="Enter Phone Number"
@@ -76,7 +76,7 @@
 
         <!-- Send OTP Button -->
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/sendOtpButton"
+            android:id="@+id/btnSendOtp"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:text="Send OTP"
