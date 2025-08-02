@@ -223,7 +223,7 @@
             android:layout_height="60dp"
             android:layout_margin="16dp"
             android:backgroundTint="@color/orange"
-            android:text="View Cart"
+            android:text="Add To Cart"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
