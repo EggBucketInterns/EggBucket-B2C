@@ -1,124 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/loginWithOtp"
+<ScrollView android:id="@+id/loginWithOtp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".uiscreens.LoginWithOtpActivity"
-    android:background="@color/white">
+    android:fillViewport="true"
+    android:background="#FFFFFF"
+    android:padding="24dp">
 
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="230dp"
-        android:layout_height="154dp"
-        android:layout_marginTop="36dp"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/final_logo2" />
-
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:textColor="@color/black"
-        android:layout_height="44dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="92dp"
-        android:gravity="center|end"
-        android:maxLines="1"
-        android:padding="1dp"
-        android:text="Login Account"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="99dp"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:srcCompat="@drawable/baseline_person_24" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/phoneNumberContainer"
-        style="@style/CustomTextInputLayout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:textColorHint="@color/black"
-        android:layout_marginHorizontal="20dp"
-        app:helperTextTextColor="@android:color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:hintEnabled="false"
-        app:startIconDrawable="@drawable/baseline_phone_24"
-        app:startIconTint="@color/grey">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPhoneNumber"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Enter Phone Number"
-            android:textColorHint="@color/grey"
-            android:background="@drawable/thin_border"
-            android:textColor="@color/black"
-            android:inputType="phone"
-            android:lines="1"
-            android:paddingStart="40dp"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <TextView
-        android:id="@+id/btnSendOtp"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/login_sendotp_back"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center"
-        android:text="Send OTP"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="@+id/phoneNumberContainer"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/phoneNumberContainer"
-        app:layout_constraintTop_toBottomOf="@+id/phoneNumberContainer" />
-
-
-
-
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
+        android:gravity="center_horizontal">
 
-    <ProgressBar
-        android:id="@+id/loginprogressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phoneNumberContainer" />
+        <!-- Logo -->
+        <ImageView
+            android:id="@+id/logoImage"
+            android:layout_width="200dp"
+            android:layout_height="154dp"
+            android:src="@drawable/logo" />
+
+        <!-- Tagline -->
+
+        <!-- Login Label -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-1dp"
+            android:text="“Think of an Egg, Think of EggBucket!”"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="140dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="14dp"
+            android:paddingEnd="16dp">
+
+            <!-- Login Account Text -->
+            <TextView
+                android:id="@+id/loginTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Login Account"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <!-- User Profile Icon -->
+            <ImageView
+                android:id="@+id/profileIcon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="8dp"
+                android:contentDescription="Profile Icon"
+                android:src="@drawable/baseline_person_24" />
+        </LinearLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Phone Number Input -->
+        <EditText
+            android:id="@+id/phoneInput"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Enter Phone Number"
+            android:inputType="phone"
+            android:layout_marginTop="18dp"
+            android:padding="12dp"
+            android:background="@drawable/edt_background" />
+
+        <!-- Send OTP Button -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/sendOtpButton"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Send OTP"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/login_sendotp_back"
+            android:elevation="4dp"
+            android:enabled="true"
+            android:layout_marginTop="30dp" />
+
+
+
+        <ProgressBar
+            android:id="@+id/loginprogressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center" />
+
+
+        <!-- Divider -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <!-- Left line -->
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="#BDBDBD" />
+
+            <!-- Text in the center -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="or sign up with"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp" />
+
+            <!-- Right line -->
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="#BDBDBD" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/googleSignInLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:layout_marginTop="3dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/google"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Google"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginStart="-5dp" />
+        </LinearLayout>
+
+
+
+
+        <!-- Create Account Link -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Not registered yet?"
+                android:textColor="#888888"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/createAccountLink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Create Account"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</ScrollView>
