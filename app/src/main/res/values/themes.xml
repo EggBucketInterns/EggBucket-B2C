@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.EggBucketB2C" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <item name="colorPrimary">@color/lightfadeorange</item>
+        <item name="colorPrimary">@color/grey</item>
     </style>
 
     <style name="Theme.EggBucketB2C" parent="Base.Theme.EggBucketB2C" />

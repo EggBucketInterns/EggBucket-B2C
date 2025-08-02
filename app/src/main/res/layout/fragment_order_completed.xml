@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="158dp"
         android:layout_marginTop="150dp"
-        android:src="@drawable/tick" />
+        android:src="@drawable/page" />
 
     <TextView
         android:id="@+id/textView5"
@@ -25,26 +25,52 @@
         android:textSize="24sp" />
 
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <Button
+        android:id="@+id/gotoHome"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:backgroundTint="@color/orange"
+        android:paddingHorizontal="8dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="12dp"
+        android:text="View Order"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
 
-        <Button
-            android:id="@+id/gotoHome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="40dp"
-            android:textSize="20sp"
-            android:textColor="#FFFFFF"
-            android:paddingTop="16dp"
-            android:text="Home"
-            android:paddingHorizontal="8dp"
-            android:paddingBottom="12dp"
-            android:backgroundTint="@color/orange"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dp"
-            android:layout_centerHorizontal="true" />
+    <!-- Second button -->
+    <Button
+        android:id="@+id/gotoCart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/orange"
+        android:paddingHorizontal="8dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="12dp"
+        android:text="Continue Shopping"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
 
-    </RelativeLayout>
+    <!-- ✅ Third new button -->
+    <Button
+        android:id="@+id/gotoRecipes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/orange"
+        android:paddingHorizontal="8dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="12dp"
+        android:text="Check Out New Recipes"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
+
+
+
 </LinearLayout>
