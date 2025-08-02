@@ -221,7 +221,7 @@
             android:layout_height="60dp"
             android:layout_margin="16dp"
             android:backgroundTint="@color/orange"
-            android:text="Go to Cart"
+            android:text="Add to Cart"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
