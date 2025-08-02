@@ -56,11 +56,12 @@
 
         <Button
             android:id="@+id/add_New_Address"
-            android:layout_width="175dp"
+            android:layout_width="300dp"
             android:layout_height="56dp"
             android:layout_marginBottom="32dp"
-            android:backgroundTint="@color/appThemeColor"
+            android:backgroundTint="#FF8C22"
             android:text="Add New Address"
+            android:background="@drawable/rectangle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.501"
