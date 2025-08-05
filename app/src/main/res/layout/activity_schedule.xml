@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <!-- Toolbar -->
+    <ImageView
+        android:id="@+id/scheduleToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/schedule_bar"
+        android:scaleType="fitXY" />
+
+    <!-- Scrollable Content -->
+    <ScrollView
+        android:id="@+id/scrollContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/scheduleToolbar"
+        android:layout_above="@id/bottomNavBar"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Repeat Every label -->
+            <ImageView
+                android:id="@+id/repeatEveryLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/repeat_every_text"
+                android:layout_marginTop="16dp" />
+
+            <!-- Checkbox + Week/Month -->
+            <ImageView
+                android:id="@+id/weekMonthToggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/checkbox_week_month"
+                android:layout_marginTop="8dp" />
+
+            <!-- Repeats On label -->
+            <ImageView
+                android:id="@+id/repeatsOnLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/repeats_on_text"
+                android:layout_marginTop="24dp" />
+
+            <!-- Days of week -->
+            <ImageView
+                android:id="@+id/daysToggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/week_days"
+                android:layout_marginTop="8dp" />
+
+            <!-- Save Button: orange background + text aligned slightly right -->
+            <FrameLayout
+                android:id="@+id/saveContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="24dp">
+
+                <ImageView
+                    android:id="@+id/saveButtonBackground"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/orange_button" />
+
+                <ImageView
+                    android:id="@+id/saveButtonText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:src="@drawable/save_button" />
+            </FrameLayout>
+
+            <!-- Calendar Image -->
+            <ImageView
+                android:id="@+id/scheduleImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/calendar_box"
+                android:layout_marginTop="24dp"
+                android:scaleType="fitCenter" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Bottom Nav with home and profile (existing PNG) -->
+    <ImageView
+        android:id="@+id/bottomNavBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/bottom_nav"
+        android:scaleType="fitXY" />
+
+    <!-- Cart icon overlaid in center -->
+    <ImageView
+        android:id="@+id/cartIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/bottomNavBar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/nav_cart_orange" />
+</RelativeLayout>
