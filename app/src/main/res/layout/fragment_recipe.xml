@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+
+    <!-- 🔶 Header Bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/appThemeColor"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="12dp">
+
+        <!-- Back Button -->
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/arrow_left"
+            android:tint="@color/white"
+            android:contentDescription="Back" />
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Recipe"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:layout_marginStart="16dp" />
+    </LinearLayout>
+
+
+    <!-- 🔽 Scrollable Recipes -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/recipe_bd"
+            android:backgroundTint="#ECECEC"
+            android:clipToOutline="true"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <!-- 🍳 Masala Scrambled Eggs -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:padding="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <!-- Title with white background -->
+                    <TextView
+                        android:id="@+id/masala_scrambled_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#FFFFFF"
+                        android:letterSpacing="-0.001"
+                        android:text=" 🍳 Masala Scrambled Eggs (Indian Style)"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
+                        android:textStyle="bold|italic"
+                        android:padding="4dp" />
+
+                    <!-- Grey box for content -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="#CCAAAAAA"
+                        android:padding="8dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="12dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Ingredients: Eggs, onion, tomato, green chili, turmeric, salt, oil\n\nSteps:\n• Crack 2–3 eggs into a bowl, add salt, and beat well.\n• Heat oil in a pan, sauté chopped onion and green chili.\n• Add chopped tomato and turmeric; cook till tomatoes soften.\n• Pour in the eggs and scramble gently over medium heat.\n• Cook until fluffy; garnish with coriander and serve."
+                            android:textColor="#000000"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- 🧀 Cheese Omelette -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:padding="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <!-- Title: white background -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#FFFFFF"
+                        android:text=" 🍳Cheese Omelette"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
+                        android:textStyle="bold|italic"
+                        android:padding="4dp" />
+
+                    <!-- Grey background box with content -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="#CCAAAAAA"
+                        android:padding="8dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="12dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#000000"
+                            android:text="Ingredients: Eggs, cheese, salt, pepper, butter\n\nSteps:\n• Beat 2 eggs with a pinch of salt and pepper.\n• Heat butter in a pan over medium heat.\n• Pour in the eggs and let them set slightly.\n• Sprinkle grated cheese on one half and fold the omelette.\n• Cook for another minute, then serve hot."
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- 🥪 Boiled Egg Sandwich -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:padding="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <!-- Title with white background -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#FFFFFF"
+                        android:letterSpacing="-0.001"
+                        android:text=" 🍳Boiled Egg Sandwich"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
+                        android:textStyle="bold|italic"
+                        android:padding="4dp" />
+
+                    <!-- Grey box for content -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="#CCAAAAAA"
+                        android:padding="8dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="12dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Ingredients: Boiled eggs, bread, mayo, pepper, salt\n\nSteps:\n• Boil 2 eggs, peel them, and mash in a bowl.\n• Mix with mayonnaise, salt, and pepper.\n• Lightly toast two bread slices.\n• Spread the egg mix on one slice of bread.\n• Top with the other slice, cut in half, and serve."
+                            android:textColor="#000000"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- 🍵 Egg Mug Muffin -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:padding="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <!-- Title with white background -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#FFFFFF"
+                        android:letterSpacing="-0.001"
+                        android:text=" 🍳 Egg Mug Muffin (Microwave Recipe)"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
+                        android:textStyle="bold|italic"
+                        android:padding="4dp" />
+
+                    <!-- Grey box for ingredients and steps -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="#CCAAAAAA"
+                        android:padding="8dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="12dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Ingredients: Egg, cheese, chopped veggies (like capsicum/onion), salt, pepper\n\nSteps:\n• In a microwave-safe mug, crack 1 egg and beat it.\n• Add chopped veggies, salt, pepper, and cheese.\n• Mix well with a fork.\n• Microwave on high for 1–1.5 minutes (until puffed and cooked).\n• Let it cool slightly and eat directly from the mug!"
+                            android:textColor="#000000"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- 🍛 Egg Curry -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:padding="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <!-- Title with white background -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#FFFFFF"
+                        android:letterSpacing="-0.001"
+                        android:text=" 🍳 Egg Curry"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
+                        android:textStyle="bold|italic"
+                        android:padding="4dp" />
+
+                    <!-- Grey box for content -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="#CCAAAAAA"
+                        android:padding="8dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="12dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Ingredients: Boiled eggs, onion, tomato, garlic, spices (turmeric, chili, garam masala), oil\n\nSteps:\n• Boil 2–3 eggs, peel them, and lightly fry in oil with turmeric.\n• In a pan, heat oil and sauté chopped onion and garlic until golden.\n• Add chopped tomato and spices; cook until soft.\n• Add water to make curry and bring it to a boil.\n• Add fried eggs, simmer for 5 minutes, and serve with rice or roti."
+                            android:textColor="#000000"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
