@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical"
+    android:paddingTop="20dp"
+    android:outlineAmbientShadowColor="#FFF">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="20dp">
+        <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/baseline_arrow_back_black"
+            />
+        <TextView
+            android:id="@+id/editProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:text="Edit Profile"
+            android:textColor="@color/black"
+            android:layout_marginStart="20dp"/>
+
+    </LinearLayout>
+
+    <!-- First Name Input -->
+    <EditText
+        android:id="@+id/first_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="First Name"
+        android:layout_margin="20dp"
+        android:drawableStart="@drawable/baseline_person_24"
+        android:drawablePadding="10dp"
+        android:drawableTint="#3A3838"
+        android:padding="12dp"
+        android:inputType="textPersonName"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/edt_background"/>
+
+    <!-- Last Name Input -->
+
+    <EditText
+        android:id="@+id/last_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Last name"
+        android:layout_margin="20dp"
+        android:drawableStart="@drawable/baseline_person_24"
+        android:drawablePadding="10dp"
+        android:drawableTint="#3A3838"
+        android:padding="12dp"
+        android:inputType="textPersonName"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/edt_background"/>
+
+    <!-- Phone Number Input -->
+    <EditText
+        android:id="@+id/phone_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Phone Number"
+        android:layout_margin="20dp"
+        android:drawableStart="@drawable/baseline_phone_24"
+        android:drawablePadding="10dp"
+        android:drawableTint="#3A3838"
+        android:padding="12dp"
+        android:inputType="phone"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/edt_background"/>
+
+    <EditText
+        android:id="@+id/edt_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:layout_margin="20dp"
+        android:drawableStart="@drawable/baseline_email_24"
+        android:drawablePadding="10dp"
+        android:drawableTint="#3A3838"
+        android:inputType="textEmailAddress"
+        android:padding="12dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/edt_background"/>
+
+    <Button
+        android:id="@+id/update_profile_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="40dp"
+        android:text="Update Profile"
+        android:textSize="20dp"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="@color/appThemeColor"
+        android:padding="16dp" />
+</LinearLayout>
+

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootFrame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:padding="24dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/contentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <!-- Logo -->
+            <ImageView
+                android:id="@+id/logoImage"
+                android:layout_width="200dp"
+                android:layout_height="154dp"
+                android:src="@drawable/logo"
+                android:scaleType="fitCenter"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="0.8dp" />
+
+            <!-- Tagline -->
+            <TextView
+                android:id="@+id/taglineText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="“Think of an Egg, Think of EggBucket!”"
+                android:textSize="16sp"
+                android:textColor="#333333"
+                android:textStyle="bold"
+                android:layout_marginBottom="45dp" />
+
+            <!-- Oops! -->
+            <TextView
+                android:id="@+id/oopsText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Oops!"
+                android:textSize="50sp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:textAlignment="viewStart"
+                android:gravity="start"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Left-Aligned Message -->
+            <TextView
+                android:id="@+id/messageText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="We couldn't find an account associated with this number."
+                android:textSize="23sp"
+                android:textStyle="bold"
+                android:textColor="#333333"
+                android:layout_marginBottom="32dp" />
+
+            <!-- Create Account Button -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/sendOtpButton"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Send OTP"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/login_sendotp_back"
+                android:elevation="4dp"
+                android:enabled="true"
+                android:layout_marginTop="30dp" />
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

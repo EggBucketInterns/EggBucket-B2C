@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/liniarLayoutSuccess"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="158dp"
+        android:layout_marginTop="150dp"
+        android:src="@drawable/page" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your Order has been \n Placed Sucessfully."
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="24sp" />
+
+
+    <Button
+        android:id="@+id/gotoHome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:backgroundTint="@color/orange"
+        android:paddingHorizontal="8dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="12dp"
+        android:text="View Order"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
+
+    <!-- Second button -->
+    <Button
+        android:id="@+id/gotoCart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/orange"
+        android:paddingHorizontal="8dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="12dp"
+        android:text="Continue Shopping"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
+
+    <!-- ✅ Third new button -->
+    <Button
+        android:id="@+id/gotoRecipes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/orange"
+        android:paddingHorizontal="8dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="12dp"
+        android:text="Check Out New Recipes"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
+
+
+
+</LinearLayout>

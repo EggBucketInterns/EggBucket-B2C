@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Background of the checkbox when checked -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#FFC107" /> <!-- Green background when checked -->
+            <stroke android:width="2dp" android:color="#000000" /> <!-- Black border -->
+            <corners android:radius="0dp" /> <!-- Makes the checkbox square -->
+        </shape>
+    </item>
+
+    <!-- Checkmark icon when checked -->
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/baseline_right_check" /> <!-- Checkmark icon -->
+    </item>
+
+</layer-list>
