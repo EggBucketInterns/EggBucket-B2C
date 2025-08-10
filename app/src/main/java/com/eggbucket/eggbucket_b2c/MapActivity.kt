@@ -202,7 +202,11 @@ class MapFragment : Fragment() {
                     val state = addresses[0].adminArea ?: ""
                     val postalCode = addresses[0].postalCode ?: ""
                     val country = addresses[0].countryName ?: ""
+
+                    // Explicitly provide null for the fields that will be entered later.
                     val fullAddress = FullAddress(
+                        flatNo = null,
+                        addressLine1 = null,
                         addressLine2 = addressLine2,
                         area = area,
                         city = city,
@@ -215,7 +219,6 @@ class MapFragment : Fragment() {
                         marker.snippet = address
                         finalAddress = fullAddress
                         marker.showInfoWindow()
-                        // Toast.makeText(requireContext(), "Address: $address", Toast.LENGTH_LONG).show()
                     }
                 }
             } catch (e: Exception) {
