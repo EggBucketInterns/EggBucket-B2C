@@ -326,6 +326,7 @@ class CartFragment : Fragment() {
         return !firstName.isNullOrEmpty()
     }
 
+
     // Function to create order and store it in the database
     private fun createOrder(
         apiUrl: String,
@@ -364,8 +365,8 @@ class CartFragment : Fragment() {
             .build()
 
         // Execute the request
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onFailure(call: okhttp3.Call, e: IOException) {
                 activity?.runOnUiThread {
                     Toast.makeText(requireContext(), "Order creation failed. Please try again.", Toast.LENGTH_LONG).show()
                     progressOverlay.visibility = View.GONE
@@ -373,21 +374,31 @@ class CartFragment : Fragment() {
                 }
             }
 
-            override fun onResponse(call: Call, response: Response) {
+            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) { // Ensure okhttp3.Call and okhttp3.Response
                 activity?.runOnUiThread {
                     if (response.isSuccessful) {
-                        Log.d("ordered place", response.body.toString())
+                        val responseBodyString = response.body?.string()
+
                         triggerNotification("success")
-                        clearcart()
+                        clearcart() // This clears count1, count2, count3 from SharedPreferences
                         progressOverlay.visibility = View.GONE
-                        Toast.makeText(requireContext(), "Order placed successfully!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            "Order placed successfully!",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         findNavController().navigate(R.id.action_cartFragment_to_orderCompleted)
                     } else {
+                        val errorBody = response.body?.string()
                         showAlertDialog("Please change address", "We will expand to this location soon")
                         progressOverlay.visibility = View.GONE
-                        Log.d("ordered place", response.message.toString())
-                        Toast.makeText(requireContext(), "Failed to create order. Please try again.", Toast.LENGTH_LONG).show()
-                        findNavController().navigate(R.id.action_cartFragment_self)
+                        Log.e("CartFragment", "Order creation failed: ${response.code} - ${response.message} - Error Body: ${errorBody ?: "No Error Body"}")
+                        Toast.makeText(
+                            requireContext(),
+                            "Failed to create order. Please try again.",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        findNavController().navigate(R.id.action_cartFragment_self) // Navigate back to cart if order failed
                     }
                 }
             }

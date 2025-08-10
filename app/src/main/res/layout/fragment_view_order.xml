@@ -43,11 +43,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Address"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="#000000"
         android:layout_marginTop="24dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="20dp"
         app:layout_constraintTop_toBottomOf="@id/headerBar"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -55,7 +55,7 @@
     <ImageView
         android:id="@+id/locationIcon"
         android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/address"
@@ -76,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="   Building name"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="#000000" />
 
@@ -98,7 +98,7 @@
         android:background="#CCAAAAAA"
         android:padding="16dp"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintTop_toBottomOf="@id/locationIcon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -120,6 +120,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/dotted_line" />
+
         <!-- Dynamic Total -->
         <TextView
             android:id="@+id/totalPrice"
@@ -128,6 +135,7 @@
             android:text="Total: ₹0"
             android:textStyle="bold"
             android:textSize="16sp"
+            android:gravity="end"
             android:layout_marginTop="12dp" />
     </LinearLayout>
 
@@ -140,7 +148,7 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:gravity="center"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintTop_toBottomOf="@id/orderSummary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -174,7 +182,7 @@
         android:textSize="18sp"
         android:gravity="center"
         android:textStyle="bold"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="35dp"
         android:paddingHorizontal="16dp"
         app:layout_constraintTop_toBottomOf="@id/deliveryIcon"
         app:layout_constraintStart_toStartOf="parent"
@@ -185,14 +193,14 @@
         android:id="@+id/thankYouBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Thank you for shopping from us"
-        android:backgroundTint="@color/appThemeColor"
-        android:textColor="#FFFFFF"
         android:layout_marginHorizontal="40dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="@color/appThemeColor"
         android:padding="14dp"
-        app:layout_constraintTop_toBottomOf="@id/orderNote"
+        android:text="Thank you for shopping from us"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/orderNote" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

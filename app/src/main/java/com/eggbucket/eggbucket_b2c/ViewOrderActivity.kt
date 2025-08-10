@@ -1,71 +1,5 @@
-//package com.eggbucket.eggbucket_b2c
-//
-//import android.os.Bundle
-//import android.view.Gravity
-//import android.widget.ImageView
-//import android.widget.LinearLayout
-//import android.widget.TextView
-//import androidx.appcompat.app.AppCompatActivity
-//
-//class ViewOrderActivity : AppCompatActivity() {
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.fragment_view_order) // ← Replace with your actual XML layout name
-//
-//        val buildingName = findViewById<TextView>(R.id.buildingName)
-//        val locationName = findViewById<TextView>(R.id.locationName)
-//        val itemsContainer = findViewById<LinearLayout>(R.id.itemsContainer)
-//        val totalPrice = findViewById<TextView>(R.id.totalPrice)
-//        val backButton = findViewById<ImageView>(R.id.backButton)
-//
-//        backButton.setOnClickListener { finish() }
-//
-//        val building = intent.getStringExtra("buildingName") ?: "Building name"
-//        val location = intent.getStringExtra("locationName") ?: "Location Name, Area Name"
-//
-//        val items = intent.getSerializableExtra("orderItems") as? List<Pair<String, Int>>
-//            ?: listOf(
-//                "Item-1" to 100,
-//                "Item-2" to 150,
-//                "Item-3" to 200
-//            )
-//
-//        buildingName.text = "   $building"
-//        locationName.text = "   $location"
-//
-//        var total = 0
-//        for ((name, price) in items) {
-//            val row = LinearLayout(this).apply {
-//                orientation = LinearLayout.HORIZONTAL
-//                weightSum = 2f
-//            }
-//
-//            val nameView = TextView(this).apply {
-//                layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
-//                text = name
-//                textSize = 16f
-//            }
-//
-//            val priceView = TextView(this).apply {
-//                layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
-//                text = "₹$price"
-//                textSize = 16f
-//                gravity = Gravity.END
-//            }
-//
-//            row.addView(nameView)
-//            row.addView(priceView)
-//            itemsContainer.addView(row)
-//
-//            total += price
-//        }
-//
-//        totalPrice.text = "Total: ₹$total"
-//    }
-//}
-
 package com.eggbucket.eggbucket_b2c
+
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -89,11 +23,15 @@ import org.json.JSONArray
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.concurrent.TimeUnit
-import android.util.TypedValue// <-- Added this import
+import android.util.TypedValue
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response // Import Retrofit2.Response
+
 
 class ViewOrderActivity : AppCompatActivity() {
 
-    // UI elements are declared as lateinit properties
+    // UI elements
     private lateinit var buildingNameTextView: TextView
     private lateinit var locationNameTextView: TextView
     private lateinit var itemsContainerLayout: LinearLayout
@@ -103,262 +41,288 @@ class ViewOrderActivity : AppCompatActivity() {
     private lateinit var orderNoteTextView: TextView
     private lateinit var thankYouButton: Button
 
-    // SharedPreferences for local data storage and user phone number
+    // SharedPreferences for user data
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var phoneNumber: String
 
-    // Mutable list to hold the cart items that will be displayed
-    private val cartItems = mutableListOf<CartItem>()
-
-    // Mapping from display name (used in CartItem) to backend product name (used in API response)
-    // This is crucial for retrieving the correct prices.
+    // Map for product display names to backend API names (for price lookup)
     private val productApiNameMap = mapOf(
         "Eggs x 6" to "6pc_tray",
         "Eggs x 12" to "12pc_tray",
         "Eggs x 30" to "30pc_tray"
     )
+    // Reverse map to get display name from backend name for UI
+    private val apiToDisplayNameMap = mapOf(
+        "6pc_tray" to "Pack of 6",
+        "12pc_tray" to "Pack of 12",
+        "30pc_tray" to "Pack of 30"
+    )
+
+    private var productPriceMap: Map<String, Double> = emptyMap()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Set the content view to the layout defined in fragment_view_order.xml
         setContentView(R.layout.fragment_view_order)
 
-        // Initialize all UI elements by finding them by their IDs
+        // Initialize UI elements
         buildingNameTextView = findViewById(R.id.buildingName)
         locationNameTextView = findViewById(R.id.locationName)
         itemsContainerLayout = findViewById(R.id.itemsContainer)
         totalPriceTextView = findViewById(R.id.totalPrice)
         backButton = findViewById(R.id.backButton)
-        deliveryPartnerNameTextView = findViewById(R.id.deliveryLabel) // Corresponds to "Delivery Partner Name"
-        orderNoteTextView = findViewById(R.id.orderNote) // Corresponds to "Your order is placed..."
-        thankYouButton = findViewById(R.id.thankYouBtn) // The "Thank you" button
+        deliveryPartnerNameTextView = findViewById(R.id.deliveryLabel)
+        orderNoteTextView = findViewById(R.id.orderNote)
+        thankYouButton = findViewById(R.id.thankYouBtn)
 
-        // Initialize SharedPreferences to access locally stored data
+        // Initialize SharedPreferences and retrieve phone number
         sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
-        // Retrieve the user's phone number, providing a default if not found
-        phoneNumber = sharedPreferences.getString("user_phone", "916363894956").toString()
+        phoneNumber = sharedPreferences.getString("user_phone", "01234567890").toString()
+        Log.d("ViewOrderActivity", "User Phone Number: $phoneNumber")
 
-        // Set up click listeners for the back button and the thank you button
-        backButton.setOnClickListener { finish() } // Closes the current activity, navigating back
-        thankYouButton.setOnClickListener { finish() } // Also closes the activity, acting as a "done" button
+        // Set up click listeners
+        backButton.setOnClickListener { finish() }
+        thankYouButton.setOnClickListener { finish() }
 
-        // Populate the cart items list from locally saved quantities in SharedPreferences
-        populateCartItemsFromSharedPreferences()
+        showLoadingState()
 
-        // Asynchronously fetch the latest product prices from the backend
-        // This is important because the prices stored in SharedPreferences might be outdated.
-        fetchProductDetailsAndUpdatePrices()
+        // Fetch both product prices and then the specific order details
 
-        // Set static text for delivery partner name (can be made dynamic if data is available)
+        fetchAndDisplayMostRecentOrder()
+
+        // Set static text (can be updated dynamically if 'deliveryPartnerId' is fetched)
         deliveryPartnerNameTextView.text = "Our Delivery Partner"
-
-        // The order note is already set in the XML, no dynamic update here unless needed
-        // orderNoteTextView.text = "Your order is confirmed.\n\nNote: Payment is accepted only in COD mode"
-
-        // Perform the initial UI update using data from SharedPreferences (prices will be 0.0 initially)
-        // This will be re-run with correct prices after fetchProductDetailsAndUpdatePrices completes.
-        updateAddressAndOrderSummaryUI()
+        // orderNoteTextView.text is already set in XML
     }
 
     /**
-     * Reconstructs the cart items list (`cartItems`) based on product quantities
-     * stored in SharedPreferences (`count1`, `count2`, `count3`).
-     * Initial prices are set to 0.0 and will be updated by `fetchProductDetailsAndUpdatePrices`.
+     * Shows a loading message in the order summary section.
      */
-    private fun populateCartItemsFromSharedPreferences() {
-        cartItems.clear() // Clear any existing items in the list to avoid duplication
-
-        // Retrieve quantities for each product type from SharedPreferences
-        val count1 = sharedPreferences.getInt("count1", 0) // Quantity for "Eggs x 6"
-        val count2 = sharedPreferences.getInt("count2", 0) // Quantity for "Eggs x 12"
-        val count3 = sharedPreferences.getInt("count3", 0) // Quantity for "Eggs x 30"
-
-        // Add CartItem objects to the list only if their quantity is greater than zero
-        if (count1 > 0) cartItems.add(CartItem("image6", "Eggs x 6", count1, 0.0))
-        if (count2 > 0) cartItems.add(CartItem("image12", "Eggs x 12", count2, 0.0))
-        if (count3 > 0) cartItems.add(CartItem("image30", "Eggs x 30", count3, 0.0))
-
-        Log.d("ViewOrderActivity", "Cart items reconstructed from SharedPreferences: $cartItems")
+    private fun showLoadingState() {
+        itemsContainerLayout.removeAllViews()
+        val loadingTextView = TextView(this).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            text = "Loading order details..."
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+            gravity = Gravity.CENTER
+            setPadding(0, 16, 0, 0)
+        }
+        itemsContainerLayout.addView(loadingTextView)
+        totalPriceTextView.text = "Total: Calculating..."
+        buildingNameTextView.text = "   Loading address..."
+        locationNameTextView.text = "   "
     }
 
     /**
-     * Fetches the latest product details, specifically prices, from the backend API.
-     * After successful retrieval, it updates the prices of the `CartItem` objects
-     * in `cartItems` and then triggers a UI update.
+     * Fetches product prices and then the most recent order details for the customer.
      */
-    private fun fetchProductDetailsAndUpdatePrices() {
-        // Launch a coroutine in the IO dispatcher for network operations
+    private fun fetchAndDisplayMostRecentOrder() {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
-                // Define the API URL for fetching all products
+                // Step 1: Fetch product prices first
                 val url = "https://b2c-backend-eik4.onrender.com/api/v1/admin/getallproducts"
-                // Configure OkHttpClient with timeouts for robust network requests
                 val client = OkHttpClient.Builder()
                     .connectTimeout(30, TimeUnit.SECONDS)
                     .readTimeout(30, TimeUnit.SECONDS)
                     .writeTimeout(30, TimeUnit.SECONDS)
                     .build()
-                // Build the HTTP GET request
                 val request = Request.Builder().url(url).build()
-                // Execute the request synchronously (within the coroutine's background thread)
-                val response = client.newCall(request).execute()
+                val okHttpResponse = client.newCall(request).execute()
 
-                // Check if the API response was successful (HTTP 2xx)
-                if (response.isSuccessful) {
-                    // Read the response body as a string, default to empty if null
-                    val responseBody = response.body?.string() ?: ""
-                    // Parse the response body as a JSON array
-                    val jsonArray = JSONArray(responseBody)
-
-                    // Create a map to store product names (from backend) to their prices
-                    val productPriceMap = mutableMapOf<String, Double>()
-                    // Iterate through the JSON array to populate the price map
-                    for (i in 0 until jsonArray.length()) {
-                        val productObj = jsonArray.getJSONObject(i)
-                        val productName = productObj.getString("name") // e.g., "6pc_tray"
-                        // Get the price, handling cases where it might be a string or double
-                        val price = productObj.getString("price").toDoubleOrNull() ?: productObj.getDouble("price")
-                        productPriceMap[productName] = price
+                if (okHttpResponse.isSuccessful) {
+                    val responseBody = okHttpResponse.body?.string() ?: ""
+                    if (responseBody.isNotEmpty()) {
+                        val jsonArray = JSONArray(responseBody)
+                        val tempProductPriceMap = mutableMapOf<String, Double>()
+                        for (i in 0 until jsonArray.length()) {
+                            val productObj = jsonArray.getJSONObject(i)
+                            val productName = productObj.getString("name")
+                            val price = productObj.getString("price").toDoubleOrNull() ?: productObj.getDouble("price")
+                            tempProductPriceMap[productName] = price
+                        }
+                        productPriceMap = tempProductPriceMap
+                        Log.d("ViewOrderActivity", "Product Price Map fetched: $productPriceMap")
+                    } else {
+                        Log.e("ViewOrderActivity", "Product API response body is empty.")
                     }
+                } else {
 
-                    // Update the prices of CartItem objects in our `cartItems` list
-                    cartItems.forEach { item ->
-                        // Get the backend product name using the display name (e.g., "Eggs x 6" -> "6pc_tray")
-                        productApiNameMap[item.name]?.let { apiName ->
-                            // Find the corresponding price from the fetched `productPriceMap`
-                            productPriceMap[apiName]?.let { price ->
-                                // Update item's price, applying BigDecimal for precise rounding
-                                item.price = BigDecimal(price).setScale(2, RoundingMode.HALF_UP).toDouble()
+                    Log.e("ViewOrderActivity", "Failed to fetch product details: ${okHttpResponse.code} - " + okHttpResponse.message)
+                }
+            } catch (e: Exception) {
+                Log.e("ViewOrderActivity", "Exception fetching product details: ${e.message}", e)
+            }
+
+            // Step 2: Fetch the customer's previous orders
+            RetrofitClient.apiService.getPreviousOrders(customerId = phoneNumber)
+                .enqueue(object : Callback<OrderResponse> {
+                    override fun onResponse(call: Call<OrderResponse>, response: Response<OrderResponse>) { // This 'response' is retrofit2.Response
+                        if (response.isSuccessful) {
+                            response.body()?.let { orderResponse ->
+                                Log.d("ViewOrderActivity", "Order History API Response: $orderResponse")
+                                if (orderResponse.orders.isNotEmpty()) {
+                                    // Find the most recent order based on createdAt timestamp
+                                    val mostRecentOrder = orderResponse.orders.maxByOrNull { it.createdAt._seconds }
+                                    if (mostRecentOrder != null) {
+                                        Log.d("ViewOrderActivity", "Most recent order found: ${mostRecentOrder.id}")
+                                        // Pass the found order and product prices for display
+                                        displayOrderDetails(mostRecentOrder)
+                                    } else {
+                                        Log.w("ViewOrderActivity", "No recent order found despite non-empty list. (Timestamp issue?)")
+                                        showNoOrderFound("No recent order found for this user.")
+                                    }
+                                } else {
+                                    Log.d("ViewOrderActivity", "Order history is empty for this customer.")
+                                    showNoOrderFound("No orders found in your history.")
+                                }
+                            } ?: run {
+                                Log.e("ViewOrderActivity", "Order history response body is null.")
+                                showNoOrderFound("Failed to load order history.")
                             }
+                        } else {
+                            // Using retrofit2.Response methods for logging
+                            Log.e("ViewOrderActivity", "Failed to fetch order history: ${response.code()} - " + response.message())
+                            Toast.makeText(this@ViewOrderActivity, "Failed to load order history.", Toast.LENGTH_LONG).show()
+                            showNoOrderFound("Failed to load order history.")
                         }
                     }
 
-                    // Switch back to the Main (UI) thread to update the user interface
-                    withContext(Dispatchers.Main) {
-                        updateAddressAndOrderSummaryUI() // Re-render UI with updated prices
+                    override fun onFailure(call: Call<OrderResponse>, t: Throwable) {
+                        Log.e("ViewOrderActivity", "Network error fetching order history: ${t.message}", t)
+                        Toast.makeText(this@ViewOrderActivity, "Network error loading order history.", Toast.LENGTH_LONG).show()
+                        showNoOrderFound("Network error loading order history. Check your connection.")
                     }
-                } else {
-                    // Log error if API call was not successful
-                    Log.e("ViewOrderActivity", "Failed to fetch product details: ${response.message}")
-                    withContext(Dispatchers.Main) {
-                        // Show a Toast message to the user about the failure
-                        Toast.makeText(this@ViewOrderActivity, "Failed to get product prices.", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            } catch (e: Exception) {
-                // Log any exceptions that occur during the network request
-                Log.e("ViewOrderActivity", "Exception in fetching product details", e)
-                withContext(Dispatchers.Main) {
-                    // Show a Toast message for network-related errors
-                    Toast.makeText(this@ViewOrderActivity, "Network error fetching product prices.", Toast.LENGTH_SHORT).show()
-                }
-            }
+                })
         }
     }
 
     /**
-     * Updates the UI elements for the address display and the order summary.
-     * This function is called both initially and after product prices are updated.
+     * Displays the details of a given OrderItem object on the UI.
+     * It now uses the globally available 'productPriceMap'.
      */
-    private fun updateAddressAndOrderSummaryUI() {
+    private fun displayOrderDetails(order: OrderItem) {
         // --- Display Address Details ---
         // Retrieve the saved address JSON string from SharedPreferences
         val addressJson = sharedPreferences.getString("selected_address", null)
         if (addressJson != null) {
             try {
-                // Parse the JSON string into a UserAddress object using Gson
                 val userAddress = Gson().fromJson(addressJson, UserAddress::class.java)
-                // Set the building name (assuming flatNo corresponds to it)
                 buildingNameTextView.text = "   ${userAddress.fullAddress.flatNo}"
-                // Set the location name (area and city)
                 locationNameTextView.text = "   ${userAddress.fullAddress.area}, ${userAddress.fullAddress.city}"
             } catch (e: Exception) {
-                // Log and show error if parsing the address JSON fails
-                Log.e("ViewOrderActivity", "Error parsing saved address JSON", e)
+                Log.e("ViewOrderActivity", "Error parsing saved address JSON for display", e)
                 buildingNameTextView.text = "   Address data error"
                 locationNameTextView.text = "   Please re-select address"
             }
         } else {
-            // Display default messages if no address is found in SharedPreferences
-            buildingNameTextView.text = "   No address selected"
-            locationNameTextView.text = "   Please select address from cart"
+            // Fallback to order's address if no selected_address in SharedPreferences
+            buildingNameTextView.text = "   ${order.orderAddress.flatNo}"
+            locationNameTextView.text = "   ${order.orderAddress.area}, ${order.orderAddress.city}"
+            Log.w("ViewOrderActivity", "No 'selected_address' in SharedPreferences, using order's address from backend.")
         }
 
         // --- Display Order Summary Items ---
-        var totalOrderAmount = 0.0 // Initialize total amount
-        itemsContainerLayout.removeAllViews() // Clear any dynamically added views to prevent duplication on update
+        var totalCalculatedAmount = 0.0 // Calculate total from individual items + prices
+        itemsContainerLayout.removeAllViews() // Clear any existing items or loading messages
 
-        // If there are items in the cart, populate the summary section
-        if (cartItems.isNotEmpty()) {
-            for (item in cartItems) {
-                // Calculate the total price for the current item (quantity * price)
-                val individualItemTotal = item.quantity * item.price
-                totalOrderAmount += individualItemTotal // Add to overall total
+        if (order.products.isNotEmpty()) {
+            for ((productId, productDetail) in order.products) {
+                // Get the display name from the backend product name
+                val displayName = apiToDisplayNameMap[productDetail.name] ?: productDetail.name
+                val itemQuantity = productDetail.quantity
+                // Get the price using productDetail.name (e.g., "6pc_tray") from the fetched productPriceMap
+                val individualPrice = productPriceMap[productDetail.name] ?: 0.0
+                val individualItemTotal = individualPrice * itemQuantity
+                totalCalculatedAmount += individualItemTotal
 
-                // Create a new horizontal LinearLayout for each item row (e.g., "Eggs x 6 (x2)   ₹500.00")
+                Log.d("ViewOrderActivity", "Adding item to UI: $displayName (x$itemQuantity) @ ₹${individualPrice} = ₹${String.format("%.2f", individualItemTotal)}")
+
                 val rowLayout = LinearLayout(this).apply {
                     orientation = LinearLayout.HORIZONTAL
                     layoutParams = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT
                     ).apply {
-                        setMargins(0, 4, 0, 4) // Add vertical spacing between item rows
+                        setMargins(0, 4, 0, 4)
                     }
                 }
 
-                // TextView for item name and quantity (e.g., "Eggs x 6 (x2)")
                 val nameQuantityTextView = TextView(this).apply {
                     layoutParams = LinearLayout.LayoutParams(
-                        0, // Width is 0dp, allowing weight to distribute space
+                        0,
                         LinearLayout.LayoutParams.WRAP_CONTENT,
-                        1.0f // Takes 1 part of the available width
+                        1.0f
                     )
-                    text = "${item.name} (x${item.quantity})" // Display name and quantity
-                    // Correct way to set text size in SP in Kotlin code
-                    setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f) // Changed: textSize = 16sp -> setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
-                    setTextColor(ContextCompat.getColor(context, R.color.black)) // Set text color from resources
+                    text = "$displayName (x$itemQuantity)"
+                    setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+                    setTextColor(ContextCompat.getColor(context, R.color.black))
                 }
 
-                // TextView for individual item's total price
                 val itemPriceTextView = TextView(this).apply {
                     layoutParams = LinearLayout.LayoutParams(
-                        0, // Width is 0dp
+                        0,
                         LinearLayout.LayoutParams.WRAP_CONTENT,
-                        1.0f // Takes 1 part of the available width
+                        1.0f
                     )
-                    // Format the price to two decimal places
                     text = "₹${String.format("%.2f", individualItemTotal)}"
-                    // Correct way to set text size in SP in Kotlin code
-                    setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f) // Changed: textSize = 16sp -> setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+                    setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
                     setTextColor(ContextCompat.getColor(context, R.color.black))
-                    gravity = Gravity.END // Align price to the right of the row
+                    gravity = Gravity.END
                 }
 
-                // Add the TextViews to the current item's row layout
                 rowLayout.addView(nameQuantityTextView)
                 rowLayout.addView(itemPriceTextView)
-                // Add the completed row layout to the main items container
                 itemsContainerLayout.addView(rowLayout)
             }
         } else {
-            // If `cartItems` is empty, display a message indicating no items
+            Log.d("ViewOrderActivity", "Order.products list is empty for UI update.")
             val noItemsTextView = TextView(this).apply {
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 )
-                text = "No items found in order summary."
-                // Correct way to set text size in SP in Kotlin code
-                setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f) // Changed: textSize = 16sp -> setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+                text = "No items found for this order."
+                setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
                 gravity = Gravity.CENTER
                 setPadding(0, 16, 0, 0)
             }
-            itemsContainerLayout.removeAllViews() // Ensure container is empty
+            itemsContainerLayout.removeAllViews()
             itemsContainerLayout.addView(noItemsTextView)
         }
 
         // --- Display Total Price ---
-        // Set the final calculated total order amount, formatted to two decimal places
-        totalPriceTextView.text = "Total: ₹${String.format("%.2f", totalOrderAmount)}"
+        // Use the total from the order object, as it should be the authoritative total from the backend
+        totalPriceTextView.text = "Total: ₹${String.format("%.2f", order.amount)}"
+        Log.d("ViewOrderActivity", "Order displayed. Backend Total: ₹${order.amount}, Calculated Total: ₹$totalCalculatedAmount")
+
+        // Add a check/warning if calculated total doesn't match backend total
+        if (BigDecimal(totalCalculatedAmount).setScale(2, RoundingMode.HALF_UP).toDouble() !=
+            BigDecimal(order.amount).setScale(2, RoundingMode.HALF_UP).toDouble()) {
+            Log.w("ViewOrderActivity", "Calculated total (₹$totalCalculatedAmount) does NOT match backend total (₹${order.amount}). Possible price mismatch or rounding.")
+        }
+    }
+
+    /**
+     * Shows a message when no order details can be found.
+     */
+    private fun showNoOrderFound(message: String) {
+        itemsContainerLayout.removeAllViews()
+        val noOrderTextView = TextView(this).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            text = message // Display the specific error message
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+            gravity = Gravity.CENTER
+            setPadding(0, 16, 0, 0)
+        }
+        itemsContainerLayout.addView(noOrderTextView)
+        totalPriceTextView.text = "Total: ₹0.00"
+        buildingNameTextView.text = "   Order details not available"
+        locationNameTextView.text = "   Please check order history"
     }
 }
