@@ -66,7 +66,6 @@
 //}
 
 package com.eggbucket.eggbucket_b2c
-
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -90,7 +89,7 @@ import org.json.JSONArray
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.concurrent.TimeUnit
-import android.util.TypedValue // <-- Added this import
+import android.util.TypedValue// <-- Added this import
 
 class ViewOrderActivity : AppCompatActivity() {
 

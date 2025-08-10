@@ -189,7 +189,16 @@
         <action
             android:id="@+id/action_orderCompleted_to_navigation_home"
             app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_orderCompleted_to_viewOrdersFragment"
+            app:destination="@id/viewOrdersFragment" />
+
     </fragment>
 
+    <!-- View Orders page -->
+    <fragment
+        android:id="@+id/viewOrdersFragment"
+        android:label="View Orders"
+        tools:layout="@layout/fragment_view_order" />
 
 </navigation>
