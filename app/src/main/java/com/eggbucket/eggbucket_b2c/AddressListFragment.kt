@@ -47,7 +47,7 @@ class AddressListFragment : Fragment() {
         recyclerViewAddresses = view.findViewById(R.id.BuyAgainRecyclerView)
         recyclerViewAddresses.layoutManager = LinearLayoutManager(requireContext())
 
-        addressListAdapter = AddressAdapter(addressList, ::deleteAddressAt, ::saveAddress)
+        addressListAdapter = AddressAdapter(addressList, ::deleteAddressAt, ::saveAddress, ::editAddress)
         recyclerViewAddresses.adapter = addressListAdapter
 
         fetchUserData(phoneNumber)
@@ -130,6 +130,19 @@ class AddressListFragment : Fragment() {
         // Go back to the previous fragment
         findNavController().popBackStack()
     }
+    private fun editAddress(address: UserAddress,position: Int) {
+        val gson = Gson()
+        val addressJson = gson.toJson(address)
+
+        val bundle = Bundle().apply {
+            putString("address_json", addressJson)
+            putInt("address_position", position) // Add the position to the bundle
+        }
+
+
+        findNavController().navigate(R.id.action_addressListFragment_to_editAddressFragment, bundle)
+    }
+
 }
 
 class UpdateUserRequest(index: Int) {

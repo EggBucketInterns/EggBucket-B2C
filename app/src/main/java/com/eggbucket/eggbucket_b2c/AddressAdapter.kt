@@ -12,7 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 class AddressAdapter(
     private var addresses: List<UserAddress>,
     private val onDeleteClick: (Int) -> Unit,
-    private val onAddAddress: (UserAddress) -> Unit
+    private val onAddAddress: (UserAddress) -> Unit,
+    private val onEditClick: (UserAddress,Int) -> Unit
 ) : RecyclerView.Adapter<AddressAdapter.AddressViewHolder>() {
 
     class AddressViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -20,6 +21,7 @@ class AddressAdapter(
         val fullAddress: TextView = itemView.findViewById(R.id.buyAgainBookPrice)
         val deleteButton: ImageView = itemView.findViewById(R.id.delete_button)
         val addAddressButton: LinearLayout = itemView.findViewById(R.id.add_Address)
+        val editButton: ImageView = itemView.findViewById(R.id.edit_address)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddressViewHolder {
@@ -29,7 +31,7 @@ class AddressAdapter(
     }
 
     override fun onBindViewHolder(holder: AddressViewHolder, position: Int) {
-        val address = addresses[position]
+        var address = addresses[position]
 
         holder.buildingAddress.text = address.fullAddress.flatNo ?: "N/A"
         holder.fullAddress.text = "${address.fullAddress.area}, ${address.fullAddress.city} - ${address.fullAddress.zipCode}"
@@ -41,6 +43,9 @@ class AddressAdapter(
 
         holder.addAddressButton.setOnClickListener {
             onAddAddress(address)
+        }
+        holder.editButton.setOnClickListener {
+            onEditClick(addresses[position],position)
         }
     }
 
