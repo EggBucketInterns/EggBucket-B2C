@@ -26,6 +26,11 @@ interface ApiService {
 
     @POST("api/v1/order/order/{orderId}")
     fun cancelOrder(@Path("orderId") orderId: String): Call<Void>
+    @PATCH("api/v1/customer/user/{phone}/addresses")
+    fun updateUserAddressByIndex(
+        @Path("phone") phone: String,
+        @Body request: UpdateAddressByIndexRequest // Use the new request class
+    ): Call<Void>
 }
 interface ApiService1 {
 
@@ -34,5 +39,11 @@ interface ApiService1 {
         @Path("phone") phone: String,
         @Body body: UpdateUserRequest
     ): Call<User>
+
+    @PATCH("api/v1/customer/user/{phone}/addresses")
+    fun updateUserAddressByIndex(
+        @Path("phone") phone: String,
+        @Body request: UpdateAddressByIndexRequest // Use the new request class
+    ): Call<Void>
 }
 

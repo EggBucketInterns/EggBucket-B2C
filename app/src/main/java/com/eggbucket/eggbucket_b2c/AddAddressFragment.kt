@@ -132,7 +132,7 @@ class AddAddressFragment : Fragment() {
             } else {
                 // If all fields are filled, proceed with creating the JSON and API call
                 val jsonAddress = createAddressJson(
-                    flatno, area, city, state, postalcode, country, coordinates!!
+                    flatno,address1,address2, area, city, state, postalcode, country, coordinates!!
                 )
 
                 patchUserAddress(phoneNumber, jsonAddress) { isSuccess ->
@@ -152,6 +152,8 @@ class AddAddressFragment : Fragment() {
 
     fun createAddressJson(
         flatNo: String,
+        address1:String,
+        address2:String,
         area: String,
         city: String,
         state: String,
@@ -162,6 +164,8 @@ class AddAddressFragment : Fragment() {
         val addressDetails = JSONObject(
             mapOf(
                 "flatNo" to flatNo,
+                "addressLine1" to address1,
+                "addressLine2" to address2,
                 "area" to area,
                 "city" to city,
                 "state" to state,

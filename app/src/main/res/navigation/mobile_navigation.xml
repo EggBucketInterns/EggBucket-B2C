@@ -148,6 +148,9 @@
             android:id="@+id/action_addressListFragment_to_mapFragment"
             app:destination="@id/mapFragment"
             app:popUpTo="@id/addressListFragment" />
+        <action
+            android:id="@+id/action_addressListFragment_to_editAddressFragment"
+            app:destination="@id/editAddressFragment"/>
     </fragment>
 
     <fragment
@@ -193,6 +196,14 @@
             android:id="@+id/action_orderCompleted_to_viewOrdersFragment"
             app:destination="@id/viewOrdersFragment" />
 
+    </fragment>
+    <fragment
+        android:id="@+id/editAddressFragment"
+        android:name="com.eggbucket.eggbucket_b2c.EditAddressFragment"
+        android:label="EditAddressFragment" >
+        <argument
+            android:name="addressId"
+            app:argType="string" />
     </fragment>
 
     <!-- View Orders page -->
