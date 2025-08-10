@@ -8,7 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.eggbucket.eggbucket_b2c.BottomNavigation.ui.BottomNavigationScreen
-import com.eggbucket.eggbucket_b2c.uiscreens.LoginWithOtpActivity
+import com.eggbucket.eggbucket_b2c.uiscreens.LoginActivity
+
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,11 +28,13 @@ class MainActivity : AppCompatActivity() {
 
         if (userPhone != null) {
             // User already exists, navigate to BottomNavigationScreen
-            val intent = Intent(this, BottomNavigationScreen::class.java)
-            startActivity(intent)
+            val homeFragment = HomeScreen.newInstance()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.homeFragment, homeFragment)
+                .commit()
         } else {
             // User does not exist, navigate to LoginWithOtpActivity
-            val intent = Intent(this, LoginWithOtpActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
 

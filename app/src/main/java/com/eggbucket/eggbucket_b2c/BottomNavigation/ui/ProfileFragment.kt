@@ -11,7 +11,8 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.eggbucket.eggbucket_b2c.R
 import com.eggbucket.eggbucket_b2c.databinding.FragmentProfileBinding
-import com.eggbucket.eggbucket_b2c.uiscreens.LoginWithOtpActivity
+import com.eggbucket.eggbucket_b2c.uiscreens.LoginActivity
+
 
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
@@ -72,7 +73,7 @@ class ProfileFragment : Fragment() {
         editor.apply()
 
         // Redirect to Login Activity
-        val intent = Intent(requireActivity(), LoginWithOtpActivity::class.java)
+        val intent = Intent(requireActivity(), LoginActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK) // Clear activity stack
         startActivity(intent)
 
