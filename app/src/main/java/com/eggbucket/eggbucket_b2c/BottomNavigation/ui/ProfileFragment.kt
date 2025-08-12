@@ -30,10 +30,8 @@ class ProfileFragment : Fragment() {
         sharedPref = requireActivity().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
 
         // Fetch details from SharedPreferences
-        val Name = sharedPref.getString("name", "Please update Profile ! ")
-
-        val email = sharedPref.getString("email", "Email")
-        val phone = sharedPref.getString("user_phone", "9999999999")
+         val name = sharedPref.getString("name", "Please update Profile ! ")
+        val phone = sharedPref.getString("user_phone", null) // null if not logged in
 
         // Update UI with fetched details
         binding.personName.text = "$Name"
