@@ -4,9 +4,12 @@
 
     <ImageView
         android:id="@+id/carouselImage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="350dp"
+        android:adjustViewBounds="true"
         android:contentDescription="null"
-        android:padding="8dp"
+        android:padding="5dp"
+        android:layout_height="250dp"
         android:scaleType="fitCenter" />
+
+
 </FrameLayout>
