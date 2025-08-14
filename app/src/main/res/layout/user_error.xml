@@ -69,7 +69,7 @@
                 android:id="@+id/sendOtpButton"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:text="Send OTP"
+                android:text="Create Account"
                 android:textColor="#FFFFFF"
                 android:background="@drawable/login_sendotp_back"
                 android:elevation="4dp"

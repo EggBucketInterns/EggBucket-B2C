@@ -11,7 +11,8 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.eggbucket.eggbucket_b2c.R
 import com.eggbucket.eggbucket_b2c.databinding.FragmentProfileBinding
-import com.eggbucket.eggbucket_b2c.uiscreens.LoginWithOtpActivity
+import com.eggbucket.eggbucket_b2c.uiscreens.LoginActivity
+
 
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
@@ -29,10 +30,8 @@ class ProfileFragment : Fragment() {
         sharedPref = requireActivity().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
 
         // Fetch details from SharedPreferences
-        val Name = sharedPref.getString("name", "Please update Profile ! ")
-
-        val email = sharedPref.getString("email", "Email")
-        val phone = sharedPref.getString("user_phone", "9999999999")
+         val name = sharedPref.getString("name", "Please update Profile ! ")
+        val phone = sharedPref.getString("user_phone", null) // null if not logged in
 
         // Update UI with fetched details
         binding.personName.text = "$Name"
@@ -72,7 +71,7 @@ class ProfileFragment : Fragment() {
         editor.apply()
 
         // Redirect to Login Activity
-        val intent = Intent(requireActivity(), LoginWithOtpActivity::class.java)
+        val intent = Intent(requireActivity(), LoginActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK) // Clear activity stack
         startActivity(intent)
 
