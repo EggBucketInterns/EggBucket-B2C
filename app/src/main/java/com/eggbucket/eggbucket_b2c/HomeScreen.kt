@@ -34,17 +34,10 @@ import java.util.concurrent.TimeUnit
 
 class HomeScreen : Fragment() {
 
-<<<<<<< HEAD
+
     private val images = listOf(R.drawable.carouselnew1,R.drawable.promo,  R.drawable.carouselnew21,R.drawable.carouselnew6,R.drawable.carouselnew41jpg,R.drawable.carouselnew3,R.drawable.carousel5)
-=======
-    private val images = listOf(
-        R.drawable.promo,
-        R.drawable.farmfresh,
-        R.drawable.freshegg,
-        R.drawable.carousel4,
-        R.drawable.carousel5
-    )
->>>>>>> 6ca5489366720d8ecda272839d5102a83bb5f371
+
+
     private lateinit var viewPager: ViewPager2
     private val handler = Handler(Looper.getMainLooper())
     private var currentPage = 0
