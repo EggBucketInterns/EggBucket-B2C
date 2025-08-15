@@ -67,7 +67,7 @@
         android:layout_height="62dp"
         android:layout_marginTop="8dp"
         android:gravity="center"
-
+        android:text="Enter the code from the SMS we sent \nto 1234567890"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -142,19 +142,18 @@
         app:layout_constraintTop_toBottomOf="@+id/otp_pinView" />
 
     <!-- Updated Submit button with margins on the sides -->
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnVerifyOtp"
+    <TextView
+        android:id="@+id/verifyButton"
         android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_height="53dp"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/text_background"
         android:gravity="center"
         android:text="Submit"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

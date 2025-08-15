@@ -54,24 +54,12 @@
             android:name=".uiscreens.SignupActivity"
             android:exported="false" />
         <activity
-            android:name=".uiscreens.LoginActivity"
+            android:name=".uiscreens.LoginWithOtpActivity"
             android:exported="false" />
-
-        <activity
-            android:name=".uiscreens.CreateAccountActivity"
-            android:exported="false" />
-
-
-
         <activity
             android:name=".uiscreens.OtpVerificationActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-
-        <activity android:name=".uiscreens.UserErrorActivity" />
-
-
-
         <activity
             android:name=".BottomNavigation.ui.BottomNavigationScreen"
             android:exported="true" /> <!-- <activity -->

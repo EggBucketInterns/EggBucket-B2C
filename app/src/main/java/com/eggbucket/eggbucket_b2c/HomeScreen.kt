@@ -1,7 +1,6 @@
 package com.eggbucket.eggbucket_b2c
 
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
@@ -19,8 +18,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
-import com.eggbucket.eggbucket_b2c.uiscreens.LoginActivity
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,10 +31,7 @@ import java.util.concurrent.TimeUnit
 
 class HomeScreen : Fragment() {
 
-
-    private val images = listOf(R.drawable.carouselnew1,R.drawable.promo,  R.drawable.carouselnew21,R.drawable.carouselnew6,R.drawable.carouselnew41jpg,R.drawable.carouselnew3,R.drawable.carousel5)
-
-
+    private val images = listOf(R.drawable.promo, R.drawable.farmfresh, R.drawable.freshegg,R.drawable.carousel4,R.drawable.carousel5)
     private lateinit var viewPager: ViewPager2
     private val handler = Handler(Looper.getMainLooper())
     private var currentPage = 0
@@ -46,24 +40,17 @@ class HomeScreen : Fragment() {
     private var dynamicPrice2: Double = 0.0
     private var dynamicPrice3: Double = 0.0
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        retainInstance = true
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         sharedPreferences = requireContext().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
-
-        val currentUser = FirebaseAuth.getInstance().currentUser
-        if (currentUser == null) {
-            // User not logged in, launch LoginActivity and close current
-            startActivity(Intent(requireContext(), LoginActivity::class.java))
-            requireActivity().finish()
-            return null
-        }
-
-        // User logged in, inflate layout
         val view = inflater.inflate(R.layout.fragment_home_screen, container, false)
-
-        // Setup ViewPager and carousel indicators here (you can also move this to onViewCreated if preferred)
         viewPager = view.findViewById(R.id.carouselViewPager)
         val carouselAdapter = CarouselAdapter(images)
         viewPager.adapter = carouselAdapter
@@ -72,6 +59,8 @@ class HomeScreen : Fragment() {
         val ind2 = view.findViewById<ImageView>(R.id.indicator2)
         val ind3 = view.findViewById<ImageView>(R.id.indicator3)
 
+        fetchProductData(view, ind1, ind2, ind3)
+
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
@@ -79,16 +68,8 @@ class HomeScreen : Fragment() {
                 updateIndicatorBackgrounds(ind1, ind2, ind3, currentPage)
             }
         })
-
-        fetchProductData(view, ind1, ind2, ind3)
         fetchProductPrice()
-
         return view
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        handler.removeCallbacksAndMessages(null)
     }
 
     private fun fetchProductData(view: View, ind1: ImageView, ind2: ImageView, ind3: ImageView) {
@@ -105,10 +86,7 @@ class HomeScreen : Fragment() {
                         setupProducts(view, productArray)
                         startAutoScroll(ind1, ind2, ind3)
                     }
-                } else {
-                    Log.e("ProductAPI", "Failed to fetch product data: ${connection.responseMessage}")
                 }
-                connection.disconnect()
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -129,44 +107,34 @@ class HomeScreen : Fragment() {
             val cardViewId = productMapping[name] ?: continue
 
             val cardView = view.findViewById<CardView>(cardViewId)
-            val addButton = cardView.findViewById<Button>(
-                resources.getIdentifier("addButton${i + 1}", "id", requireContext().packageName)
-            )
-            val outOfStockImage = cardView.findViewById<ImageView>(
-                resources.getIdentifier("outOfStockImage${i + 1}", "id", requireContext().packageName)
-            )
-            val counterLayout = cardView.findViewById<LinearLayout>(
-                resources.getIdentifier("counterLayout${i + 1}", "id", requireContext().packageName)
-            )
+            val addButton = cardView.findViewById<Button>(resources.getIdentifier("addButton${i + 1}", "id", requireContext().packageName))
+            val outOfStockImage = cardView.findViewById<ImageView>(resources.getIdentifier("outOfStockImage${i + 1}", "id", requireContext().packageName))
+            val counterLayout = cardView.findViewById<LinearLayout>(resources.getIdentifier("counterLayout${i + 1}", "id", requireContext().packageName))
 
+            // If product is out of stock
             if (countInStock <= 0) {
                 outOfStockImage.visibility = View.VISIBLE
                 addButton.visibility = View.GONE
                 counterLayout.visibility = View.GONE
-                cardView.isClickable = false
+                cardView.isClickable = false // Disable click
             } else {
+                // If product is in stock
                 outOfStockImage.visibility = View.GONE
                 addButton.visibility = View.VISIBLE
-                cardView.isClickable = true
-
+                cardView.isClickable = true // Enable click
                 setupCard(
                     cardView = cardView,
                     addButton = addButton,
                     counterLayout = counterLayout,
-                    incrementButton = cardView.findViewById(
-                        resources.getIdentifier("incrementButton${i + 1}", "id", requireContext().packageName)
-                    ),
-                    decrementButton = cardView.findViewById(
-                        resources.getIdentifier("decrementButton${i + 1}", "id", requireContext().packageName)
-                    ),
-                    itemCountText = cardView.findViewById(
-                        resources.getIdentifier("itemCount${i + 1}", "id", requireContext().packageName)
-                    ),
+                    incrementButton = cardView.findViewById(resources.getIdentifier("incrementButton${i + 1}", "id", requireContext().packageName)),
+                    decrementButton = cardView.findViewById(resources.getIdentifier("decrementButton${i + 1}", "id", requireContext().packageName)),
+                    itemCountText = cardView.findViewById(resources.getIdentifier("itemCount${i + 1}", "id", requireContext().packageName)),
                     sharedPreferencesKey = "count${i + 1}",
                     editor = sharedPreferences.edit(),
                     initialCount = sharedPreferences.getInt("count${i + 1}", 0)
                 )
 
+                // Enable navigation to product page for available products
                 cardView.setOnClickListener {
                     when (i) {
                         0 -> findNavController().navigate(R.id.action_navigation_home_to_productPageFragment)
@@ -177,6 +145,7 @@ class HomeScreen : Fragment() {
             }
         }
     }
+
 
     private fun setupCard(
         cardView: CardView,
@@ -190,6 +159,7 @@ class HomeScreen : Fragment() {
         initialCount: Int
     ) {
         var count = initialCount
+        val navController = findNavController()
 
         if (count > 0) {
             addButton.visibility = View.GONE
@@ -227,19 +197,22 @@ class HomeScreen : Fragment() {
         }
     }
 
+
     private fun startAutoScroll(ind1: ImageView, ind2: ImageView, ind3: ImageView) {
         val runnable = object : Runnable {
             override fun run() {
-                if (currentPage >= images.size) {
+                if (currentPage == images.size) {
                     currentPage = 0
                 }
+                Log.d("Carousel", "Scrolling to page: $currentPage") // 👈 Add this line
+
                 viewPager.setCurrentItem(currentPage, true)
                 updateIndicatorBackgrounds(ind1, ind2, ind3, currentPage)
                 currentPage++
-                handler.postDelayed(this, 2000)
+                handler.postDelayed(this, 5000)
             }
         }
-        handler.postDelayed(runnable, 2000)
+        handler.postDelayed(runnable, 5000)
     }
 
     private fun updateIndicatorBackgrounds(ind1: ImageView, ind2: ImageView, ind3: ImageView, currentPage: Int) {
@@ -259,38 +232,58 @@ class HomeScreen : Fragment() {
         val priceTextView2 = view.findViewById<TextView>(R.id.price2)
         val priceTextView3 = view.findViewById<TextView>(R.id.price3)
 
-        priceTextView1.text = "₹${"%.2f".format(dynamicPrice1)}/pack"
-        priceTextView2.text = "₹${"%.2f".format(dynamicPrice2)}/pack"
-        priceTextView3.text = "₹${"%.2f".format(dynamicPrice3)}/pack"
+        val packprice1 = "₹${"%.2f".format(dynamicPrice1)}/pack"
+        priceTextView1.text = packprice1
+        val packprice2 = "₹${"%.2f".format(dynamicPrice2)}/pack"
+        priceTextView2.text = packprice2
+        val packprice3 = "₹${"%.2f".format(dynamicPrice3)}/pack"
+        priceTextView3.text = packprice3
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        handler.removeCallbacksAndMessages(null)
     }
 
     private fun fetchProductPrice() {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             try {
                 val url = "https://b2c-backend-eik4.onrender.com/api/v1/admin/getallproducts"
+                // Create an OkHttpClient with timeout settings (if needed, you can use your shared okHttpClient)
                 val client = OkHttpClient.Builder()
                     .connectTimeout(30, TimeUnit.SECONDS)
                     .readTimeout(30, TimeUnit.SECONDS)
                     .writeTimeout(30, TimeUnit.SECONDS)
                     .build()
 
-                val request = Request.Builder().url(url).build()
+                val request = okhttp3.Request.Builder().url(url).build()
                 val response = client.newCall(request).execute()
 
                 if (response.isSuccessful) {
                     val responseBody = response.body?.string() ?: ""
-                    val jsonArray = JSONArray(responseBody)
+                    val jsonArray = org.json.JSONArray(responseBody)
 
                     for (i in 0 until jsonArray.length()) {
                         val productObj = jsonArray.getJSONObject(i)
                         val productName = productObj.getString("name")
                         when (productName) {
-                            "6pc_tray" -> dynamicPrice1 = productObj.getDouble("price")
-                            "12pc_tray" -> dynamicPrice2 = productObj.getDouble("price")
-                            "30pc_tray" -> dynamicPrice3 = productObj.getDouble("price")
+                            "6pc_tray" -> {
+                                val priceStr1 = productObj.getString("price")
+                                dynamicPrice1 = priceStr1.toDoubleOrNull() ?: productObj.getDouble("price")
+                            }
+                            "12pc_tray" -> {
+                                val priceStr2 = productObj.getString("price")
+                                dynamicPrice2 = priceStr2.toDoubleOrNull() ?: productObj.getDouble("price")
+                            }
+                            "30pc_tray" -> {
+                                val priceStr3 = productObj.getString("price")
+                                dynamicPrice3 = priceStr3.toDoubleOrNull() ?: productObj.getDouble("price")
+                            }
                         }
                     }
+
                     withContext(Dispatchers.Main) {
+                        // Update UI only if view is still available
                         view?.let { updatePrice(it) }
                     }
                 } else {
@@ -301,6 +294,8 @@ class HomeScreen : Fragment() {
             }
         }
     }
+
+
 
     companion object {
         @JvmStatic

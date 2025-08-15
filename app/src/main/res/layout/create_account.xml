@@ -88,10 +88,10 @@
 
         <!-- Send OTP Button -->
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnSendOtp"
+            android:id="@+id/sendOtpButton"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:text="create account"
+            android:text="Send OTP"
             android:textColor="#FFFFFF"
             android:background="@drawable/login_sendotp_back"
             android:elevation="4dp"
