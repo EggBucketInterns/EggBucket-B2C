@@ -42,7 +42,7 @@
         android:paddingHorizontal="8dp"
         android:paddingTop="16dp"
         android:paddingBottom="12dp"
-        android:text="Continue SHOPPING"
+        android:text="Continue Shopping"
         android:textColor="#FFFFFF"
         android:textSize="20sp" />
 
@@ -58,7 +58,7 @@
         android:paddingHorizontal="8dp"
         android:paddingTop="16dp"
         android:paddingBottom="12dp"
-        android:text="VIEW ORDER"
+        android:text="View Order Details"
         android:textColor="#FFFFFF"
         android:textSize="20sp" />
 

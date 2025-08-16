@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit
 
 class HomeScreen : Fragment() {
 
-    private val images = listOf(R.drawable.promo, R.drawable.farmfresh, R.drawable.freshegg,R.drawable.carousel4,R.drawable.carousel5)
+    private val images = listOf(R.drawable.carouselnew1,R.drawable.promo,  R.drawable.carouselnew21,R.drawable.carouselnew6,R.drawable.carouselnew41jpg,R.drawable.carouselnew3,R.drawable.carousel5)
     private lateinit var viewPager: ViewPager2
     private val handler = Handler(Looper.getMainLooper())
     private var currentPage = 0
@@ -209,10 +209,10 @@ class HomeScreen : Fragment() {
                 viewPager.setCurrentItem(currentPage, true)
                 updateIndicatorBackgrounds(ind1, ind2, ind3, currentPage)
                 currentPage++
-                handler.postDelayed(this, 5000)
+                handler.postDelayed(this, 2000)
             }
         }
-        handler.postDelayed(runnable, 5000)
+        handler.postDelayed(runnable, 2000)
     }
 
     private fun updateIndicatorBackgrounds(ind1: ImageView, ind2: ImageView, ind3: ImageView, currentPage: Int) {
