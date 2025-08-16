@@ -34,7 +34,7 @@ class ProfileFragment : Fragment() {
         val phone = sharedPref.getString("user_phone", null) // null if not logged in
 
         // Update UI with fetched details
-        binding.personName.text = "$Name"
+        binding.personName.text = "$name"
         binding.phoneNo.text = "$phone"
         // Set up click listeners
         setupClickListeners()
