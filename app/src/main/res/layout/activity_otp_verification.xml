@@ -57,7 +57,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/headerSection"
-        android:layout_marginTop="100dp" />
+        android:layout_marginTop="50dp" />
 
     <!-- Rest of the layout below -->
 
@@ -65,7 +65,7 @@
         android:id="@+id/textView4"
         android:layout_width="328dp"
         android:layout_height="62dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:gravity="center"
         android:text="Enter the code from the SMS we sent \nto 1234567890"
         android:textSize="16sp"
@@ -78,7 +78,7 @@
         android:id="@+id/textView5"
         android:layout_width="86dp"
         android:layout_height="38dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="2dp"
         android:textColor="@color/appThemeColor"
         android:gravity="center"
         android:textSize="16sp"
@@ -93,7 +93,7 @@
         android:layout_width="wrap_content"
         android:layout_height="64dp"
         android:layout_marginHorizontal="14dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="20dp"
         android:cursorVisible="true"
         android:elevation="90dp"
         android:inputType="number"

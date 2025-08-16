@@ -36,7 +36,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="140dp"
+            android:layout_marginTop="70dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:paddingStart="14dp"
@@ -47,6 +47,7 @@
                 android:id="@+id/loginTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
                 android:text="Login Account"
                 android:textColor="#000000"
                 android:textSize="24sp"
@@ -97,94 +98,7 @@
             android:layout_gravity="center" />
 
 
-        <!-- Divider -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
-            android:gravity="center_vertical"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp">
 
-            <!-- Left line -->
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"
-                android:background="#BDBDBD" />
-
-            <!-- Text in the center -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="or sign up with"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp" />
-
-            <!-- Right line -->
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"
-                android:background="#BDBDBD" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/googleSignInLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:layout_marginTop="3dp"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/google"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" Google"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginStart="-5dp" />
-        </LinearLayout>
-
-
-
-
-        <!-- Create Account Link -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Not registered yet?"
-                android:textColor="#888888"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/createAccountLink"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" Create Account"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:textSize="14sp" />
-        </LinearLayout>
 
 
     </LinearLayout>
