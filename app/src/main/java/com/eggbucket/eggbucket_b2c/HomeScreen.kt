@@ -136,10 +136,10 @@ class HomeScreen : Fragment() {
 
                 // Enable navigation to product page for available products
                 cardView.setOnClickListener {
-                    when (i) {
-                        0 -> findNavController().navigate(R.id.action_navigation_home_to_productPageFragment)
-                        1 -> findNavController().navigate(R.id.action_navigation_home_to_product1Fragment)
-                        2 -> findNavController().navigate(R.id.action_navigation_home_to_product2Fragment)
+                    when (name) {
+                        "6pc_tray" -> findNavController().navigate(R.id.action_navigation_home_to_productPageFragment)
+                        "12pc_tray" -> findNavController().navigate(R.id.action_navigation_home_to_product1Fragment)
+                        "30pc_tray" -> findNavController().navigate(R.id.action_navigation_home_to_product2Fragment)
                     }
                 }
             }
