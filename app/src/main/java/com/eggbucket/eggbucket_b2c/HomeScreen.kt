@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit
 
 class HomeScreen : Fragment() {
 
-    private val images = listOf(R.drawable.carouselnew1,R.drawable.promo,  R.drawable.carouselnew21,R.drawable.carouselnew6,R.drawable.carouselnew41jpg,R.drawable.carouselnew3,R.drawable.carousel5)
+    private val images = listOf(R.drawable.carouselnew1,R.drawable.promo,  R.drawable.carouselnew3,R.drawable.carouselnew4,R.drawable.carouselnew5,R.drawable.carouselnew6)
     private lateinit var viewPager: ViewPager2
     private val handler = Handler(Looper.getMainLooper())
     private var currentPage = 0
@@ -204,7 +204,7 @@ class HomeScreen : Fragment() {
                 if (currentPage == images.size) {
                     currentPage = 0
                 }
-                Log.d("Carousel", "Scrolling to page: $currentPage") // 👈 Add this line
+                Log.d("Carousel", "Scrolling to page: $currentPage")
 
                 viewPager.setCurrentItem(currentPage, true)
                 updateIndicatorBackgrounds(ind1, ind2, ind3, currentPage)
