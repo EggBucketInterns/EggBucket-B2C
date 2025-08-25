@@ -7,8 +7,8 @@
     <!-- 🔙 Header with Back Button -->
     <LinearLayout
         android:id="@+id/headerBar"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/appThemeColor"
         android:orientation="horizontal"
         android:gravity="center_vertical"
@@ -20,8 +20,8 @@
         <!-- Back Button -->
         <ImageView
             android:id="@+id/backButton"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
             android:src="@drawable/arrow_left"
             app:tint="@color/white"
             android:contentDescription="Back" />
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:text="View Order Details "
             android:gravity="center"
-            android:textSize="20sp"
+            android:textSize="30sp"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
             android:layout_marginStart="16dp" />
