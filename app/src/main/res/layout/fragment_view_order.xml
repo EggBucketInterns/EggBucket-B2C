@@ -331,21 +331,21 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <Button
-            android:id="@+id/thankYouBtn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="40dp"
-            android:layout_marginTop="10dp"
-            android:text="Thank you for shopping from us"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="@color/appThemeColor"
-            android:padding="14dp"
 
-            app:layout_constraintTop_toBottomOf="@id/paymentMethodCard"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/thankYouBtn"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Thank you for shopping from us"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/login_sendotp_back"
+        android:elevation="4dp"
+        android:enabled="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginHorizontal="40dp"
+        app:layout_constraintTop_toBottomOf="@id/paymentMethodCard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 
 

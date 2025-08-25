@@ -11,18 +11,33 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <Button
+<!--    <Button-->
+<!--        android:id="@+id/save_address"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Save Address"-->
+<!--        android:backgroundTint="#8BFF9800"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:layout_margin="30dp"-->
+<!--        />-->
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/save_address"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
         android:text="Save Address"
-        android:backgroundTint="#8BFF9800"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/login_sendotp_back"
+        android:elevation="4dp"
+        android:enabled="true"
         android:layout_margin="30dp"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

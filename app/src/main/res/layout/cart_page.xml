@@ -176,16 +176,28 @@
         </LinearLayout>
 
         <!-- Place Order -->
-        <Button
+<!--        <Button-->
+<!--            android:id="@+id/continue_to_pay"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Place Order of ₹"-->
+<!--            android:backgroundTint="@color/appThemeColor"-->
+<!--            android:textColor="#FFF"-->
+<!--            android:layout_marginTop="6dp"-->
+<!--            android:textAllCaps="false"-->
+<!--            android:paddingVertical="10dp" />-->
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/continue_to_pay"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:text="Place Order of ₹"
-            android:backgroundTint="@color/appThemeColor"
-            android:textColor="#FFF"
-            android:layout_marginTop="6dp"
-            android:textAllCaps="false"
-            android:paddingVertical="10dp" />
+            android:textColor="#FFFFFF"
+            android:background="@drawable/login_sendotp_back"
+            android:elevation="4dp"
+            android:enabled="true"
+            android:layout_marginTop="30dp"
+            android:textAllCaps="false"/>
+
     </LinearLayout>
 
 </LinearLayout>
